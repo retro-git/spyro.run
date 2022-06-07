@@ -1,0 +1,3 @@
+[submodule "src-dump"]
+	path = src-dump
+	url = https://github.com/retro-git/src-dump
