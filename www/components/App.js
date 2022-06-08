@@ -1,38 +1,10 @@
 var React = require('react');
-import initSqlJs from "sql.js";
+import { Leaderboard } from './Leaderboard'
+import db from '../db.js'
 
-const sqlPromise = await initSqlJs({
-    locateFile: file => `${file}`
-});
+const games = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 
-async function fetchDB(path) {
-    const dataPromise = fetch(path).then(res => res.arrayBuffer());
-    const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
-    return new SQL.Database(new Uint8Array(buf));
-}
-
-const srcom = await fetchDB("data/srcom.sqlite");
-const extras = await fetchDB("data/extras.sqlite");
-
-const games = extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
-
-const res = srcom.exec("SELECT * FROM spyro1");
-const res2 = extras.exec("SELECT * FROM spyro1");
-
-console.log(res);
-console.log(res2);
-
-let res3 = structuredClone(res2);
-
-res3[0]["values"] = res[0]["values"].concat(res2[0]["values"]);
-
-console.log(res3);
-
-let unique_games = [...new Set(res3[0]["values"].map(a => a[res3[0]["columns"].indexOf("game")]))];
-let unique_categories = [...new Set(res3[0]["values"].map(a => a[res3[0]["columns"].indexOf("category")]))];
-
-//console.log(unique_games)
-//console.log(unique_categories);
+//let unique_categories = [...new Set(res3[0]["values"].map(a => a[res3[0]["columns"].indexOf("category")]))];
 
 export class App extends React.Component {
     constructor(props) {
@@ -41,14 +13,14 @@ export class App extends React.Component {
 
     state = {
         game: games[0]
-    };
+    }
 
     handleChange(e) {
-        console.log(e.target.value);
+        //console.log(e.target.value);
         this.setState({
             game: e.target.value
         })
-    };
+    }
 
     render() {
         return (
@@ -59,6 +31,10 @@ export class App extends React.Component {
                         <option value={g}>{g}</option>
                     ))}
                 </select>
+                <Leaderboard game={this.state.game}
+                    columns={db.srcom.exec(`SELECT * FROM ${this.state.game}`)[0]["columns"]}
+                    runs={db.srcom.exec(`SELECT * FROM ${this.state.game}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${this.state.game}`)[0]["values"])}
+                />
             </div>
         )
     }
