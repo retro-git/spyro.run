@@ -15,8 +15,6 @@ Install src-dump submodule dependencies:
 
 ```bash
 cd src-dump
-python3 -m venv venv
-source venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 Dump a speedrun.com leaderboard to SQLite database (example of Spyro 1 Any%):
