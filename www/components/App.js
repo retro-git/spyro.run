@@ -2,9 +2,9 @@ var React = require('react');
 import { Leaderboard } from './Leaderboard'
 import db from '../db.js'
 
-const games = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
-
-//let unique_categories = [...new Set(res3[0]["values"].map(a => a[res3[0]["columns"].indexOf("category")]))];
+const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
+const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
+let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
 
 export class App extends React.Component {
     constructor(props) {
@@ -12,17 +12,20 @@ export class App extends React.Component {
     }
 
     state = {
-        game: games[0],
-        columns: db.srcom.exec(`SELECT * FROM ${games[0]}`)[0]["columns"],
-        runs: db.srcom.exec(`SELECT * FROM ${games[0]}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${games[0]}`)[0]["values"]),
+        game: games_srcom[0],
+        columns: db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"],
+        runs: db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["values"]
+            .concat(games_extras.find(elem => elem == games_srcom[0][0]) ? db.extras.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["values"] : [])
+            .sort((a, b) => a[columns.indexOf("time")] - b[columns.indexOf("time")]),
     }
 
     handleChange(e) {
-        //console.log(e.target.value);
         this.setState({
             game: e.target.value,
             columns: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["columns"],
-            runs: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${e.target.value}`)[0]["values"]),
+            runs: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["values"]
+                .concat(games_extras.find(elem => elem == e.target.value) ? db.extras.exec(`SELECT * FROM ${e.target.value}`)[0]["values"] : [])
+                .sort((a, b) => a[columns.indexOf("time")] - b[columns.indexOf("time")]),
         })
     }
 
@@ -31,7 +34,7 @@ export class App extends React.Component {
             <div>
                 <h5>Select game:</h5>
                 <select onChange={this.handleChange.bind(this)}>
-                    {games.map((g) => (
+                    {games_srcom.map((g) => (
                         <option value={g}>{g}</option>
                     ))}
                 </select>
