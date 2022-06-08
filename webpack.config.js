@@ -56,6 +56,10 @@ module.exports = {
                     to: 'data/[path][name][ext]',
                 },
                 {
+                    from: 'www/data',
+                    to: 'data/[path][name][ext]',
+                },
+                {
                     from: 'node_modules/sql.js/dist/sql-wasm.wasm',
                     to: '[name][ext]',
                 }
