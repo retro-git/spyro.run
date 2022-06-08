@@ -32,6 +32,7 @@
   "dependencies": {
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "sql.js": "^1.7.0"
+    "sql.js": "^1.7.0",
+    "style-loader": "^3.3.1"
   }
 }
