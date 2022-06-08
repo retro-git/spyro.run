@@ -41,7 +41,14 @@ export class App extends React.Component {
                 <Leaderboard game={this.state.game}
                     columns={this.state.columns}
                     runs={this.state.runs}
-                    categories={[...new Set(this.state.runs.map(r => r[this.state.columns.indexOf("category")]))]}
+                    categories={[...(new Set(this.state.runs.map(r => r[this.state.columns.indexOf("category")])))]
+                        .sort((a, b) => {
+                            if (a.charAt(0).match(/[a-zA-Z]/i) && b.charAt(0).match(/[a-zA-Z]/i)) {
+                                return a.localeCompare(b)
+                            }
+                            else return b.localeCompare(a)
+                        })
+                    }
                 />
             </div>
         )

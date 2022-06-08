@@ -11,9 +11,10 @@ export class Leaderboard extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.categories != this.props.categories) {
+            console.log(this.props.categories[0]);
             this.setState({
                 category: this.props.categories[0],
-            })
+            });
         }
     }
 
@@ -27,7 +28,7 @@ export class Leaderboard extends React.Component {
         return (
             <div>
                 <h5>Select category:</h5>
-                <select onChange={this.handleChange.bind(this)}>
+                <select onChange={this.handleChange.bind(this)} value={this.state.category}>
                     {this.props.categories.map((c) => (
                         <option value={c}>{c}</option>
                     ))}
