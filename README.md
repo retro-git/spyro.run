@@ -22,7 +22,7 @@ Dump a speedrun.com leaderboard to SQLite database (example of Spyro 1 Any%):
 python3 main.py spyro1 Any% --sqlite
 ```
 
-Store additional runs in www/data/extras.sqlite database.
+Store additional runs in `www/data/extras.sqlite` database.
 
 Run test server:
 ```bash
