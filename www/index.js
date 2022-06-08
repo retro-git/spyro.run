@@ -10,6 +10,8 @@ const db = new SQL.Database(new Uint8Array(buf));
 
 const res = db.exec("SELECT * FROM Run")
 
+console.log("hello marz")
+
 console.log(res)
 
 //console.log(db)
