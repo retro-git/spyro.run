@@ -42,10 +42,20 @@ export class Leaderboard extends React.Component {
                     </thead>
                     <tbody>
                         {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category).map((r) => (
-                            <tr>
-                                {r.map((d) => (
-                                    <td>{d}</td>
+                            /*<tr>
+                                {r.map((data, index) => (
+                                    <td>{data}</td>
                                 ))}
+                            </tr>*/
+                            <tr>
+                                {r.map((data, index) => {
+                                    switch (index) {
+                                        case this.props.columns.indexOf("time"):
+                                            return <td>{new Date(data * 1000).toISOString().substring(11, 19).substring().replace(/^0(?:0:0?)?/, '')}</td>
+                                        default:
+                                            return <td>{data}</td>
+                                    }
+                                })}
                             </tr>
                         ))}
                     </tbody>
