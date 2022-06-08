@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require("path");
 const dist = path.resolve(__dirname, "dist");
 
@@ -14,6 +15,25 @@ module.exports = {
             {
                 test: /\.wasm$/,
                 type: 'javascript/auto',
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             }
         ],
     },
@@ -49,6 +69,7 @@ module.exports = {
             template: 'www/index.html'
         }),
         new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin(),
         new CopyWebpackPlugin({
             patterns: [
                 {

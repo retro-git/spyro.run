@@ -1,4 +1,8 @@
+var React = require('react');
+var ReactDOM = require('react-dom/client');
+
 import initSqlJs from "sql.js";
+import { App } from './components/App.js'
 
 const sqlPromise = await initSqlJs({
     locateFile: file => `${file}`
@@ -13,7 +17,7 @@ async function fetchDB(path) {
 const srcom = await fetchDB("data/srcom.sqlite");
 const extras = await fetchDB("data/extras.sqlite");
 
-//console.log(extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'"));
+console.log(extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'"));
 
 const res = srcom.exec("SELECT * FROM spyro1");
 const res2 = extras.exec("SELECT * FROM spyro1");
@@ -32,3 +36,7 @@ let unique_categories = [...new Set(res3[0]["values"].map(a => a[res3[0]["column
 
 //console.log(unique_games)
 //console.log(unique_categories);
+
+const appElement = document.getElementById('app');
+
+ReactDOM.createRoot(appElement).render(<App/>);
