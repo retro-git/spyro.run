@@ -27,7 +27,7 @@ Run test server:
 ```bash
 npm run start
 ```
-Create distribution folder:
+Build distribution folder:
 ```bash
 npm run build
 ```
