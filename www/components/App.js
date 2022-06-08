@@ -12,13 +12,17 @@ export class App extends React.Component {
     }
 
     state = {
-        game: games[0]
+        game: games[0],
+        columns: db.srcom.exec(`SELECT * FROM ${games[0]}`)[0]["columns"],
+        runs: db.srcom.exec(`SELECT * FROM ${games[0]}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${games[0]}`)[0]["values"]),
     }
 
     handleChange(e) {
         //console.log(e.target.value);
         this.setState({
-            game: e.target.value
+            game: e.target.value,
+            columns: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["columns"],
+            runs: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${e.target.value}`)[0]["values"]),
         })
     }
 
@@ -32,8 +36,9 @@ export class App extends React.Component {
                     ))}
                 </select>
                 <Leaderboard game={this.state.game}
-                    columns={db.srcom.exec(`SELECT * FROM ${this.state.game}`)[0]["columns"]}
-                    runs={db.srcom.exec(`SELECT * FROM ${this.state.game}`)[0]["values"].concat(db.extras.exec(`SELECT * FROM ${this.state.game}`)[0]["values"])}
+                    columns={this.state.columns}
+                    runs={this.state.runs}
+                    categories={[...new Set(this.state.runs.map(r => r[this.state.columns.indexOf("category")]))]}
                 />
             </div>
         )
