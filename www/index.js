@@ -1,9 +1,15 @@
 import initSqlJs from "sql.js";
 
-const SQL = await initSqlJs({
-    locateFile: file => `sql-wasm.wasm`
+const sqlPromise = await initSqlJs({
+    locateFile: file => `${file}`
 });
 
-var db = new SQL.Database();
+const dataPromise = fetch("data/db.sqlite").then(res => res.arrayBuffer());
+const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+const db = new SQL.Database(new Uint8Array(buf));
 
-console.log(db)
+const res = db.exec("SELECT * FROM Run WHERE game = 'smb1'")
+
+console.log(res)
+
+//console.log(db)
