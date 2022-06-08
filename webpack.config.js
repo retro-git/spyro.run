@@ -11,6 +11,10 @@ module.exports = {
                 test: /\.css$/i,
                 use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.wasm$/,
+                type: 'javascript/auto',
+            }
         ],
     },
     performance: {
@@ -29,26 +33,33 @@ module.exports = {
             directory: dist,
         },
     },
+    resolve: {
+        fallback: {
+            path: false,
+            fs: false,
+            crypto: false,
+        }
+    },
+    experiments: {
+        asyncWebAssembly: true,
+        topLevelAwait: true,
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'www/index.html'
         }),
         new CleanWebpackPlugin(),
-        /*new CopyWebpackPlugin({
+        new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: 'www/roms',
-                    to: 'roms/[name][ext]',
+                    from: 'src-dump/out',
+                    to: 'data/[path][name][ext]',
                 },
                 {
-                    from: 'www/ace-builds/src-noconflict',
-                    to: 'ace-builds/src-noconflict/[name][ext]',
-                },
-                {
-                    from: 'www/ace-builds/webpack-resolver.js',
-                    to: 'ace-builds/[name][ext]',
+                    from: 'node_modules/sql.js/dist/sql-wasm.wasm',
+                    to: '[name][ext]',
                 }
             ]
-        })*/
+        })
     ]
 };
