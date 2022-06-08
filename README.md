@@ -5,6 +5,7 @@ git clone https://github.com/retro-git/sr-archive-lb --recursive
 ```
 
 ```bash
+cd sr-archive-lb
 npm i
 ```
 
