@@ -8,7 +8,7 @@
     "build": "webpack",
     "start": "webpack-dev-server",
     "push": "push-dir --dir=dist --branch=gh-pages && git checkout gh-pages && echo spyro.run > CNAME && git add CNAME && git commit -m 'cname' && git push -f && git checkout master",
-    "pages": "gh-pages -d dist && git checkout gh-pages && echo spyro.run > CNAME && git add CNAME && git commit -m \"cname\" && git push -f && git checkout master",
+    "pages": "gh-pages -d dist && git checkout gh-pages && echo spyro.run > CNAME && git add CNAME && git commit -m 'cname' && git push -f && git checkout master",
     "test": "echo \"Error: no test specified\" && pwd && push-dir && exit 1"
   },
   "keywords": [],
