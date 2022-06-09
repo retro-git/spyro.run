@@ -8,6 +8,7 @@
     "build": "webpack",
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",
+    "clean": "gh-pages-clean",
     "test": "echo \"Error: no test specified\" && pwd && push-dir && exit 1"
   },
   "keywords": [],
