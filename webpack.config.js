@@ -83,6 +83,10 @@ module.exports = {
                 {
                     from: 'node_modules/sql.js/dist/sql-wasm.wasm',
                     to: '[name][ext]',
+                },
+                {
+                    from: 'CNAME',
+                    to: '[name]',
                 }
             ]
         })

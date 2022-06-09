@@ -7,8 +7,7 @@
     "cpdump": "rm -rf www/data && cp -R src-dump/out www/data",
     "build": "webpack",
     "start": "webpack-dev-server",
-    "push": "push-dir --dir=dist --branch=gh-pages && git checkout gh-pages && echo spyro.run > CNAME && git add CNAME && git commit -m 'cname' && git push -f && git checkout master",
-    "pages": "gh-pages -d dist && git checkout gh-pages && echo spyro.run > CNAME && git add CNAME && git commit -m 'cname' && git push -f",
+    "pages": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && pwd && push-dir && exit 1"
   },
   "keywords": [],
@@ -26,7 +25,6 @@
     "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
-    "push-dir": "^0.4.1",
     "sass": "^1.52.2",
     "sass-loader": "^13.0.0",
     "style-loader": "^3.3.1",
