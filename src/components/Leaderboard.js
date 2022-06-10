@@ -65,7 +65,13 @@ export class Leaderboard extends React.Component {
                                         case this.props.columns.indexOf("category"):
                                             return
                                         case this.props.columns.indexOf("time"):
-                                            return <td>{new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}</td>
+                                            return (
+                                                <td>
+                                                    <button onClick={() => navigator.clipboard.writeText(hash)}>
+                                                        {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
+                                                    </button>
+                                                </td>
+                                            )
                                         default:
                                             return <td>{data}</td>
                                     }
