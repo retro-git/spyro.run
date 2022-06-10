@@ -1,4 +1,7 @@
 var React = require('react');
+import sha256 from 'crypto-js/sha256';
+import Base64 from 'crypto-js/enc-base64';
+import overrides from '../data/overrides.json';
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -11,7 +14,6 @@ export class Leaderboard extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.categories != this.props.categories) {
-            console.log(this.props.categories[0]);
             this.setState({
                 category: this.props.categories[0],
             });
@@ -49,9 +51,14 @@ export class Leaderboard extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category).map((r) => (
-                            <tr>
+                        {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category).map((r) => {
+                            const hash = Base64.stringify(sha256(JSON.stringify(r)));
+                            const override = overrides[hash];
+                            return <tr>
                                 {r.map((data, index) => {
+                                    if (override !== undefined && override[this.props.columns[index]] !== undefined) {
+                                        data = override[this.props.columns[index]];
+                                    }
                                     switch (index) {
                                         case this.props.columns.indexOf("game"):
                                             return
@@ -64,7 +71,7 @@ export class Leaderboard extends React.Component {
                                     }
                                 })}
                             </tr>
-                        ))}
+                        })}
                     </tbody>
                 </table>
             </div>
