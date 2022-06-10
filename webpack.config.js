@@ -42,7 +42,7 @@ module.exports = {
     },
     mode: "production",
     entry: {
-        index: "./www/index.js"
+        index: "./src/index.js"
     },
     output: {
         path: dist,
@@ -66,7 +66,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'www/index.html'
+            template: 'src/index.html'
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin(),
@@ -77,7 +77,7 @@ module.exports = {
                     to: 'data/[path][name][ext]',
                 },
                 {
-                    from: 'www/data',
+                    from: 'src/data',
                     to: 'data/[path][name][ext]',
                 },
                 {
