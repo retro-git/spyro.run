@@ -17,7 +17,7 @@ export class Leaderboard extends React.Component {
             category: category,
             subcategories: subcategories,
             subcategory_selections: subcategories.map(e => e[0]),
-            show_all: false,
+            show_all: true,
         }
     }
 
@@ -81,7 +81,7 @@ export class Leaderboard extends React.Component {
                 <h5>Select subcategory(s):</h5>
                 {props.subcategories.map((cs, i) => {
                     return (
-                        <select data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
+                        <select disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
                             {cs.map((c) => (
                                 <option value={c}>{c}</option>
                             ))}
