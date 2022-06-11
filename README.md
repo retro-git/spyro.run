@@ -17,12 +17,14 @@ cd src-dump
 python3 -m pip install -r requirements.txt
 ```
 
-Dump a speedrun.com leaderboard to SQLite database (example of Spyro 1 Any%):
+Dump speedrun.com leaderboards, listed in leaderboards.txt, to SQLite database:
 ```bash
-python3 main.py spyro1 Any% --sqlite
+npm run dump
 ```
 
-Store additional runs in `www/data/extras.sqlite` database.
+Store additional runs in `src/data/extras.sqlite` database.
+
+Optionally, override arbitrary data of a given run, identified by its hash, in `src/data/overrides.json`.
 
 Run test server:
 ```bash

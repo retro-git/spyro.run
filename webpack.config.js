@@ -45,7 +45,7 @@ module.exports = {
     performance: {
         hints: false,
     },
-    mode: "production",
+    mode: "development",
     entry: {
         index: "./src/index.js"
     },
