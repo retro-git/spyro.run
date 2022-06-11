@@ -119,8 +119,8 @@ export class Leaderboard extends React.Component {
                                         return
                                     case "category":
                                         return
-                                    //case "subcategory":
-                                    //    return
+                                    case "subcategory":
+                                        return
                                     default:
                                         return <th>{h}</th>
                                 }
@@ -148,8 +148,8 @@ export class Leaderboard extends React.Component {
                                                 return
                                             case this.props.columns.indexOf("category"):
                                                 return
-                                            //case this.props.columns.indexOf("subcategory"):
-                                            //    return
+                                            case this.props.columns.indexOf("subcategory"):
+                                                return
                                             case this.props.columns.indexOf("emulated"):
                                                 return <td>{data ? "Yes" : "No"}</td>
                                             case this.props.columns.indexOf("time"):
