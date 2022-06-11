@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require("path");
 const dist = path.resolve(__dirname, "dist");
 
+const pages = ["index"]
+
 module.exports = {
     module: {
         rules: [
@@ -46,9 +48,10 @@ module.exports = {
         hints: false,
     },
     mode: "development",
-    entry: {
-        index: "./src/index.js"
-    },
+    entry: pages.reduce((config, page) => {
+        config[page] = `./src/${page}.js`;
+        return config;
+    }, {}),
     output: {
         path: dist,
         filename: "[name].js"
@@ -69,31 +72,39 @@ module.exports = {
         asyncWebAssembly: true,
         topLevelAwait: true,
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'src/index.html'
-        }),
-        new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: 'src-dump/out',
-                    to: 'data/[path][name][ext]',
-                },
-                {
-                    from: 'src/data',
-                    to: 'data/[path][name][ext]',
-                },
-                {
-                    from: 'node_modules/sql.js/dist/sql-wasm.wasm',
-                    to: '[name][ext]',
-                },
-                {
-                    from: 'CNAME',
-                    to: '[name]',
-                }
-            ]
-        })
-    ]
+    plugins: [].concat(
+        pages.map(
+            (page) =>
+                new HtmlWebpackPlugin({
+                    inject: true,
+                    template: `./src/${page}.html`,
+                    filename: `${page}.html`,
+                    chunks: [page],
+                })
+        ),
+        [
+            new CleanWebpackPlugin(),
+            new MiniCssExtractPlugin(),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: 'src-dump/out',
+                        to: 'data/[path][name][ext]',
+                    },
+                    {
+                        from: 'src/data',
+                        to: 'data/[path][name][ext]',
+                    },
+                    {
+                        from: 'node_modules/sql.js/dist/sql-wasm.wasm',
+                        to: '[name][ext]',
+                    },
+                    {
+                        from: 'CNAME',
+                        to: '[name]',
+                    }
+                ]
+            })
+        ]
+    ),
 };
