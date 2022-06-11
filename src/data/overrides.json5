@@ -1,10 +1,8 @@
 {
-    "0BVzROo8UvzIO0ewkwvRUMJm/mHXv3e3MRrLGSe/O80=": {
-        player: "test override playersadf",
-        comment: "test override comment",
-    },
-    "EXAMPLEtXnyrersYeNfFHw6IriphpBpBhFOSEtCMql+q3H1u5w=": {
-        player: "test override player",
-        comment: "test override comment",
+    "tXnyrersYeNfFHw6IriphpBpBhFOSEtCMql+q3H1u5w=": {
+        "player": "test override playersadf",
+        "comment": "test override comment",
+        "region": "test region",
+        "editor's note": "test",
     },
 }

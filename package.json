@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cpdump": "rm -rf www/data && cp -R src-dump/out www/data",
+    "cpdump": "cp -R src-dump/out src/data",
     "build": "webpack",
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",
-    "clean": "gh-pages-clean",
-    "test": "echo \"Error: no test specified\" && pwd && push-dir && exit 1"
+    "clean-pages": "gh-pages-clean",
+    "dump": "rm -rf src-dump/out && ./dump_leaderboards.zsh"
   },
   "keywords": [],
   "author": "",
