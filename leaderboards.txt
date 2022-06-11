@@ -7,3 +7,5 @@ spyro3 Any%
 spyro3 "100 Egg"
 spyro3 "117%"
 jade_empire "Special Edition"
+oot Glitchless
+oot "Inside the Deku Tree" -il Any%
