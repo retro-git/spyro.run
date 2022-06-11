@@ -1,5 +1,6 @@
 const React = require('react');
 const JSON5 = require('json5')
+var _ = require('lodash');
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 import overrides from '../data/overrides.json5';
@@ -136,7 +137,8 @@ export class Leaderboard extends React.Component {
                                 })
                             })
                             .map((r, rank) => {
-                                const hash = Base64.stringify(sha256(JSON.stringify(r)));
+                                const picked = _.pick(Object.fromEntries(r.map((e, i) => [this.props.columns[i], e])), ['game', 'category', 'player', 'time', 'date']);
+                                const hash = Base64.stringify(sha256(JSON.stringify(picked)));
                                 const override = overrides[hash];
                                 return <tr>
                                     {r.map((data, index) => {
