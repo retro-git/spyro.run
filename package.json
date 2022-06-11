@@ -9,7 +9,7 @@
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",
     "clean-pages": "gh-pages-clean",
-    "dump": "rm -rf src-dump/out && ./dump-leaderboards.zsh"
+    "dump": "rm -rf src-dump/out && ./dump-leaderboards.sh"
   },
   "keywords": [],
   "author": "",
