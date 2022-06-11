@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 cd src-dump
 
 while IFS= read -r line || [ -n "$line" ]; do
