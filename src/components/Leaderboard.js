@@ -88,7 +88,7 @@ export class Leaderboard extends React.Component {
                     )
                 })}
                 <label>
-                    <input type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value}/>
+                    <input type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value} />
                     Show all
                 </label>
             </div>
@@ -107,9 +107,9 @@ export class Leaderboard extends React.Component {
                 <this.Subcategories
                     subcategories={this.state.subcategories}
                     handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
-                    subcategory_selections={this.state.subcategory_selections} 
+                    subcategory_selections={this.state.subcategory_selections}
                     handleChangeShowAll={this.handleChangeShowAll.bind(this)}
-                    value={this.state.show_all}/>
+                    value={this.state.show_all} />
                 <table>
                     <thead>
                         <tr>
@@ -135,7 +135,7 @@ export class Leaderboard extends React.Component {
                                     return e === this.state.subcategory_selections[i]
                                 })
                             })
-                            .map((r) => {
+                            .map((r, rank) => {
                                 const hash = Base64.stringify(sha256(JSON.stringify(r)));
                                 const override = overrides[hash];
                                 return <tr>
@@ -150,6 +150,8 @@ export class Leaderboard extends React.Component {
                                                 return
                                             case this.props.columns.indexOf("subcategory"):
                                                 return
+                                            case this.props.columns.indexOf("player"):
+                                                return <td>({rank+1}) {data}</td>
                                             case this.props.columns.indexOf("emulated"):
                                                 return <td>{data ? "Yes" : "No"}</td>
                                             case this.props.columns.indexOf("time"):
