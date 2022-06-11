@@ -7,31 +7,83 @@ import overrides from '../data/overrides.json5';
 export class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
+
+        const category = this.props.categories[0];
+
+        const subcategories = this.getSubcategories(category);
+
+        this.state = {
+            category: category,
+            subcategories: subcategories,
+            subcategory_selections: subcategories.map(e => e[0])
+        }
     }
 
-    state = {
-        category: this.props.categories[0],
+    getSubcategories(selected_category) {
+        const subcategories_unfiltered = this.props.runs
+            .filter(r => r[this.props.columns.indexOf("category")] == selected_category)
+            .map(r => r[this.props.columns.indexOf("subcategory")])
+            .map(r => r.split(", "));
+
+        let subcategories = [];
+
+        if (subcategories_unfiltered[0] !== undefined) {
+            for (var i = 0; i < subcategories_unfiltered[0].length; i++) {
+                subcategories.push([...new Set(subcategories_unfiltered.map(s => s[i]))]);
+            }
+        }
+        return subcategories;
+    }
+
+    componentDidMount() {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        //console.log(this.state)
         if (prevProps.categories != this.props.categories) {
+            const subcategories = this.getSubcategories(this.props.categories[0]);
             this.setState({
                 category: this.props.categories[0],
+                subcategories: subcategories,
+                subcategory_selections: subcategories.map(e => e[0])
             });
         }
     }
 
-    handleChange(e) {
+    handleChangeCategory(e) {
+        const subcategories = this.getSubcategories(e.target.value);
         this.setState({
             category: e.target.value,
+            subcategories: subcategories,
+            subcategory_selections: subcategories.map(e => e[0])
+        })
+    }
+
+    handleChangeSubcategory(e) {
+        let subcategory_selections = [...this.state.subcategory_selections];
+        subcategory_selections[e.target.dataset["id"]] = e.target.value;
+        this.setState({
+            subcategory_selections: subcategory_selections,
         })
     }
 
     render() {
         return (
             <div>
+                {this.state.subcategories.map((cs, i) => {
+                    return (
+                        <div>
+                            <h5>Select subcategory:</h5>
+                            <select data-id={i} onChange={this.handleChangeSubcategory.bind(this)} value={this.state.subcategory_selections[i]}>
+                                {cs.map((c) => (
+                                    <option value={c}>{c}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )
+                })}
                 <h5>Select category:</h5>
-                <select onChange={this.handleChange.bind(this)} value={this.state.category}>
+                <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
                     {this.props.categories.map((c) => (
                         <option value={c}>{c}</option>
                     ))}
@@ -52,35 +104,44 @@ export class Leaderboard extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category).map((r) => {
-                            const hash = Base64.stringify(sha256(JSON.stringify(r)));
-                            const override = overrides[hash];
-                            return <tr>
-                                {r.map((data, index) => {
-                                    if (override !== undefined && override[this.props.columns[index]] !== undefined) {
-                                        data = override[this.props.columns[index]];
-                                    }
-                                    switch (index) {
-                                        case this.props.columns.indexOf("game"):
-                                            return
-                                        case this.props.columns.indexOf("category"):
-                                            return
-                                        case this.props.columns.indexOf("emulated"):
-                                            return <td>{data ? "Yes" : "No"}</td>
-                                        case this.props.columns.indexOf("time"):
-                                            return (
-                                                <td>
-                                                    <button onClick={() => navigator.clipboard.writeText(hash)}>
-                                                        {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
-                                                    </button>
-                                                </td>
-                                            )
-                                        default:
-                                            return <td>{data}</td>
-                                    }
-                                })}
-                            </tr>
-                        })}
+                        {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
+                            .filter((r) => (
+                                r[this.props.columns.indexOf("subcategory")].split(", ").every((e, i) => {
+                                    //console.log(e);
+                                    //console.log(this.state.subcategory_selections[i]);
+                                    //console.log(e === this.state.subcategory_selections[i]);
+                                    return e === this.state.subcategory_selections[i]
+                                })
+                            ))
+                            .map((r) => {
+                                const hash = Base64.stringify(sha256(JSON.stringify(r)));
+                                const override = overrides[hash];
+                                return <tr>
+                                    {r.map((data, index) => {
+                                        if (override !== undefined && override[this.props.columns[index]] !== undefined) {
+                                            data = override[this.props.columns[index]];
+                                        }
+                                        switch (index) {
+                                            case this.props.columns.indexOf("game"):
+                                                return
+                                            case this.props.columns.indexOf("category"):
+                                                return
+                                            case this.props.columns.indexOf("emulated"):
+                                                return <td>{data ? "Yes" : "No"}</td>
+                                            case this.props.columns.indexOf("time"):
+                                                return (
+                                                    <td>
+                                                        <button onClick={() => navigator.clipboard.writeText(hash)}>
+                                                            {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
+                                                        </button>
+                                                    </td>
+                                                )
+                                            default:
+                                                return <td>{data}</td>
+                                        }
+                                    })}
+                                </tr>
+                            })}
                     </tbody>
                 </table>
             </div>
