@@ -15,7 +15,8 @@ export class Leaderboard extends React.Component {
         this.state = {
             category: category,
             subcategories: subcategories,
-            subcategory_selections: subcategories.map(e => e[0])
+            subcategory_selections: subcategories.map(e => e[0]),
+            show_all: false,
         }
     }
 
@@ -39,7 +40,6 @@ export class Leaderboard extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        //console.log(this.state)
         if (prevProps.categories != this.props.categories) {
             const subcategories = this.getSubcategories(this.props.categories[0]);
             this.setState({
@@ -67,27 +67,49 @@ export class Leaderboard extends React.Component {
         })
     }
 
+    handleChangeShowAll(e) {
+        this.setState({
+            show_all: !this.state.show_all,
+        })
+    }
+
+    Subcategories(props) {
+        if (props.subcategories[0] == '') return;
+        return (
+            <div>
+                <h5>Select subcategory(s):</h5>
+                {props.subcategories.map((cs, i) => {
+                    return (
+                        <select data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
+                            {cs.map((c) => (
+                                <option value={c}>{c}</option>
+                            ))}
+                        </select>
+                    )
+                })}
+                <label>
+                    <input type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value}/>
+                    Show all
+                </label>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
-                {this.state.subcategories.map((cs, i) => {
-                    return (
-                        <div>
-                            <h5>Select subcategory:</h5>
-                            <select data-id={i} onChange={this.handleChangeSubcategory.bind(this)} value={this.state.subcategory_selections[i]}>
-                                {cs.map((c) => (
-                                    <option value={c}>{c}</option>
-                                ))}
-                            </select>
-                        </div>
-                    )
-                })}
                 <h5>Select category:</h5>
                 <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
                     {this.props.categories.map((c) => (
                         <option value={c}>{c}</option>
                     ))}
                 </select>
+                <this.Subcategories
+                    subcategories={this.state.subcategories}
+                    handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
+                    subcategory_selections={this.state.subcategory_selections} 
+                    handleChangeShowAll={this.handleChangeShowAll.bind(this)}
+                    value={this.state.show_all}/>
                 <table>
                     <thead>
                         <tr>
@@ -97,6 +119,8 @@ export class Leaderboard extends React.Component {
                                         return
                                     case "category":
                                         return
+                                    //case "subcategory":
+                                    //    return
                                     default:
                                         return <th>{h}</th>
                                 }
@@ -105,14 +129,12 @@ export class Leaderboard extends React.Component {
                     </thead>
                     <tbody>
                         {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
-                            .filter((r) => (
-                                r[this.props.columns.indexOf("subcategory")].split(", ").every((e, i) => {
-                                    //console.log(e);
-                                    //console.log(this.state.subcategory_selections[i]);
-                                    //console.log(e === this.state.subcategory_selections[i]);
+                            .filter((r) => {
+                                if (this.state.show_all) return true;
+                                return r[this.props.columns.indexOf("subcategory")].split(", ").every((e, i) => {
                                     return e === this.state.subcategory_selections[i]
                                 })
-                            ))
+                            })
                             .map((r) => {
                                 const hash = Base64.stringify(sha256(JSON.stringify(r)));
                                 const override = overrides[hash];
@@ -126,6 +148,8 @@ export class Leaderboard extends React.Component {
                                                 return
                                             case this.props.columns.indexOf("category"):
                                                 return
+                                            //case this.props.columns.indexOf("subcategory"):
+                                            //    return
                                             case this.props.columns.indexOf("emulated"):
                                                 return <td>{data ? "Yes" : "No"}</td>
                                             case this.props.columns.indexOf("time"):
