@@ -34,7 +34,12 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
-            }
+            },
+            {
+                test: /\.json5$/i,
+                loader: 'json5-loader',
+                type: 'javascript/auto',
+            },
         ],
     },
     performance: {
