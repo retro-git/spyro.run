@@ -4,6 +4,7 @@ import Moneybags from "../assets/moneybags.svg"
 
 const Content = styled.div`
     background-color: black;
+    text-align: center;
     position: fixed; 
     top: 0; 
     left: 0; 
@@ -40,16 +41,16 @@ const BackgroundImage = styled.div`
         100% { opacity: 0.5; }
     }
 
-   // &:hover {
-    //background-color: red; // <Thing> when hovered
-  //}
+    /* &:hover {
+        background-color: red; // <Thing> when hovered
+    } */
 `;
 
 const Message = styled.p`
     color: #f11d6e;
 	text-align: center;
 	font-family: monospace;
-    font-size: ${props => props.title ? "60px" : "30px"};
+    font-size: ${props => props.title ? "70px" : "35px"};
     padding-top: ${props => props.title ? "45px" : "0px"};
     padding-bottom: ${props => props.title ? "10px" : "0px"};
     margin: 0px;
@@ -67,7 +68,67 @@ const Message = styled.p`
     }
 `;
 
-export class Canvas extends React.Component {
+const Enter = styled.p`
+    color: #f11d6e;
+	text-align: center;
+	font-family: monospace;
+    font-size: 30px;
+    opacity: 0%;
+    z-index: 2;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-150%);
+
+    animation: fade-in-message 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 5s;
+
+    @keyframes fade-in-message {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+`;
+
+export class Home extends React.Component {
+    constructor(props) {
+        super(props);
+
+        document.addEventListener('click', this.handleClick.bind(this));
+        document.body.style.cursor = 'pointer';
+    }
+    state = {}
+
+    handleClick(e) {
+        window.location.href = '/boards.html'
+    }
+
+    render() {
+        return (
+            <Content>
+                <Message title={true}>
+                    banned.run
+                </Message>
+                <Message>
+                    The runs they don't want you to see.
+                </Message>
+                <BackgroundImage />
+            </Content>
+        );
+    }
+    /*render() {
+        return (
+            <Content>
+                <Canvas></Canvas>
+                <BackgroundImage></BackgroundImage>
+            </Content>
+        )
+    }*/
+}
+
+class Canvas extends React.Component {
     constructor(props) {
         super(props);
 
@@ -120,32 +181,4 @@ export class Canvas extends React.Component {
             <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
         );
     }
-}
-
-export class Home extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {}
-    render() {
-        return (
-            <Content>
-                <Message title={true}>
-                    banned.run
-                </Message>
-                <Message>
-                    The runs they don't want you to see.
-                </Message>
-                <BackgroundImage />
-            </Content>
-        );
-    }
-    /*render() {
-        return (
-            <Content>
-                <Canvas></Canvas>
-                <BackgroundImage></BackgroundImage>
-            </Content>
-        )
-    }*/
 }
