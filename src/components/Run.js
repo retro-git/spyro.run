@@ -3,16 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 import overrides from '../data/overrides.json5';
 import styled, { css } from 'styled-components'
-
-const checkColour = (props) => {
-    if (props.cheated) {
-        return 'red';
-    } else return 'black';
-}
-
-const Row = styled.tr`
-  color: ${checkColour};
-`;
+import { LBTableRow, LBTableData } from './LeaderboardTable'
 
 export class Run extends React.Component {
     render() {
@@ -21,7 +12,7 @@ export class Run extends React.Component {
         const hash = Base64.stringify(sha256(JSON.stringify(picked)));
         _.assign(r, overrides[hash]);
 
-        return <Row key={this.props.i} cheated={r["cheated"]}>
+        return <LBTableRow key={this.props.i} cheated={r["emulated"]}>
             {Object.keys(r).map((key, index) => {
                 const data = r[key];
                 switch (key) {
@@ -32,21 +23,21 @@ export class Run extends React.Component {
                     case "subcategory":
                         return
                     case "player":
-                        return <td key={index}>({this.props.i + 1}) {data}</td>
+                        return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
                     case "emulated":
-                        return <td key={index}>{data ? "Yes" : "No"}</td>
+                        return <LBTableData key={index}>{data ? "Yes" : "No"}</LBTableData>
                     case "time":
                         return (
-                            <td key={index}>
+                            <LBTableData key={index}>
                                 <button key={index} className="button" onClick={() => navigator.clipboard.writeText(hash)}>
                                     {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
                                 </button>
-                            </td>
+                            </LBTableData>
                         )
                     default:
-                        return <td key={index}>{data}</td>
+                        return <LBTableData key={index}>{data}</LBTableData>
                 }
             })}
-        </Row>
+        </LBTableRow>
     }
 }

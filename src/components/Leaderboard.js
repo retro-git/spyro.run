@@ -2,6 +2,7 @@ const React = require('react');
 const JSON5 = require('json5')
 var _ = require('lodash');
 import { Run } from './Run'
+import { LBTable, LBTableHead, LBTableRow, LBTableData, LBTableBody } from './LeaderboardTable'
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -106,9 +107,9 @@ export class Leaderboard extends React.Component {
                     subcategory_selections={this.state.subcategory_selections}
                     handleChangeShowAll={this.handleChangeShowAll.bind(this)}
                     value={this.state.show_all} />
-                <table>
-                    <thead>
-                        <tr>
+                <LBTable>
+                    <LBTableHead>
+                        <LBTableRow>
                             {this.props.columns.map((h, i) => {
                                 switch (h) {
                                     case "game":
@@ -118,12 +119,12 @@ export class Leaderboard extends React.Component {
                                     case "subcategory":
                                         return
                                     default:
-                                        return <th key={i}>{h}</th>
+                                        return <LBTableData key={i}>{h}</LBTableData>
                                 }
                             })}
-                        </tr>
-                    </thead>
-                    <tbody>
+                        </LBTableRow>
+                    </LBTableHead>
+                    <LBTableBody>
                         {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
                             .filter((r) => {
                                 if (this.state.show_all) return true;
@@ -132,8 +133,8 @@ export class Leaderboard extends React.Component {
                             .map((r, i) => {
                                 return <Run r={r} columns={this.props.columns} i={i} key={i} />
                             })}
-                    </tbody>
-                </table>
+                    </LBTableBody>
+                </LBTable>
             </div>
         )
     }
