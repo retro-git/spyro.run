@@ -1,10 +1,20 @@
 var React = require('react');
+import styled, { css, createGlobalStyle } from 'styled-components'
 import { Leaderboard } from './Leaderboard'
 import db from '../db.js'
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
+
+const Content = styled.div`
+`;
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    background: grey;
+  }
+`
 
 export class Boards extends React.Component {
     constructor(props) {
@@ -31,7 +41,8 @@ export class Boards extends React.Component {
 
     render() {
         return (
-            <div>
+            <Content>
+                <GlobalStyle/>
                 <h5>Select game:</h5>
                 <select onChange={this.handleChange.bind(this)}>
                     {games_srcom.map((g, i) => (
@@ -50,7 +61,7 @@ export class Boards extends React.Component {
                         })
                     }
                 />
-            </div>
+            </Content>
         )
     }
 }

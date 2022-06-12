@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 const getRowBgColour = (props) => {
     if (props.cheated) {
         return 'red';
-    } else return 'white';
+    } else return 'grey';
 }
 
 const getColWhitespace = (props) => {
