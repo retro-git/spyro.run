@@ -38,9 +38,6 @@ export class Leaderboard extends React.Component {
         return subcategories;
     }
 
-    componentDidMount() {
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.categories != this.props.categories) {
             const subcategories = this.getSubcategories(this.props.categories[0]);
@@ -83,8 +80,8 @@ export class Leaderboard extends React.Component {
                 {props.subcategories.map((cs, i) => {
                     return (
                         <select key={i} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
-                            {cs.map((c) => (
-                                <option value={c}>{c}</option>
+                            {cs.map((c, i) => (
+                                <option key={i} value={c}>{c}</option>
                             ))}
                         </select>
                     )
@@ -133,9 +130,7 @@ export class Leaderboard extends React.Component {
                         {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
                             .filter((r) => {
                                 if (this.state.show_all) return true;
-                                return r[this.props.columns.indexOf("subcategory")].split(", ").every((e, i) => {
-                                    return e === this.state.subcategory_selections[i]
-                                })
+                                return _.isEqual(r[this.props.columns.indexOf("subcategory")].split(", "), this.state.subcategory_selections)
                             })
                             .map((r, i) => {
                                 const picked = _.pick(Object.fromEntries(r.map((e, i) => [this.props.columns[i], e])), ['game', 'category', 'player', 'time', 'date']);
