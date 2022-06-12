@@ -159,7 +159,7 @@ export class Leaderboard extends React.Component {
                                             case this.props.columns.indexOf("time"):
                                                 return (
                                                     <td>
-                                                        <button onClick={() => navigator.clipboard.writeText(hash)}>
+                                                        <button class="button" onClick={() => navigator.clipboard.writeText(hash)}>
                                                             {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
                                                         </button>
                                                     </td>
