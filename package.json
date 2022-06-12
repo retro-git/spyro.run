@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cpdump": "cp -R src-dump/out src/data",
+    "cpdump": "cp -R src-dump/out src/assets",
     "build": "webpack",
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",

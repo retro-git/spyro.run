@@ -1,7 +1,7 @@
 var React = require('react');
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
-import overrides from '../data/overrides.json5';
+import overrides from '../assets/overrides.json5';
 import styled, { css } from 'styled-components'
 import { LBTableRow, LBTableData } from './LeaderboardTable'
 

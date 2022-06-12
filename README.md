@@ -22,9 +22,9 @@ Dump speedrun.com leaderboards, listed in leaderboards.txt, to SQLite database:
 npm run dump
 ```
 
-Store additional runs in `src/data/extras.sqlite` database.
+Store additional runs in `src/assets/extras.sqlite` database.
 
-Optionally, override arbitrary data of a given run, identified by its hash, in `src/data/overrides.json`.
+Optionally, override arbitrary data of a given run, identified by its hash, in `src/assets/overrides.json`.
 
 Run test server:
 ```bash

@@ -21,6 +21,6 @@ async function fetchDB(path) {
 }
 
 export default {
-    srcom: await fetchDB("data/srcom.sqlite"),
-    extras: await fetchDB("data/extras.sqlite"),
+    srcom: await fetchDB("assets/srcom.sqlite"),
+    extras: await fetchDB("assets/extras.sqlite"),
 }

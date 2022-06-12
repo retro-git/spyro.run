@@ -89,11 +89,11 @@ module.exports = {
                 patterns: [
                     {
                         from: 'src-dump/out',
-                        to: 'data/[path][name][ext]',
+                        to: 'assets/[path][name][ext]',
                     },
                     {
-                        from: 'src/data',
-                        to: 'data/[path][name][ext]',
+                        from: 'src/assets',
+                        to: 'assets/[path][name][ext]',
                     },
                     {
                         from: 'node_modules/sql.js/dist/sql-wasm.wasm',
