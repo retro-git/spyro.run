@@ -6,7 +6,7 @@ const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
 
-export class App extends React.Component {
+export class Boards extends React.Component {
     constructor(props) {
         super(props);
     }

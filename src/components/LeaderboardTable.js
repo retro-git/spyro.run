@@ -7,7 +7,6 @@ const getRowBgColour = (props) => {
 }
 
 const getColWhitespace = (props) => {
-  console.log(props.col);
   switch (props.col) {
     case "link":
     case "comment":
