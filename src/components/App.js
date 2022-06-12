@@ -34,8 +34,8 @@ export class App extends React.Component {
             <div>
                 <h5>Select game:</h5>
                 <select onChange={this.handleChange.bind(this)}>
-                    {games_srcom.map((g) => (
-                        <option value={g}>{g}</option>
+                    {games_srcom.map((g, i) => (
+                        <option key={i} value={g}>{g}</option>
                     ))}
                 </select>
                 <Leaderboard game={this.state.game}

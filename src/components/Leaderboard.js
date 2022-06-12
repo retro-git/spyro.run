@@ -1,6 +1,7 @@
 const React = require('react');
 const JSON5 = require('json5')
 var _ = require('lodash');
+import styled, { css } from 'styled-components'
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 import overrides from '../data/overrides.json5';
@@ -81,7 +82,7 @@ export class Leaderboard extends React.Component {
                 <h5>Select subcategory(s):</h5>
                 {props.subcategories.map((cs, i) => {
                     return (
-                        <select disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
+                        <select key={i} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
                             {cs.map((c) => (
                                 <option value={c}>{c}</option>
                             ))}
@@ -101,8 +102,8 @@ export class Leaderboard extends React.Component {
             <div>
                 <h5>Select category:</h5>
                 <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
-                    {this.props.categories.map((c) => (
-                        <option value={c}>{c}</option>
+                    {this.props.categories.map((c, i) => (
+                        <option key={i} value={c}>{c}</option>
                     ))}
                 </select>
                 <this.Subcategories
@@ -114,7 +115,7 @@ export class Leaderboard extends React.Component {
                 <table>
                     <thead>
                         <tr>
-                            {this.props.columns.map((h) => {
+                            {this.props.columns.map((h, i) => {
                                 switch (h) {
                                     case "game":
                                         return
@@ -123,7 +124,7 @@ export class Leaderboard extends React.Component {
                                     case "subcategory":
                                         return
                                     default:
-                                        return <th>{h}</th>
+                                        return <th key={i}>{h}</th>
                                 }
                             })}
                         </tr>
@@ -136,11 +137,11 @@ export class Leaderboard extends React.Component {
                                     return e === this.state.subcategory_selections[i]
                                 })
                             })
-                            .map((r, rank) => {
+                            .map((r, i) => {
                                 const picked = _.pick(Object.fromEntries(r.map((e, i) => [this.props.columns[i], e])), ['game', 'category', 'player', 'time', 'date']);
                                 const hash = Base64.stringify(sha256(JSON.stringify(picked)));
                                 const override = overrides[hash];
-                                return <tr>
+                                return <tr key={i}>
                                     {r.map((data, index) => {
                                         if (override !== undefined && override[this.props.columns[index]] !== undefined) {
                                             data = override[this.props.columns[index]];
@@ -153,19 +154,19 @@ export class Leaderboard extends React.Component {
                                             case this.props.columns.indexOf("subcategory"):
                                                 return
                                             case this.props.columns.indexOf("player"):
-                                                return <td>({rank+1}) {data}</td>
+                                                return <td key={index}>({i + 1}) {data}</td>
                                             case this.props.columns.indexOf("emulated"):
-                                                return <td>{data ? "Yes" : "No"}</td>
+                                                return <td key={index}>{data ? "Yes" : "No"}</td>
                                             case this.props.columns.indexOf("time"):
                                                 return (
-                                                    <td>
-                                                        <button class="button" onClick={() => navigator.clipboard.writeText(hash)}>
+                                                    <td key={index}>
+                                                        <button key={index} className="button" onClick={() => navigator.clipboard.writeText(hash)}>
                                                             {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
                                                         </button>
                                                     </td>
                                                 )
                                             default:
-                                                return <td>{data}</td>
+                                                return <td key={index}>{data}</td>
                                         }
                                     })}
                                 </tr>
