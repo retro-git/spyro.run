@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const getRowColour = (props) => {
+const getRowBgColour = (props) => {
     if (props.cheated) {
         return 'red';
     } else return 'white';
@@ -27,7 +27,7 @@ const LBTableHead = styled.thead`
 `;
 
 const LBTableRow = styled.tr`
-  background-color: ${getRowColour};
+  background-color: ${getRowBgColour};
 `;
 
 const LBTableData = styled.td`
@@ -38,6 +38,8 @@ const LBTableData = styled.td`
 
 const LBTableDataHead = styled.th`
   border: 1px solid;
+  white-space: ${getColWhitespace};
+  padding: 0.3em;
 `;
 
 const LBTableBody = styled.tbody`
