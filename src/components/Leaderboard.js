@@ -2,7 +2,6 @@ const React = require('react');
 const JSON5 = require('json5')
 var _ = require('lodash');
 import { Run } from './Run'
-import styled, { css } from 'styled-components'
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -131,7 +130,7 @@ export class Leaderboard extends React.Component {
                                 return _.isEqual(r[this.props.columns.indexOf("subcategory")].split(", "), this.state.subcategory_selections)
                             })
                             .map((r, i) => {
-                                return <Run r={r} columns={this.props.columns} i={i} key={i}/>
+                                return <Run r={r} columns={this.props.columns} i={i} key={i} />
                             })}
                     </tbody>
                 </table>
