@@ -2,7 +2,7 @@ const React = require('react');
 const JSON5 = require('json5')
 var _ = require('lodash');
 import { Run } from './Run'
-import { LBTable, LBTableHead, LBTableRow, LBTableData, LBTableBody } from './LeaderboardTable'
+import { LBTable, LBTableHead, LBTableRow, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -119,7 +119,7 @@ export class Leaderboard extends React.Component {
                                     case "subcategory":
                                         return
                                     default:
-                                        return <LBTableData key={i}>{h}</LBTableData>
+                                        return <LBTableDataHead key={i}>{h}</LBTableDataHead>
                                 }
                             })}
                         </LBTableRow>
