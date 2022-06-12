@@ -17,9 +17,7 @@ export class Run extends React.Component {
                 const data = r[key];
                 switch (key) {
                     case "game":
-                        return
                     case "category":
-                        return
                     case "subcategory":
                         return
                     case "player":
@@ -35,7 +33,7 @@ export class Run extends React.Component {
                             </LBTableData>
                         )
                     default:
-                        return <LBTableData key={index}>{data}</LBTableData>
+                        return <LBTableData key={index} col={key}>{data}</LBTableData>
                 }
             })}
         </LBTableRow>

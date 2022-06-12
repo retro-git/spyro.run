@@ -6,6 +6,17 @@ const getRowColour = (props) => {
     } else return 'white';
 }
 
+const getColWhitespace = (props) => {
+  console.log(props.col);
+  switch (props.col) {
+    case "link":
+    case "comment":
+      return "normal";
+    default:
+      return "nowrap";
+  }
+}
+
 const LBTable = styled.table`
   border: 1px solid;
   border-collapse: collapse;
@@ -21,6 +32,8 @@ const LBTableRow = styled.tr`
 
 const LBTableData = styled.td`
   border: 1px solid;
+  white-space: ${getColWhitespace};
+  padding: 0.3em;
 `;
 
 const LBTableDataHead = styled.th`
