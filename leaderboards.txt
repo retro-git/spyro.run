@@ -7,3 +7,12 @@ spyro3 Any%
 spyro3 "100 Egg"
 spyro3 "117%"
 sprash "Sprash Trilogies"
+crash1 Any%
+crash1 100%
+crash2 Any%
+crash2 "Any% (Game Over Abuse)"
+crash2 "Any% (No Game Over Abuse)"
+crash2 100%
+crash3 Any%
+crash3 "Any% (No Item Glitch)"
+crash3 105%
