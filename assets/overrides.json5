@@ -1,9 +1,22 @@
 {
-    "aKyWDuI3M+kuLUEcjUUY4oOi6++oUyg00JU1g6ApXZQ=": {
+    "OkubUtf/PflD5rCnippSzEyKsDQscSzJNFWDGC9Z4/I=": {
         "player": "test override playersadf",
         "comment": "test override comment",
         "region": "test region",
         "editor's note": "test",
         "link": "test link",
+        "cheated": 1,
+    },
+    "qZkavDQaJhL6IBAWPSAh4v3OU1fg8IRXNm4OK6qQ1TY=": {
+        "removed": 1,
+    },
+    "7Ub/m8n2Ic/XiTP7zs/FmydsDaL8ORco3t/4sZZzhWI=": {
+        "disputed": 1,
+    },
+    "1ssAgSY7Y51MN6IEE6HWnyWqZpptUGQp063Ym8GOCEI=": {
+        "anonymised": 1,
+    },
+    "D13gN206VGEzm13/yLvUtjsc5JE/c5UzZV1dd+0G7rs=": {
+        "video": 0,
     },
 }
