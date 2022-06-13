@@ -8,11 +8,11 @@ import { LBTableRow, LBTableData } from './LeaderboardTable'
 export class Run extends React.Component {
     render() {
         let r = Object.fromEntries(this.props.r.map((e, i) => [this.props.columns[i], e]));
-        const picked = _.pick(r, ['game', 'category', 'player', 'time', 'date']);
-        const hash = Base64.stringify(sha256(JSON.stringify(picked)));
+        const picked_hash = _.pick(r, ['game', 'category', 'player', 'time', 'date']);
+        const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
         _.assign(r, overrides[hash]);
 
-        return <LBTableRow key={this.props.i} cheated={r["emulated"]}>
+        return <LBTableRow key={this.props.i} data={_.pick(_.clone(r), ['cheated', 'removed', 'disputed', 'anonymised', 'video'])}>
             {Object.keys(r).map((key, index) => {
                 const data = r[key];
                 switch (key) {

@@ -1,9 +1,19 @@
 import styled, { css } from 'styled-components'
 
 const getRowBgColour = (props) => {
-    if (props.cheated) {
-        return 'red';
-    } else return 'grey';
+  console.log(props.data);
+  if (props.data['cheated']) {
+    return 'red';
+  } else if (props.data['removed']) {
+    return 'purple';
+  } else if (props.data['disputed']) {
+    return 'IndianRed'
+  } else if (props.data['anonymised']) {
+    return 'yellow'
+  } else if (!props.data['video']) {
+    return 'FireBrick'
+  }
+  else return 'grey';
 }
 
 const getColWhitespace = (props) => {
@@ -29,6 +39,10 @@ const LBTableRow = styled.tr`
   background-color: ${getRowBgColour};
 `;
 
+const LBTableRowHead = styled.tr`
+  background-color: 'grey';
+`;
+
 const LBTableData = styled.td`
   border: 1px solid;
   white-space: ${getColWhitespace};
@@ -44,4 +58,4 @@ const LBTableDataHead = styled.th`
 const LBTableBody = styled.tbody`
 `;
 
-export { LBTable, LBTableHead, LBTableRow, LBTableData, LBTableDataHead, LBTableBody }
+export { LBTable, LBTableHead, LBTableRow, LBTableRowHead, LBTableData, LBTableDataHead, LBTableBody }

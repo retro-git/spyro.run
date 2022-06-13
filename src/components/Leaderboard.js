@@ -2,7 +2,7 @@ const React = require('react');
 const JSON5 = require('json5')
 var _ = require('lodash');
 import { Run } from './Run'
-import { LBTable, LBTableHead, LBTableRow, LBTableDataHead, LBTableBody } from './LeaderboardTable'
+import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -109,7 +109,7 @@ export class Leaderboard extends React.Component {
                     value={this.state.show_all} />
                 <LBTable>
                     <LBTableHead>
-                        <LBTableRow>
+                        <LBTableRowHead>
                             {this.props.columns.map((h, i) => {
                                 switch (h) {
                                     case "game":
@@ -122,7 +122,7 @@ export class Leaderboard extends React.Component {
                                         return <LBTableDataHead key={i}>{h}</LBTableDataHead>
                                 }
                             })}
-                        </LBTableRow>
+                        </LBTableRowHead>
                     </LBTableHead>
                     <LBTableBody>
                         {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
