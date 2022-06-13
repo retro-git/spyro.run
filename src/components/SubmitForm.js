@@ -34,6 +34,8 @@ export class SubmitForm extends React.Component {
         }
 
         request.send(JSON.stringify(params));
+
+        alert("Your message has been sent.")
     }
 
     render() {
