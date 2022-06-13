@@ -47,7 +47,7 @@ export class SubmitForm extends React.Component {
                 </Form.Label>
                 <br></br>
                 <Form.Label>
-                    Essay:
+                    Message:
                     <Form.Control as="textarea" style = {{width: 500}} rows={10} value={this.state.message} onChange={this.handleChangeMessage.bind(this)} />
                 </Form.Label>
                 <br></br>
