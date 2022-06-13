@@ -16,3 +16,4 @@ crash2 100%
 crash3 Any%
 crash3 "Any% (No Item Glitch)"
 crash3 105%
+yugiohfm Any%
