@@ -1,0 +1,23 @@
+/*!*******************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/components/test.scss ***!
+  \*******************************************************************************************************************/
+/* Dracula Palette */
+/* Addendum colors */
+html {
+  background-color: #282a36;
+  color: #f8f8f2;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+th {
+  background-color: #282a36;
+}
+
+tr {
+  background-color: #44475a;
+}
+
+table {
+  width: 0px;
+}
