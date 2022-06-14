@@ -1,7 +1,6 @@
 {
     "aKyWDuI3M+kuLUEcjUUY4oOi6++oUyg00JU1g6ApXZQ=": {
         "player": "test override playersadf",
-        "comment": "test override comment",
         "region": "test region",
         "editor's note": "test",
         "link": "test link",
@@ -18,6 +17,9 @@
         "anonymised": 1,
     },
     "D13gN206VGEzm13/yLvUtjsc5JE/c5UzZV1dd+0G7rs=": {
+        "unsubmitted": 1,
+    },
+    "i4a5aAsJtZLgVt/jp9NnWxzBQ9c+7efBs2sZ2NIP7Rg=": {
         "no video": 1,
     },
 }
