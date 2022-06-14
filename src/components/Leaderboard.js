@@ -1,8 +1,8 @@
 const React = require('react');
-const JSON5 = require('json5')
 var _ = require('lodash');
 import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
+import legend from '../assets/legend.json5';
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -111,6 +111,7 @@ export class Leaderboard extends React.Component {
                     <LBTableHead>
                         <LBTableRowHead>
                             {this.props.columns.map((h, i) => {
+                                if (legend.map(l => l["name"]).includes(h)) return;
                                 switch (h) {
                                     case "game":
                                         return

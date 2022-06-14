@@ -1,0 +1,22 @@
+[
+    {
+        "name": "cheated",
+        "colour": "red",
+    },
+    {
+        "name": "removed",
+        "colour": "purple",
+    },
+    {
+        "name": "disputed",
+        "colour": "IndianRed",
+    },
+    {
+        "name": "anonymised",
+        "colour": "yellow",
+    },
+    {
+        "name": "no video",
+        "colour": "FireBrick",
+    },
+]

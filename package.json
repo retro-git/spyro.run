@@ -9,7 +9,7 @@
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",
     "clean-pages": "gh-pages-clean",
-    "dump": "rm -rf src-dump/out && ./dump-leaderboards.sh"
+    "dump": "rm -rf src-dump/out && ./dump-leaderboards.sh && cp src-dump/out/srcom.sqlite src/assets.sqlite"
   },
   "keywords": [],
   "author": "",

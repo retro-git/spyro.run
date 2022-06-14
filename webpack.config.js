@@ -88,10 +88,6 @@ module.exports = {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        from: 'src-dump/out',
-                        to: 'assets/[path][name][ext]',
-                    },
-                    {
                         from: 'src/assets',
                         to: 'assets/[path][name][ext]',
                     },

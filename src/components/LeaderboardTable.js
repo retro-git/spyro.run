@@ -1,19 +1,15 @@
 import styled, { css } from 'styled-components'
+import legend from '../assets/legend.json5';
 
 const getRowBgColour = (props) => {
-  console.log(props.data);
-  if (props.data['cheated']) {
-    return 'red';
-  } else if (props.data['removed']) {
-    return 'purple';
-  } else if (props.data['disputed']) {
-    return 'IndianRed'
-  } else if (props.data['anonymised']) {
-    return 'yellow'
-  } else if (!props.data['video']) {
-    return 'FireBrick'
+  for (let l of legend) {
+    if (props.data[l["name"]]) {
+      console.log(l["colour"])
+      return l["colour"];
+    }
   }
-  else return 'grey';
+
+  return "grey";
 }
 
 const getColWhitespace = (props) => {

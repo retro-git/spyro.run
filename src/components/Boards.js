@@ -1,7 +1,9 @@
 var React = require('react');
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Leaderboard } from './Leaderboard'
+import { Key } from './Key'
 import db from '../db.js'
+import legend from '../assets/legend.json5';
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
@@ -49,6 +51,9 @@ export class Boards extends React.Component {
                         <option key={i} value={g}>{g}</option>
                     ))}
                 </select>
+                {legend.map((k, i) => {
+                    return <Key text={k["name"]} colour={k["colour"]} key={i}/>
+                })}
                 <Leaderboard game={this.state.game}
                     columns={this.state.columns}
                     runs={this.state.runs}
