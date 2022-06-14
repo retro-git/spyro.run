@@ -9,6 +9,9 @@ import legend from '../assets/legend.json5';
 import overrides from '../assets/overrides.json5';
 import _ from 'lodash';
 
+// I assure you, dear reader, ignoring the benefits of styled and simply using an external file is necessary
+import './test.scss'
+
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
@@ -16,11 +19,7 @@ let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
 const Content = styled.div`
 `;
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    background: grey;
-  }
-`
+const GlobalStyle = createGlobalStyle``
 
 export class Boards extends React.Component {
     constructor(props) {

@@ -8,7 +8,8 @@ const getRowBgColour = (props) => {
     }
   }
 
-  return "grey";
+  // Commented out to get test.scss to do its thaang
+  //return "#20394f";
 }
 
 const getColWhitespace = (props) => {
@@ -21,13 +22,22 @@ const getColWhitespace = (props) => {
   }
 }
 
+//
+// Messed with everything below to get a less eye-bleedy layout
+//
+
 const LBTable = styled.table`
-  border: 1px solid;
+  border: 2px solid #08141e;
   border-collapse: collapse;
 `;
 
+// This gives us a nice header that's always in view
 const LBTableHead = styled.thead`
-  border: 1px solid;
+  border: 0px solid;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
+	z-index: 2;
 `;
 
 const LBTableRow = styled.tr`
@@ -35,19 +45,19 @@ const LBTableRow = styled.tr`
 `;
 
 const LBTableRowHead = styled.tr`
-  background-color: 'grey';
 `;
 
 const LBTableData = styled.td`
-  border: 1px solid;
+  border-bottom: 2px solid #08141e;
+  border-left: 1px solid #08141e;
   white-space: ${getColWhitespace};
-  padding: 0.3em;
+  padding: 0.5em;
 `;
 
 const LBTableDataHead = styled.th`
-  border: 1px solid;
+  border-bottom: 0px solid;
   white-space: ${getColWhitespace};
-  padding: 0.3em;
+  padding: 0.5em;
 `;
 
 const LBTableBody = styled.tbody`
