@@ -23,7 +23,6 @@ export class SubmitForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log('An essay was submitted: ' + this.state.name + this.state.message);
 
         const request = new XMLHttpRequest();
         request.open("POST", "https://discord.com/api/webhooks/985964361334009896/RM4MhUUDrNCGNGUhXU2xrdoJrGy0hg3nb_9pMLmmULUsGKWVqV1pkabILCkt1Jpm2rdR");

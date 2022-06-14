@@ -4,7 +4,6 @@ import legend from '../assets/legend.json5';
 const getRowBgColour = (props) => {
   for (let l of legend) {
     if (props.data[l["name"]]) {
-      console.log(l["colour"])
       return l["colour"];
     }
   }

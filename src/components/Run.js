@@ -8,16 +8,14 @@ import { LBTableRow, LBTableData } from './LeaderboardTable'
 
 export class Run extends React.Component {
     render() {
-        let r = _.clone(this.props.r);
-        const picked_hash = _.pick(_.clone(r), ['game', 'category', 'player', 'time', 'date']);
-        const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
-        //_.assign(r, overrides[hash]);
+        let r = this.props.r;
 
         return <LBTableRow key={this.props.i} data={_.pick(_.clone(r), legend.map(l => l["name"]))}>
             {Object.keys(r).map((key, index) => {
                 if (legend.map(l => l["name"]).includes(key)) return;
                 const data = r[key];
                 switch (key) {
+                    case "hash":
                     case "game":
                     case "category":
                     case "subcategory":
@@ -29,7 +27,7 @@ export class Run extends React.Component {
                     case "time":
                         return (
                             <LBTableData key={index}>
-                                <button key={index} className="button" onClick={() => navigator.clipboard.writeText(hash)}>
+                                <button key={index} className="button" onClick={() => navigator.clipboard.writeText(r["hash"])}>
                                     {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
                                 </button>
                             </LBTableData>

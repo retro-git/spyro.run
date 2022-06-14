@@ -4,9 +4,9 @@ export class Legend extends React.Component {
     render() {
         return (
             <>
-                <span style={{ backgroundColor: this.props.colour }}>{this.props.text}
+                <span style={{ backgroundColor: this.props.l["colour"] }}>{this.props.name}
                 <label>
-                    <input type="checkbox"/>
+                    <input type="checkbox" data-name={this.props.name} onChange={this.props.handleChangeFilter} defaultChecked={this.props.checked}/>
                 </label>
                 </span>
             </>

@@ -7,6 +7,7 @@ import Base64 from 'crypto-js/enc-base64';
 import db from '../db.js'
 import legend from '../assets/legend.json5';
 import overrides from '../assets/overrides.json5';
+import _ from 'lodash';
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
@@ -35,7 +36,7 @@ export class Boards extends React.Component {
             .map(r => {
                 const picked_hash = _.pick(_.clone(r), ['game', 'category', 'player', 'time', 'date']);
                 const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
-                return _.assign(_.clone(r), overrides[hash]);
+                return _.assign(_.assign(_.clone(r), overrides[hash]), { "hash": hash });
             })
             .sort((a, b) => a["time"] - b["time"])
 
@@ -43,16 +44,11 @@ export class Boards extends React.Component {
             game: game,
             columns: columns,
             runs: runs,
-            filters: legend.map(l => {
-                if (l["filter"]) {
-                    return r => !r[(l["name"])]
-                }
-            })
+            legend_status: legend.reduce((o, l) => Object.assign(o, {[l["name"]]: _.omit(_.clone(l), ["name"])}), {})
         }
     }
 
     handleChange(e) {
-        console.log(this.state.filters);
         this.setState({
             game: e.target.value,
             columns: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["columns"],
@@ -70,6 +66,18 @@ export class Boards extends React.Component {
         })
     }
 
+    handleChangeFilter(e) {        
+        let ls = _.clone(this.state.legend_status);
+        ls[e.target.dataset["name"]]["filter"] = !ls[e.target.dataset["name"]]["filter"];
+
+        this.setState({
+            game: this.state.game,
+            columns: this.state.columns,
+            runs: this.state.runs,
+            legend_status: ls
+        });
+    }
+
     render() {
         return (
             <Content>
@@ -80,11 +88,11 @@ export class Boards extends React.Component {
                         <option key={i} value={g}>{g}</option>
                     ))}
                 </select>
-                {legend.map((k, i) => {
-                    return <Legend text={k["name"]} colour={k["colour"]} key={i} />
+                {Object.keys(this.state.legend_status).map((k, i) => {
+                    return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                 })}
                 <Leaderboard game={this.state.game}
-                    columns={this.state.columns}
+                    columns={Object.keys(this.state.runs[0])}
                     runs={this.state.runs}
                     categories={[...new Set(this.state.runs.map(r => r["category"]))]
                         .sort((a, b) => {
@@ -94,7 +102,11 @@ export class Boards extends React.Component {
                             else return b.localeCompare(a)
                         })
                     }
-                    filters={this.state.filters}
+                    filters={Object.keys(this.state.legend_status).map(k => {
+                        if (!this.state.legend_status[k]["filter"]) {
+                            return r => !r[k]
+                        }
+                    })}
                 />
             </Content>
         )

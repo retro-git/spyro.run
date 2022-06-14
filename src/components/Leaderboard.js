@@ -38,7 +38,7 @@ export class Leaderboard extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.categories != this.props.categories) {
+        if (!_.isEqual(prevProps.categories, this.props.categories)) {
             const subcategories = this.getSubcategories(this.props.categories[0]);
             this.setState({
                 category: this.props.categories[0],
@@ -114,10 +114,9 @@ export class Leaderboard extends React.Component {
                             {this.props.columns.map((h, i) => {
                                 if (legend.map(l => l["name"]).includes(h)) return;
                                 switch (h) {
+                                    case "hash":
                                     case "game":
-                                        return
                                     case "category":
-                                        return
                                     case "subcategory":
                                         return
                                     default:
