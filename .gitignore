@@ -2,3 +2,5 @@ pkg/
 node_modules
 dist
 out/
+*.sqlite-journal
+.DS_Store
