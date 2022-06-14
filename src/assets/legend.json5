@@ -1,12 +1,12 @@
 [
     {
         "name": "cheated",
-        "colour": "red",
+        "colour": "#997577",
         "filter": 1,
     },
     {
         "name": "removed",
-        "colour": "purple",
+        "colour": "#4e495f",
         "filter": 1,
     },
     {
@@ -16,7 +16,7 @@
     },
     {
         "name": "anonymised",
-        "colour": "yellow",
+        "colour": "#816271",
         "filter": 1,
     },
     {

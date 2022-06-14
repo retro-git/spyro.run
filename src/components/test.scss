@@ -1,0 +1,27 @@
+/* Nyx8 Palette */
+$color1: #08141e;
+$color2: #0f2a3f;
+$color3: #20394f;
+$color4: #f6d6bd;
+$color5: #c3a38a;
+$color6: #997577;
+$color7: #816271;
+$color8: #4e495f;
+
+html {
+    background-color: $color2;
+    color: $color4;
+}
+
+table {
+    width: 0px;
+}
+
+th {
+    background-color: $color1;
+    width: 0px;
+}
+
+tr {
+    background-color: $color2;
+}
