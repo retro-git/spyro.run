@@ -51,13 +51,13 @@ const LBTableData = styled.td`
   border-bottom: 2px solid #08141e;
   border-left: 1px solid #08141e;
   white-space: ${getColWhitespace};
-  padding: 0.3em;
+  padding: 0.5em;
 `;
 
 const LBTableDataHead = styled.th`
   border-bottom: 0px solid;
   white-space: ${getColWhitespace};
-  padding: 0.3em;
+  padding: 0.5em;
 `;
 
 const LBTableBody = styled.tbody`

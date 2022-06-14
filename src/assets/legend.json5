@@ -1,32 +1,38 @@
 [
     {
         "name": "cheated",
-        "colour": "#997577",
+        "_comment":"col_red_dim",
+        "colour": "#99454d",
         "filter": 1,
     },
     {
         "name": "removed",
-        "colour": "#4e495f",
+        "_comment":"col_purple_dim",
+        "colour": "#926cac",
         "filter": 1,
     },
     {
         "name": "disputed",
-        "colour": "IndianRed",
+        "_comment":"col_red",
+        "colour": "#ff5555",
         "filter": 1,
     },
     {
         "name": "anonymised",
-        "colour": "#816271",
+        "_comment":"col_orange_dim",
+        "colour": "#a39077",
         "filter": 1,
     },
     {
         "name": "unsubmitted",
-        "colour": "Aquamarine",
+        "_comment":"col_comment",
+        "colour": "#6272a4",
         "filter": 1,
     },
     {
         "name": "no video",
-        "colour": "FireBrick",
+        "_comment":"col_pink_dim",
+        "colour": "#b9527d",
         "filter": 1,
     },
 ]

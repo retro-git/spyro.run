@@ -8,6 +8,8 @@ import db from '../db.js'
 import legend from '../assets/legend.json5';
 import overrides from '../assets/overrides.json5';
 import _ from 'lodash';
+
+// I assure you, dear reader, ignoring the benefits of styled and simply using an external file is necessary
 import './test.scss'
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];

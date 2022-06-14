@@ -1,27 +1,40 @@
-/* Nyx8 Palette */
-$color1: #08141e;
-$color2: #0f2a3f;
-$color3: #20394f;
-$color4: #f6d6bd;
-$color5: #c3a38a;
-$color6: #997577;
-$color7: #816271;
-$color8: #4e495f;
+/* Dracula Palette */
+$col_background: #282a36;
+$col_curr_line: #44475a;
+$col_foreground: #f8f8f2;
+$col_comment: #6272a4;
+$col_cyan: #8be9fd;
+$col_green: #50fa7b;
+$col_orange: #ffb86c;
+$col_pink: #ff79c6;
+$col_purple: #bd93f9;
+$col_red: #ff5555;
+$col_yellow: #f1fa8c;
+
+/* Addendum colors */
+$col_cyan_dim: #8ec2e0;
+$col_green_dim: #6da18c;
+$col_orange_dim: #a39077;
+$col_pink_dim: #b9527d;
+$col_purple_dim: #926cac;
+$col_red_dim: #99454d;
+$col_yellow_dim: #dbbd7b;
 
 html {
-    background-color: $color2;
-    color: $color4;
+    background-color: $col_background;
+    color: $col_foreground;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+th {
+    background-color: $col_background;
+}
+
+tr {
+    background-color: $col_curr_line;
 }
 
 table {
     width: 0px;
-}
-
-th {
-    background-color: $color1;
-    width: 0px;
-}
-
-tr {
-    background-color: $color2;
 }
