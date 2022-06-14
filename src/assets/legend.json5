@@ -20,6 +20,11 @@
         "filter": 1,
     },
     {
+        "name": "unsubmitted",
+        "colour": "Aquamarine",
+        "filter": 1,
+    },
+    {
         "name": "no video",
         "colour": "FireBrick",
         "filter": 1,

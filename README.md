@@ -17,9 +17,14 @@ cd src-dump
 python3 -m pip install -r requirements.txt
 ```
 
-Dump speedrun.com leaderboards, listed in leaderboards.txt, to SQLite database:
+Use src-dump to dump speedrun.com leaderboards, listed in leaderboards.txt, to SQLite database (srcom.sqlite):
 ```bash
 npm run dump
+```
+
+Copy srcom.sqlite to website's assets folder:
+```bash
+npm run cpdump
 ```
 
 Store additional runs in `src/assets/extras.sqlite` database.
