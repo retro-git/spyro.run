@@ -2,21 +2,26 @@
     {
         "name": "cheated",
         "colour": "red",
+        "filter": 1,
     },
     {
         "name": "removed",
         "colour": "purple",
+        "filter": 1,
     },
     {
         "name": "disputed",
         "colour": "IndianRed",
+        "filter": 1,
     },
     {
         "name": "anonymised",
         "colour": "yellow",
+        "filter": 1,
     },
     {
         "name": "no video",
         "colour": "FireBrick",
+        "filter": 1,
     },
 ]
