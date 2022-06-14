@@ -3,6 +3,7 @@ var _ = require('lodash');
 import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 import legend from '../assets/legend.json5';
+import overrides from '../assets/overrides.json5';
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -22,8 +23,8 @@ export class Leaderboard extends React.Component {
 
     getSubcategories(selected_category) {
         const subcategories_unfiltered = this.props.runs
-            .filter(r => r[this.props.columns.indexOf("category")] == selected_category)
-            .map(r => r[this.props.columns.indexOf("subcategory")])
+            .filter(r => r["category"] == selected_category)
+            .map(r => r["subcategory"])
             .map(r => r.split(", "));
 
         let subcategories = [];
@@ -126,11 +127,12 @@ export class Leaderboard extends React.Component {
                         </LBTableRowHead>
                     </LBTableHead>
                     <LBTableBody>
-                        {this.props.runs.filter((r) => r[this.props.columns.indexOf("category")] == this.state.category)
+                        {this.props.runs.filter((r) => r["category"] == this.state.category)
                             .filter((r) => {
                                 if (this.state.show_all) return true;
-                                return _.isEqual(r[this.props.columns.indexOf("subcategory")].split(", "), this.state.subcategory_selections)
+                                return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
                             })
+                            .filter(_.overEvery(this.props.filters))
                             .map((r, i) => {
                                 return <Run r={r} columns={this.props.columns} i={i} key={i} />
                             })}

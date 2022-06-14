@@ -8,10 +8,10 @@ import { LBTableRow, LBTableData } from './LeaderboardTable'
 
 export class Run extends React.Component {
     render() {
-        let r = Object.fromEntries(this.props.r.map((e, i) => [this.props.columns[i], e]));
-        const picked_hash = _.pick(r, ['game', 'category', 'player', 'time', 'date']);
+        let r = _.clone(this.props.r);
+        const picked_hash = _.pick(_.clone(r), ['game', 'category', 'player', 'time', 'date']);
         const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
-        _.assign(r, overrides[hash]);
+        //_.assign(r, overrides[hash]);
 
         return <LBTableRow key={this.props.i} data={_.pick(_.clone(r), legend.map(l => l["name"]))}>
             {Object.keys(r).map((key, index) => {
