@@ -71,7 +71,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_Home_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home.js */ \"./src/components/Home.js\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar ReactDOM = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nvar appElement = document.getElementById('app');\nReactDOM.createRoot(appElement).render( /*#__PURE__*/React.createElement(_components_Home_js__WEBPACK_IMPORTED_MODULE_0__.Home, null));\n\n//# sourceURL=webpack://sr-archive-lb/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_Home_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home.js */ \"./src/components/Home.js\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar ReactDOM = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nvar appElement = document.getElementById('app'); //ReactDOM.createRoot(appElement).render(<Home/>);\n\n//# sourceURL=webpack://sr-archive-lb/./src/index.js?");
 
 /***/ }),
 
