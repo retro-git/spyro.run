@@ -24,6 +24,12 @@ export class Run extends React.Component {
                         return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
                     case "emulated":
                         return <LBTableData key={index}>{data ? "Yes" : "No"}</LBTableData>
+                    case "link":
+                        return (
+                            <LBTableData key={index} col={key}>
+                                {data.split(", ").map(e => <><a href={e}>{e}</a><br></br></>)}
+                            </LBTableData>
+                        )
                     case "time":
                         return (
                             <LBTableData key={index}>
