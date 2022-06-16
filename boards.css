@@ -10,7 +10,21 @@ html {
   font-weight: bold;
 }
 
+a:link {
+  color: #50fa7b;
+}
+
+a:visited {
+  color: #ff79c6;
+}
+
+h2 {
+  color: #ffb86c;
+  font-size: medium;
+}
+
 th {
+  color: #ffb86c;
   background-color: #282a36;
 }
 
