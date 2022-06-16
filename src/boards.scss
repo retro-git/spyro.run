@@ -38,6 +38,23 @@ a:visited {
 h2 {
     color: $col_orange;
     font-size: medium;
+    text-align: center;
+}
+
+select {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    color: $col_foreground;
+    background: $col_background;
+    border-radius: 0.2em;
+    padding: 0.1em;
+}
+
+.subcategories {
+    text-align: center;
+    display: inline-block;
+    display: table; margin: 0 auto;
 }
 
 th {

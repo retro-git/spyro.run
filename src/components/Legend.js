@@ -3,6 +3,8 @@ import styled, { css, createGlobalStyle } from 'styled-components'
 
 const LegendSpan = styled.span`
     margin: 0em 0.2em;
+    padding: 0.2em;
+    border-radius: 0.5em;
 `;
 
 export class Legend extends React.Component {
