@@ -51,6 +51,7 @@ const LBTableData = styled.td`
   border-bottom: 2px solid #08141e;
   border-left: 1px solid #08141e;
   white-space: ${getColWhitespace};
+  word-break: break-word;
   padding: 0.5em;
 `;
 
