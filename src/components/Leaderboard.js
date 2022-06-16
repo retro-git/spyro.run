@@ -3,7 +3,7 @@ var _ = require('lodash');
 import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 import legend from '../assets/legend.json5';
-import overrides from '../assets/overrides.json5';
+import { Legend } from './Legend'
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -18,6 +18,7 @@ export class Leaderboard extends React.Component {
             subcategories: subcategories,
             subcategory_selections: subcategories.map(e => e[0]),
             show_all: true,
+            legend_status: legend.reduce((o, l) => Object.assign(o, {[l["name"]]: _.omit(_.clone(l), ["name"])}), {})
         }
     }
 
@@ -71,6 +72,15 @@ export class Leaderboard extends React.Component {
         })
     }
 
+    handleChangeFilter(e) {        
+        let ls = _.clone(this.state.legend_status);
+        ls[e.target.dataset["name"]]["filter"] = !ls[e.target.dataset["name"]]["filter"];
+
+        this.setState({
+            legend_status: ls
+        });
+    }
+
     Subcategories(props) {
         if (props.subcategories[0] == '') return;
         return (
@@ -102,6 +112,9 @@ export class Leaderboard extends React.Component {
                         <option key={i} value={c}>{c}</option>
                     ))}
                 </select>
+                {Object.keys(this.state.legend_status).map((k, i) => {
+                    return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                })}
                 <this.Subcategories
                     subcategories={this.state.subcategories}
                     handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
@@ -131,7 +144,11 @@ export class Leaderboard extends React.Component {
                                 if (this.state.show_all) return true;
                                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
                             })
-                            .filter(_.overEvery(this.props.filters))
+                            .filter(_.overEvery(Object.keys(this.state.legend_status).map(k => {
+                                if (!this.state.legend_status[k]["filter"]) {
+                                    return r => !r[k]
+                                }
+                            })))
                             .map((r, i) => {
                                 return <Run r={r} columns={this.props.columns} i={i} key={i} />
                             })}

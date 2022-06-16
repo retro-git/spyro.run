@@ -1,7 +1,6 @@
 var React = require('react');
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Leaderboard } from './Leaderboard'
-import { Legend } from './Legend'
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 import db from '../db.js'
@@ -65,18 +64,6 @@ export class Boards extends React.Component {
         })
     }
 
-    handleChangeFilter(e) {        
-        let ls = _.clone(this.state.legend_status);
-        ls[e.target.dataset["name"]]["filter"] = !ls[e.target.dataset["name"]]["filter"];
-
-        this.setState({
-            game: this.state.game,
-            columns: this.state.columns,
-            runs: this.state.runs,
-            legend_status: ls
-        });
-    }
-
     render() {
         return (
             <Content>
@@ -87,9 +74,6 @@ export class Boards extends React.Component {
                         <option key={i} value={g}>{g}</option>
                     ))}
                 </select>
-                {Object.keys(this.state.legend_status).map((k, i) => {
-                    return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                })}
                 <Leaderboard game={this.state.game}
                     columns={Object.keys(this.state.runs[0])}
                     runs={this.state.runs}
@@ -101,11 +85,6 @@ export class Boards extends React.Component {
                             else return b.localeCompare(a)
                         })
                     }
-                    filters={Object.keys(this.state.legend_status).map(k => {
-                        if (!this.state.legend_status[k]["filter"]) {
-                            return r => !r[k]
-                        }
-                    })}
                 />
             </Content>
         )
