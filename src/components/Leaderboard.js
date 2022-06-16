@@ -4,6 +4,14 @@ import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 import legend from '../assets/legend.json5';
 import { Legend } from './Legend'
+import styled, { css, createGlobalStyle } from 'styled-components'
+
+const LegendContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0.5em;
+`;
 
 export class Leaderboard extends React.Component {
     constructor(props) {
@@ -112,9 +120,11 @@ export class Leaderboard extends React.Component {
                         <option key={i} value={c}>{c}</option>
                     ))}
                 </select>
+                <LegendContainer>
                 {Object.keys(this.state.legend_status).map((k, i) => {
                     return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                 })}
+                </LegendContainer>
                 <this.Subcategories
                     subcategories={this.state.subcategories}
                     handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
