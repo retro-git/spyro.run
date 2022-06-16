@@ -12,10 +12,10 @@ $col_red: #ff5555;
 $col_yellow: #f1fa8c;
 
 /* Addendum colors */
-$col_cyan_dim: #8ec2e0;
-$col_green_dim: #6da18c;
+$col_cyan_dim: #738c9b;
+$col_green_dim: #5a6b64;
 $col_orange_dim: #a39077;
-$col_pink_dim: #b9527d;
+$col_pink_dim: #946377;
 $col_purple_dim: #926cac;
 $col_red_dim: #99454d;
 $col_yellow_dim: #dbbd7b;
@@ -27,7 +27,21 @@ html {
     font-weight: bold;
 }
 
+a:link {
+    color:$col_green 
+}
+
+a:visited {
+    color:$col_pink
+}
+
+h2 {
+    color: $col_orange;
+    font-size: medium;
+}
+
 th {
+    color: $col_orange;
     background-color: $col_background;
 }
 
