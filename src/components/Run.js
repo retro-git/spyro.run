@@ -24,7 +24,7 @@ export class Run extends React.Component {
                         return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
                     case "platform":
                         return <LBTableData key={index} col={key}>
-                            {<img class="flag" title={r} src={`../assets/images/${_.head(r["region"].split(" / "))}.png`}/>}
+                            {<img class="flag" title={r["region"]} src={`../assets/images/${_.head(r["region"].split(" / "))}.png`}/>}
                             {platform_abbr[data] ? platform_abbr[data] : data}
                             {r["emulated"] ? <sup> EMU</sup> : <></>}
                         </LBTableData>
