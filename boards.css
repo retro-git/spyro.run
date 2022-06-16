@@ -21,6 +21,24 @@ a:visited {
 h2 {
   color: #ffb86c;
   font-size: medium;
+  text-align: center;
+}
+
+select {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  color: #f8f8f2;
+  background: #282a36;
+  border-radius: 0.2em;
+  padding: 0.1em;
+}
+
+.subcategories {
+  text-align: center;
+  display: inline-block;
+  display: table;
+  margin: 0 auto;
 }
 
 th {
