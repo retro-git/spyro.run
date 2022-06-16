@@ -75,7 +75,7 @@ export class Leaderboard extends React.Component {
         if (props.subcategories[0] == '') return;
         return (
             <div>
-                <h5>Select subcategory(s):</h5>
+                <h2>Select subcategory(s):</h2>
                 {props.subcategories.map((cs, i) => {
                     return (
                         <select key={i} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
@@ -96,7 +96,7 @@ export class Leaderboard extends React.Component {
     render() {
         return (
             <div>
-                <h5>Select category:</h5>
+                <h2>Select category:</h2>
                 <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
                     {this.props.categories.map((c, i) => (
                         <option key={i} value={c}>{c}</option>

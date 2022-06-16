@@ -8,19 +8,19 @@
     {
         "name": "removed",
         "_comment":"col_purple_dim",
-        "colour": "#926cac",
+        "colour": "#765e86",
         "filter": 1,
     },
     {
         "name": "disputed",
-        "_comment":"col_red",
-        "colour": "#ff5555",
+        "_comment":"col_green_dim",
+        "colour": "#5a6b64",
         "filter": 1,
     },
     {
         "name": "anonymised",
-        "_comment":"col_orange_dim",
-        "colour": "#a39077",
+        "_comment":"col_cyan_dim",
+        "colour": "#738c9b",
         "filter": 1,
     },
     {
@@ -32,7 +32,7 @@
     {
         "name": "no video",
         "_comment":"col_pink_dim",
-        "colour": "#b9527d",
+        "colour": "#946377",
         "filter": 1,
     },
 ]

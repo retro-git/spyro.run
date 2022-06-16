@@ -81,7 +81,7 @@ export class Boards extends React.Component {
         return (
             <Content>
                 <GlobalStyle />
-                <h5>Select game:</h5>
+                <h2>Select game:</h2>
                 <select onChange={this.handleChange.bind(this)}>
                     {games_srcom.map((g, i) => (
                         <option key={i} value={g}>{g}</option>
