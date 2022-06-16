@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import legend from '../assets/legend.json5';
+import legend from '../assets/json/legend.json5';
 
 const getRowBgColour = (props) => {
   for (let l of legend) {

@@ -1,6 +1,6 @@
 var React = require('react');
 import styled, { css } from 'styled-components'
-import Moneybags from "../assets/moneybags.svg"
+import Moneybags from "../assets/images/moneybags.svg"
 
 const Content = styled.div`
     background-color: black;

@@ -1,8 +1,6 @@
 var React = require('react');
-import sha256 from 'crypto-js/sha256';
-import Base64 from 'crypto-js/enc-base64';
-import overrides from '../assets/overrides.json5';
-import legend from '../assets/legend.json5';
+import platform_abbr from '../assets/json/platform_abbr.json5';
+import legend from '../assets/json/legend.json5';
 import styled, { css } from 'styled-components'
 import { LBTableRow, LBTableData } from './LeaderboardTable'
 
@@ -19,15 +17,21 @@ export class Run extends React.Component {
                     case "game":
                     case "category":
                     case "subcategory":
+                    case "region":
+                    case "emulated":
                         return
                     case "player":
                         return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
-                    case "emulated":
-                        return <LBTableData key={index}>{data ? "Yes" : "No"}</LBTableData>
+                    case "platform":
+                        return <LBTableData key={index} col={key}>
+                            {<img class="flag" title={r["region"]} src={`../assets/images/${_.head(r["region"].split(" / "))}.png`}/>}
+                            {platform_abbr[data] ? platform_abbr[data] : data}
+                            {r["emulated"] ? <sup> EMU</sup> : <></>}
+                        </LBTableData>
                     case "link":
                         return (
                             <LBTableData key={index} col={key}>
-                                {data.split(", ").map((e, i) => <a href={e}>[{i+1}]</a>)}
+                                {data.split(", ").map((e, i) => <a href={e}>[{i + 1}]</a>)}
                             </LBTableData>
                         )
                     case "time":

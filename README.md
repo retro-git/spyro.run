@@ -27,9 +27,9 @@ Copy srcom.sqlite to website's assets folder:
 npm run cpdump
 ```
 
-Store additional runs in `src/assets/extras.sqlite` database.
+Store additional runs in `src/assets/db/extras.sqlite` database.
 
-Optionally, override arbitrary data of a given run, identified by its hash, in `src/assets/overrides.json`.
+Optionally, override arbitrary data of a given run, identified by its hash, in `src/assets/json/overrides.json`.
 
 Run test server:
 ```bash

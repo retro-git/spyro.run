@@ -4,8 +4,8 @@ import { Leaderboard } from './Leaderboard'
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 import db from '../db.js'
-import legend from '../assets/legend.json5';
-import overrides from '../assets/overrides.json5';
+import legend from '../assets/json/legend.json5';
+import overrides from '../assets/json/overrides.json5';
 import _ from 'lodash';
 
 // I assure you, dear reader, ignoring the benefits of styled and simply using an external file is necessary

@@ -2,7 +2,7 @@ const React = require('react');
 var _ = require('lodash');
 import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
-import legend from '../assets/legend.json5';
+import legend from '../assets/json/legend.json5';
 import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
 
@@ -140,6 +140,8 @@ export class Leaderboard extends React.Component {
                                     case "hash":
                                     case "game":
                                     case "category":
+                                    case "emulated":
+                                    case "region":
                                     case "subcategory":
                                         return
                                     default:
