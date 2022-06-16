@@ -16,6 +16,7 @@ const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE ty
 let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
 
 const Content = styled.div`
+    text-align:center;
 `;
 
 const GlobalStyle = createGlobalStyle``
@@ -66,8 +67,7 @@ export class Boards extends React.Component {
 
     render() {
         return (
-            <Content>
-                <GlobalStyle />
+            <div>
                 <h2>Select game:</h2>
                 <select onChange={this.handleChange.bind(this)}>
                     {games_srcom.map((g, i) => (
@@ -86,7 +86,7 @@ export class Boards extends React.Component {
                         })
                     }
                 />
-            </Content>
+            </div>
         )
     }
 }

@@ -10,7 +10,9 @@ const LegendContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     margin: 0.5em;
+    flex-wrap: wrap;
 `;
 
 export class Leaderboard extends React.Component {
