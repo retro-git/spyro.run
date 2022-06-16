@@ -114,6 +114,7 @@ export class Leaderboard extends React.Component {
     }
 
     render() {
+        const seen = new Set();
         return (
             <div>
                 <h2>Select category:</h2>
@@ -153,7 +154,8 @@ export class Leaderboard extends React.Component {
                         </LBTableRowHead>
                     </LBTableHead>
                     <LBTableBody>
-                        {this.props.runs.filter((r) => r["category"] == this.state.category)
+                        {
+                        this.props.runs.filter((r) => r["category"] == this.state.category)
                             .filter((r) => {
                                 if (this.state.show_all) return true;
                                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
@@ -163,6 +165,11 @@ export class Leaderboard extends React.Component {
                                     return r => !r[k]
                                 }
                             })))
+                            .filter(e => {
+                                const duplicate = seen.has(e.player);
+                                seen.add(e.player);
+                                return !duplicate;
+                            })
                             .map((r, i) => {
                                 return <Run r={r} columns={this.props.columns} i={i} key={i} />
                             })}
