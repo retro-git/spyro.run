@@ -27,7 +27,7 @@ export class Run extends React.Component {
                     case "link":
                         return (
                             <LBTableData key={index} col={key}>
-                                {data.split(", ").map((e, i) => <a href={e}>[{i+1}]</a>)}
+                                {data.split(", ").map((e, i) => <><a href={e}>[{i+1}]</a></>)}
                             </LBTableData>
                         )
                     case "time":
