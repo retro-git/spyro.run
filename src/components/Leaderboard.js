@@ -154,8 +154,7 @@ export class Leaderboard extends React.Component {
                         </LBTableRowHead>
                     </LBTableHead>
                     <LBTableBody>
-                        {
-                        this.props.runs.filter((r) => r["category"] == this.state.category)
+                        {this.props.runs.filter((r) => r["category"] == this.state.category)
                             .filter((r) => {
                                 if (this.state.show_all) return true;
                                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
