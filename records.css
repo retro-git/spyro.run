@@ -1,0 +1,69 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/boards.scss ***!
+  \**********************************************************************************************************/
+/* Dracula Palette */
+/* Addendum colors */
+html {
+  background-color: #282a36;
+  color: #f8f8f2;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: medium;
+}
+
+a:link {
+  color: #50fa7b;
+}
+
+a:visited {
+  color: #ff79c6;
+}
+
+h2 {
+  color: #ffb86c;
+  font-size: medium;
+  text-align: center;
+}
+
+sup {
+  font-size: x-small;
+  font-weight: lighter;
+}
+
+select {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  color: #f8f8f2;
+  background: #282a36;
+  border-radius: 0.2em;
+  padding: 0.1em;
+}
+
+.subcategories {
+  text-align: center;
+  display: inline-block;
+  display: table;
+  margin: 0 auto;
+}
+
+th {
+  color: #ffb86c;
+  background-color: #282a36;
+}
+
+tr {
+  background-color: #44475a;
+}
+
+table {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flag {
+  height: 12px;
+  width: 18px;
+  margin-right: 3px;
+}
