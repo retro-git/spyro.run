@@ -37,7 +37,7 @@ export class Boards extends React.Component {
                 const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
                 return _.assign(_.assign(_.clone(r), overrides[hash]), { "hash": hash });
             })
-            .sort((a, b) => a["time"] - b["time"])
+            .sort(this.props.sort)
 
         this.state = {
             game: game,
@@ -61,7 +61,7 @@ export class Boards extends React.Component {
                     const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
                     return _.assign(_.clone(r), overrides[hash]);
                 })
-                .sort((a, b) => a["time"] - b["time"])
+                .sort(this.props.sort)
         })
     }
 
@@ -85,6 +85,7 @@ export class Boards extends React.Component {
                             else return b.localeCompare(a)
                         })
                     }
+                    mode={this.props.mode}
                 />
             </div>
         )
