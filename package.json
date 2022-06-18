@@ -8,8 +8,8 @@
     "start": "webpack-dev-server",
     "pages": "gh-pages -d dist",
     "clean-pages": "gh-pages-clean",
-    "dump": "./dump-leaderboards.sh",
-    "extras": "node ods-to-sqlite.js extras.ods ./src/assets/db/extras.sqlite"
+    "dump": "./leaderboards-dump.sh",
+    "extras": "node extras-to-sqlite.js extras.ods ./src/assets/db/extras.sqlite"
   },
   "keywords": [],
   "author": "",
