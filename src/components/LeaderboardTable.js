@@ -16,7 +16,7 @@ const getColWhitespace = (props) => {
   switch (props.col) {
     case "link":
     case "comment":
-      return "normal";
+      return "break-spaces";
     default:
       return "nowrap";
   }

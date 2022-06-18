@@ -174,6 +174,7 @@ export class Leaderboard extends React.Component {
                                     case "category":
                                     case "emulated":
                                     case "region":
+                                    case "reason":
                                     case "subcategory":
                                         return
                                     default:

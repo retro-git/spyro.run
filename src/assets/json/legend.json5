@@ -35,4 +35,16 @@
         "colour": "#946377",
         "filter": 1,
     },
+    {
+        "name": "emulated",
+        "_comment":"col_pink_dim",
+        "colour": "#946377",
+        "filter": 1,
+    },
+    {
+        "name": "rejected",
+        "_comment":"col_pink_dim",
+        "colour": "#946377",
+        "filter": 0,
+    },
 ]

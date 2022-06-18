@@ -57,6 +57,7 @@ export class Run extends React.Component {
                     case "subcategory":
                     case "region":
                     case "emulated":
+                    case "reason":
                         return
                     case "player":
                         return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
@@ -81,6 +82,11 @@ export class Run extends React.Component {
                                 </button>
                             </LBTableData>
                         )
+                    case "comment":
+                        const newlines = data ? "\n\n" : "";
+                        return <LBTableData key={index} col={key}>{data}
+                            {r["rejected"] ? newlines + "REJECTION REASON:\n" + r["reason"] : ""}
+                            </LBTableData>
                     default:
                         return <LBTableData key={index} col={key}>{data}</LBTableData>
                 }
