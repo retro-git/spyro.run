@@ -38,7 +38,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_SubmitForm_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/SubmitForm.js */ \"./src/components/SubmitForm.js\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar ReactDOM = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nvar appElement = document.getElementById('app');\nReactDOM.createRoot(appElement).render( /*#__PURE__*/React.createElement(\"div\", {\n  \"class\": \"container\"\n}, /*#__PURE__*/React.createElement(_components_SubmitForm_js__WEBPACK_IMPORTED_MODULE_0__.SubmitForm, null)));\n\n//# sourceURL=webpack://sr-archive-lb/./src/submit.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_SubmitForm_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/SubmitForm.js */ \"./src/components/SubmitForm.js\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar ReactDOM = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n\n\nvar appElement = document.getElementById('app');\nReactDOM.createRoot(appElement).render( /*#__PURE__*/React.createElement(\"div\", {\n  className: \"container\"\n}, /*#__PURE__*/React.createElement(_components_SubmitForm_js__WEBPACK_IMPORTED_MODULE_0__.SubmitForm, null)));\n\n//# sourceURL=webpack://sr-archive-lb/./src/submit.js?");
 
 /***/ }),
 
