@@ -4,6 +4,44 @@ import legend from '../assets/json/legend.json5';
 import styled, { css } from 'styled-components'
 import { LBTableRow, LBTableData } from './LeaderboardTable'
 
+function format_time(time_str) {
+    if (time_str.indexOf(".") > -1) {
+        const time = _.replace(_.clone(time_str), ".", ":")
+        const ret = time.split(":").reverse().reduce((prev, cur, i) => {
+            switch (i) {
+                case 0:
+                    return cur.padEnd(3, "0") + "ms" + prev
+                case 1:
+                    return cur + "s " + prev
+                case 2:
+                    return cur + "m " + prev
+                case 3:
+                    return cur + "h " + prev
+                default:
+                    return
+            }
+        }, "");
+        //console.log(ret);
+        return ret;
+    }
+    else {
+        const ret = time_str.split(":").reverse().reduce((prev, cur, i) => {
+            switch (i) {
+                case 0:
+                    return cur + "s " + prev
+                case 1:
+                    return cur + "m " + prev
+                case 2:
+                    return cur + "h " + prev
+                default:
+                    return
+            }
+        }, "");
+        //console.log(ret);
+        return ret;
+    }
+}
+
 export class Run extends React.Component {
     render() {
         let r = this.props.r;
@@ -38,7 +76,8 @@ export class Run extends React.Component {
                         return (
                             <LBTableData key={index}>
                                 <button key={index} className="button" onClick={() => navigator.clipboard.writeText(r["hash"])}>
-                                    {new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '')}
+                                    {format_time(new Date(data * 1000).toISOString().substring(11, 19).replace(/^0(?:0:0?)?/, '') 
+                                        + (data.toString().split(".")[1] ? "." + data.toString().split(".")[1] : ""))}
                                 </button>
                             </LBTableData>
                         )
