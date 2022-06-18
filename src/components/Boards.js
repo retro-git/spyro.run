@@ -25,43 +25,49 @@ export class Boards extends React.Component {
     constructor(props) {
         super(props);
 
-        const game = games_srcom[0];
-        const columns = db.srcom.exec(`SELECT * FROM ${game[0]}`)[0]["columns"];
-        const runs = db.srcom.exec(`SELECT * FROM ${game[0]}`)[0]["values"]
-            .concat(games_extras.find(elem => elem == game[0]) ? db.extras.exec(`SELECT * FROM ${game[0]}`)[0]["values"] : [])
+        this.state = {
+            legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {})
+        }
+
+        const data = this.getData();
+
+        this.state = {
+            game: data.game,
+            columns: data.columns,
+            runs: data.runs,
+            legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {})
+        }
+    }
+
+    getData(e) {
+        const game = e ? e.target.value : games_srcom[0][0];
+        const columns = db.srcom.exec(`SELECT * FROM ${game}`)[0]["columns"];
+        const runs = db.srcom.exec(`SELECT * FROM ${game}`)[0]["values"]
+            .concat(games_extras.find(elem => elem == game) ? db.extras.exec(`SELECT * FROM ${game}`)[0]["values"] : [])
             .map(r => {
                 return Object.fromEntries(r.map((e, i) => [columns[i], e]));
             })
             .map(r => {
-                const picked_hash = _.pick(_.clone(r), ['game', 'category', 'player', 'time', 'date']);
+                const picked_hash = _.assign({ "game": game }, (_.pick(_.clone(r), ['category', 'player', 'time', 'date'])));
                 const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
                 return _.assign(_.assign(_.clone(r), overrides[hash]), { "hash": hash });
             })
             .sort(this.props.sort)
 
-        this.state = {
+        return {
             game: game,
             columns: columns,
             runs: runs,
-            legend_status: legend.reduce((o, l) => Object.assign(o, {[l["name"]]: _.omit(_.clone(l), ["name"])}), {})
         }
     }
 
     handleChange(e) {
+        const data = this.getData(e);
+
         this.setState({
-            game: e.target.value,
-            columns: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["columns"],
-            runs: db.srcom.exec(`SELECT * FROM ${e.target.value}`)[0]["values"]
-                .concat(games_extras.find(elem => elem == e.target.value) ? db.extras.exec(`SELECT * FROM ${e.target.value}`)[0]["values"] : [])
-                .map(r => {
-                    return Object.fromEntries(r.map((e, i) => [columns[i], e]));
-                })
-                .map(r => {
-                    const picked_hash = _.pick(_.clone(r), ['game', 'category', 'player', 'time', 'date']);
-                    const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
-                    return _.assign(_.clone(r), overrides[hash]);
-                })
-                .sort(this.props.sort)
+            game: data.game,
+            columns: data.columns,
+            runs: data.runs,
         })
     }
 
