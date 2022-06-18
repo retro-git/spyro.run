@@ -1,5 +1,4 @@
 var React = require('react');
-import platform_abbr from '../assets/json/platform_abbr.json5';
 import legend from '../assets/json/legend.json5';
 import styled, { css } from 'styled-components'
 import { LBTableRow, LBTableData } from './LeaderboardTable'
@@ -63,14 +62,14 @@ export class Run extends React.Component {
                         return <LBTableData key={index}>({this.props.i + 1}) {data}</LBTableData>
                     case "platform":
                         return <LBTableData key={index} col={key}>
-                            {<img class="flag" title={r["region"]} src={`../assets/images/${_.head(r["region"].split(" / "))}.png`}/>}
-                            {platform_abbr[data] ? platform_abbr[data] : data}
+                            {<img className="flag" title={r["region"]} src={`../assets/images/${_.head(r["region"].split(" / "))}.png`}/>}
+                            {data}
                             {r["emulated"] ? <sup> EMU</sup> : <></>}
                         </LBTableData>
                     case "link":
                         return (
                             <LBTableData key={index} col={key}>
-                                {data.split(", ").map((e, i) => e ? <a href={e}>[{i + 1}]</a> : "")}
+                                {data.split(", ").map((e, i) => e ? <a key={i} href={e}>[{i + 1}]</a> : "")}
                             </LBTableData>
                         )
                     case "time":

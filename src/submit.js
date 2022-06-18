@@ -4,7 +4,7 @@ import { SubmitForm } from './components/SubmitForm.js'
 
 const appElement = document.getElementById('app');
 ReactDOM.createRoot(appElement).render(
-    <div class="container">
+    <div className="container">
         <SubmitForm />
     </div>
 );

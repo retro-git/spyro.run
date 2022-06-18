@@ -6,6 +6,7 @@ import Base64 from 'crypto-js/enc-base64';
 import db from '../db.js'
 import overrides from '../assets/json/overrides.json5';
 import _ from 'lodash';
+import platform_abbr from '../assets/json/platform_abbr.json5';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import "../assets/css/DatePicker.scss"
 import "../assets/css/Calendar.scss"
@@ -47,7 +48,12 @@ export class Boards extends React.Component {
         let runs = db.srcom.exec(`SELECT * FROM ${game}`)[0]["values"]
             .concat(games_extras.find(elem => elem == game) ? db.extras.exec(`SELECT * FROM ${game}`)[0]["values"] : [])
             .map(r => {
-                return Object.fromEntries(r.map((e, i) => [columns[i], e]));
+                return Object.fromEntries(r.map((e, i) => {
+                    if (columns[i] == "platform") {
+                        if (platform_abbr[e]) e = platform_abbr[e];
+                    }
+                    return [columns[i], e];
+                }));
             })
             .map(r => {
                 const picked_hash = _.assign({ "game": game }, (_.pick(_.clone(r), ['category', 'player', 'time', 'date'])));
@@ -57,11 +63,8 @@ export class Boards extends React.Component {
             .sort(this.props.sort)
 
         const minDate = new Date(_.clone(runs).sort((a, b) => new Date(a["date"]) - new Date(b["date"])).filter(r => r["date"])[0].date);
-        console.log((_.clone(runs).sort((a, b) => new Date(a["date"]) - new Date(b["date"])).filter(r => r["date"])[0]));
         if (minDate > date) date = minDate;
 
-        console.log(minDate);
-            
         runs = runs.filter(r => {
                 return r["date"] && new Date(r["date"]) <= date;
             })
