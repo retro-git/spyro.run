@@ -17,10 +17,10 @@ const wb = XLSX.readFile(args.ods_path);
 const db = new sqlite3.Database(args.sqlite_path);
 
 Object.keys(wb.Sheets).forEach(sheet => {
-    const runs = XLSX.utils.sheet_to_json(wb.Sheets[sheet], { defval: "" });
+    const runs = XLSX.utils.sheet_to_json(wb.Sheets[sheet], { raw: false, dateNF: 'yyyy-mm-dd', defval: "" });
     const game = sheet.split("#")[0];
     const category = sheet.split("#")[1];
-
+    
     runs.forEach(run => {
         const data = Object.keys(run).map(k => run[k]);
         data.unshift(category);
