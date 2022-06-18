@@ -13,7 +13,6 @@ import '../boards.scss'
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
-let columns = db.srcom.exec(`SELECT * FROM ${games_srcom[0]}`)[0]["columns"];
 
 const Content = styled.div`
     text-align:center;
@@ -25,17 +24,12 @@ export class Boards extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {})
-        }
-
         const data = this.getData();
 
         this.state = {
             game: data.game,
             columns: data.columns,
             runs: data.runs,
-            legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {})
         }
     }
 
