@@ -244,7 +244,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({'aKyWDuI3M+kuLUEcjUUY4oOi6++oUyg00JU1g6ApXZQ=':{player:'test override playersadf',\"editor's note\":'test',link:'test link',cheated:1,'no video':0},'OkubUtf/PflD5rCnippSzEyKsDQscSzJNFWDGC9Z4/I=':{removed:1},'7Ub/m8n2Ic/XiTP7zs/FmydsDaL8ORco3t/4sZZzhWI=':{disputed:1},'1ssAgSY7Y51MN6IEE6HWnyWqZpptUGQp063Ym8GOCEI=':{anonymised:1},'D13gN206VGEzm13/yLvUtjsc5JE/c5UzZV1dd+0G7rs=':{unsubmitted:1},'i4a5aAsJtZLgVt/jp9NnWxzBQ9c+7efBs2sZ2NIP7Rg=':{'no video':1}});\n\n//# sourceURL=webpack://sr-archive-lb/./src/assets/json/overrides.json5?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});\n\n//# sourceURL=webpack://sr-archive-lb/./src/assets/json/overrides.json5?");
 
 /***/ }),
 
