@@ -17,12 +17,12 @@ cd src-dump
 python3 -m pip install -r requirements.txt
 ```
 
-Dump speedrun.com leaderboards, listed in leaderboards.txt, to SQLite database (`src/assets/db/srcom.sqlite`):
+Dump speedrun.com leaderboards, listed in `leaderboards.txt`, to SQLite database (`src/assets/db/srcom.sqlite`):
 ```bash
 npm run dump
 ```
 
-Store additional runs in `src/assets/db/extras.sqlite` database - you can use the following command to generate this database from a correctly formatted ODS speadsheet file: 
+Store additional runs in `src/assets/db/extras.sqlite` database - you can use the following command to generate this database from a correctly formatted ODS speadsheet file `extras.ods`: 
 
 ```bash 
 npm run extras
