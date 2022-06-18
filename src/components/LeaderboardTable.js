@@ -33,11 +33,6 @@ const LBTable = styled.table`
 
 // This gives us a nice header that's always in view
 const LBTableHead = styled.thead`
-  border: 0px solid;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0px;
-	z-index: 2;
 `;
 
 const LBTableRow = styled.tr`

@@ -6,9 +6,12 @@ import Base64 from 'crypto-js/enc-base64';
 import db from '../db.js'
 import overrides from '../assets/json/overrides.json5';
 import _ from 'lodash';
+import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import "../assets/css/DatePicker.scss"
+import "../assets/css/Calendar.scss"
 
 // I assure you, dear reader, ignoring the benefits of styled and simply using an external file is necessary
-import '../boards.scss'
+import '../assets/css/boards.scss'
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
@@ -23,19 +26,25 @@ export class Boards extends React.Component {
     constructor(props) {
         super(props);
 
-        const data = this.getData();
+        const game = games_srcom[0][0];
+        const date = new Date();
+
+        const data = this.getData(date, game);
 
         this.state = {
             game: data.game,
             columns: data.columns,
             runs: data.runs,
+            date: date,
+            game: game,
+            minDate: data.minDate,
+            date: data.date,
         }
     }
 
-    getData(e) {
-        const game = e ? e.target.value : games_srcom[0][0];
+    getData(date, game) {
         const columns = db.srcom.exec(`SELECT * FROM ${game}`)[0]["columns"];
-        const runs = db.srcom.exec(`SELECT * FROM ${game}`)[0]["values"]
+        let runs = db.srcom.exec(`SELECT * FROM ${game}`)[0]["values"]
             .concat(games_extras.find(elem => elem == game) ? db.extras.exec(`SELECT * FROM ${game}`)[0]["values"] : [])
             .map(r => {
                 return Object.fromEntries(r.map((e, i) => [columns[i], e]));
@@ -47,28 +56,55 @@ export class Boards extends React.Component {
             })
             .sort(this.props.sort)
 
+        const minDate = new Date(_.clone(runs).sort((a, b) => new Date(a["date"]) - new Date(b["date"])).filter(r => r["date"])[0].date);
+        console.log((_.clone(runs).sort((a, b) => new Date(a["date"]) - new Date(b["date"])).filter(r => r["date"])[0]));
+        if (minDate > date) date = minDate;
+
+        console.log(minDate);
+            
+        runs = runs.filter(r => {
+                return r["date"] && new Date(r["date"]) <= date;
+            })
+
         return {
             game: game,
             columns: columns,
             runs: runs,
+            minDate: minDate,
+            date: date,
         }
     }
 
-    handleChange(e) {
-        const data = this.getData(e);
+    handleChangeGame(e) {
+        const data = this.getData(this.state.date, e.target.value);
 
         this.setState({
             game: data.game,
             columns: data.columns,
             runs: data.runs,
+            game: e.target.value,
+            minDate: data.minDate,
+            date: data.date,
+        })
+    }
+
+    handleChangeDate(e) {
+        const data = this.getData(e, this.state.game);
+
+        this.setState({
+            game: data.game,
+            columns: data.columns,
+            runs: data.runs,
+            date: e,
         })
     }
 
     render() {
         return (
             <div>
+                <DatePicker minDate={this.state.minDate} maxDate={new Date()} value={this.state.date} onChange={this.handleChangeDate.bind(this)}/>
                 <h2>Select game:</h2>
-                <select onChange={this.handleChange.bind(this)}>
+                <select onChange={this.handleChangeGame.bind(this)}>
                     {games_srcom.map((g, i) => (
                         <option key={i} value={g}>{g}</option>
                     ))}
