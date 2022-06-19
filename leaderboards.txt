@@ -18,3 +18,9 @@ crash3 Any%
 crash3 "Any% (No Item Glitch)"
 crash3 105%
 yugiohfm Any%
+jade_empire "Special Edition"
+jade_empire "Any% Standard Edition"
+spyro1 Cheat%
+spyro1 "80 Dragons"
+spyro2 "40 Orb"
+spyro3 "149 Egg"
