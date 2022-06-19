@@ -46,7 +46,14 @@ export class Boards extends React.Component {
     getData(date, game) {
         let srcom_data = db.srcom.exec(`SELECT * FROM ${game}`)[0];
         const columns = srcom_data["columns"];
-        let extras_data = db.extras.exec(`SELECT * FROM ${game}`)[0];
+
+        let extras_data;
+
+        try {
+            let extras_data = db.extras.exec(`SELECT * FROM ${game}`)[0];
+        } catch (error) {
+            let extras_data = [];
+        }
 
         let runs = srcom_data["values"]
             .concat(!(_.isEmpty(extras_data)) && games_extras.find(elem => elem == game) ? extras_data["values"] : [])
