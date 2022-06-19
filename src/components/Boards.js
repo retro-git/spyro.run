@@ -50,9 +50,9 @@ export class Boards extends React.Component {
         let extras_data;
 
         try {
-            let extras_data = db.extras.exec(`SELECT * FROM ${game}`)[0];
+            extras_data = db.extras.exec(`SELECT * FROM ${game}`)[0];
         } catch (error) {
-            let extras_data = [];
+            extras_data = [];
         }
 
         let runs = srcom_data["values"]
