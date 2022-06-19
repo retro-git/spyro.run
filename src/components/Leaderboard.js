@@ -268,6 +268,7 @@ export class Leaderboard extends React.Component {
                                 if (legend.map(l => "drawcol" in l  && l["drawcol"] ? "" : l["name"]).includes(h)) return;
                                 switch (h) {
                                     case "hash":
+                                    case "id":
                                     case "game":
                                     case "category":
                                     case "region":

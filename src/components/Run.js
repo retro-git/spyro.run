@@ -51,6 +51,7 @@ export class Run extends React.Component {
                 const data = r[key];
                 switch (key) {
                     case "hash":
+                    case "id":
                     case "game":
                     case "category":
                     case "subcategory":
