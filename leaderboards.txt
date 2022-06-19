@@ -24,3 +24,6 @@ spyro1 Cheat%
 spyro1 "80 Dragons"
 spyro2 "40 Orb"
 spyro3 "149 Egg"
+spyroetd Any%
+spyroetd "Any% No Early Ripto"
+spyroetd 100%

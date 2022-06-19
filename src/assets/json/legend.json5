@@ -6,6 +6,11 @@
         "filter": 0,
     },
     {
+        "name": "new",
+        "colour": "#994fff",
+        "filter": 0,
+    },
+    {
         "name": "cheated",
         "colour": "#75000c",
         "filter": 1,
