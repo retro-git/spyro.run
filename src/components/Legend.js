@@ -7,12 +7,16 @@ const LegendSpan = styled.div`
     border-radius: 0.5em;
 `;
 
+const LegendLabel = styled.label`
+    cursor: pointer;
+`;
+
 export class Legend extends React.Component {
     render() {
         let txt = !this.props.l ? (this.props.name ? this.props.name : _.startCase(this.props.type + " unknown")) : "text" in this.props.l ? this.props.l.text : this.props.name;
         return (
             <LegendSpan style={{ backgroundColor: this.props.l ? this.props.l["colour"] : "grey" }}>
-                <label for={txt}>{txt}</label>
+                <LegendLabel for={txt}>{txt}</LegendLabel>
                 <input id={txt} type="checkbox" data-name={this.props.name} data-type={this.props.type} onChange={this.props.handleChangeFilter} checked={this.props.checked} />
             </LegendSpan>
         );

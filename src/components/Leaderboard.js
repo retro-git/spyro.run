@@ -40,6 +40,7 @@ export class Leaderboard extends React.Component {
                 return prev;
             }, {}),
             other_status: 1,
+            invert_status: 0,
         }
     }
 
@@ -114,7 +115,22 @@ export class Leaderboard extends React.Component {
         switch(e.target.dataset["type"]) {
             case "other":
                 this.setState({
-                    other_status: !this.state.other_status
+                    other_status: !this.state.other_status,
+                });
+                break;
+            case "invert":
+                /*let plat = _.clone(this.state.platform_status);
+                let reg = _.clone(this.state.region_status);
+                let leg = _.clone(this.state.legend_status);
+                Object.keys(plat).forEach(p => plat[p] = !plat[p]);
+                Object.keys(reg).forEach(r => reg[r] = !reg[r]);
+                Object.keys(leg).forEach(l => leg[l]["filter"] = !leg[l]["filter"])*/
+                this.setState({
+                    invert_status: !this.state.invert_status,
+                    //other_status: !this.state.other_status,
+                    //platform_status: plat,
+                    //region_status: reg,
+                    //legend_status: leg
                 });
                 break;
             case "platform":
@@ -163,10 +179,6 @@ export class Leaderboard extends React.Component {
                 if (this.state.show_all) return true;
                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
             })
-
-             .filter(_.negate(_.overEvery(Object.keys(_.omit(_.clone(this.state.legend_status), ["other"])).map(k => {
-                 return r => !r[k]
-             }))))
             
         let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
             if (!this.state.legend_status[k]["filter"]) {
@@ -195,7 +207,12 @@ export class Leaderboard extends React.Component {
 
         if (!this.state.other_status) filters.push(other_filter);
 
-        runs_filtered = runs_filtered.filter(_.overEvery(filters));
+        if (this.state.invert_status) {
+            runs_filtered = _.reject(runs_filtered, _.overEvery(filters));
+        }
+        else {
+            runs_filtered = runs_filtered.filter(_.overEvery(filters));
+        }
             
         if (this.props.mode === "normal") {
             runs_filtered = runs_filtered.filter(e => {
@@ -234,6 +251,7 @@ export class Leaderboard extends React.Component {
                         return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                     })}
                     <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)}/>
+                    <Legend type="invert" name={"invert"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)}/>
                 </LegendContainer>
                 <LegendContainer>
                     {Object.keys(this.state.platform_status).map((k, i) => {
