@@ -1,5 +1,6 @@
 spyro1 Any%
 spyro1 120%
+spyro1 Vortex
 spyro2 Any%
 spyro2 "14 Talisman"
 spyro2 100%
