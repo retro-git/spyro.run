@@ -1,5 +1,11 @@
 [
     {
+        "name": "rejected",
+        "_comment":"col_pink_dim",
+        "colour": "#ff5555",
+        "filter": 0,
+    },
+    {
         "name": "cheated",
         "colour": "#75000c",
         "filter": 1,
@@ -41,11 +47,5 @@
         "name": "emulated",
         "colour": "#994fff",
         "filter": 1,
-    },
-    {
-        "name": "rejected",
-        "_comment":"col_pink_dim",
-        "colour": "#ff5555",
-        "filter": 0,
     },
 ]
