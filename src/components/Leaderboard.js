@@ -157,22 +157,31 @@ export class Leaderboard extends React.Component {
                 if (this.state.show_all) return true;
                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
             })
-            .filter(_.overEvery(Object.keys(this.state.legend_status).map(k => {
-                if (!this.state.legend_status[k]["filter"]) {
-                    return r => !r[k]
-                }
-            })))
-            .filter(_.overEvery(Object.keys(this.state.platform_status).map(k => {
-                if (!this.state.platform_status[k]) {
-                    return r => !(r["platform"] == k);
-                }
-            })))
-            .filter(_.overEvery(Object.keys(this.state.region_status).map(k => {
-                if (!this.state.region_status[k]) {
-                    return r => !(r["region"] == k);
-                }
-            })))
 
+            // .filter(_.negate(_.overEvery(Object.keys(_.omit(_.clone(this.state.legend_status), ["other"])).map(k => {
+            //     return r => !r[k]
+            // }))))
+            
+        let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
+            if (!this.state.legend_status[k]["filter"]) {
+                return this.state.legend_status[k]["invert"] ? r => r[k] : r => !r[k]
+            }
+        }));
+
+        let platform_filter = _.overEvery(Object.keys(this.state.platform_status).map(k => {
+            if (!this.state.platform_status[k]) {
+                return r => !(r["platform"] == k);
+            }
+        }));
+
+        let region_filter = _.overEvery(Object.keys(this.state.region_status).map(k => {
+            if (!this.state.region_status[k]) {
+                return r => !(r["region"] == k);
+            }
+        }));
+
+        runs_filtered = runs_filtered.filter(_.overEvery([legend_filter, platform_filter, region_filter]));
+            
         if (this.props.mode === "normal") {
             runs_filtered = runs_filtered.filter(e => {
                 const duplicate = seen.has(e.player);
@@ -222,12 +231,11 @@ export class Leaderboard extends React.Component {
                     <LBTableHead>
                         <LBTableRowHead>
                             {this.props.columns.map((h, i) => {
-                                if (legend.map(l => l["name"]).includes(h)) return;
+                                if (legend.map(l => "drawcol" in l  && l["drawcol"] ? "" : l["name"]).includes(h)) return;
                                 switch (h) {
                                     case "hash":
                                     case "game":
                                     case "category":
-                                    case "emulated":
                                     case "region":
                                     case "reason":
                                     case "subcategory":

@@ -66,7 +66,7 @@ export class Boards extends React.Component {
         if (minDate > date) date = minDate;
 
         runs = runs.filter(r => {
-                return r["date"] && new Date(r["date"]) <= date;
+                return new Date(r["date"]) <= date;
             })
 
         return {

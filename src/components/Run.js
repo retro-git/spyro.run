@@ -47,7 +47,7 @@ export class Run extends React.Component {
 
         return <LBTableRow key={this.props.i} data={_.pick(_.clone(r), legend.map(l => l["name"]))}>
             {Object.keys(r).map((key, index) => {
-                if (legend.map(l => l["name"]).includes(key)) return;
+                if (legend.map(l => "drawcol" in l  && l["drawcol"] ? "" : l["name"]).includes(key)) return;
                 const data = r[key];
                 switch (key) {
                     case "hash":
@@ -55,7 +55,6 @@ export class Run extends React.Component {
                     case "category":
                     case "subcategory":
                     case "region":
-                    case "emulated":
                     case "reason":
                         return
                     case "player":
