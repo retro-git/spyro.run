@@ -71,8 +71,7 @@ export class Leaderboard extends React.Component {
 
     updateData(category) {
         const subcategories = this.getSubcategories(category);
-        const platforms = this.getPlatforms(category);
-        const regions = this.getRegions(category);
+
         this.setState({
             category: category,
             subcategories: subcategories,
