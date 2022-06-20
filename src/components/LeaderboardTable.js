@@ -4,7 +4,7 @@ import legend from '../assets/json/legend.json5';
 const getRowBgColour = (props) => {
   for (let l of legend) {
     if (l["name"] == "date") {
-      if (l["name"] === "") return l["colour"]; 
+      if (l["name"] === "") return l["colour"];
     }
     else if (props.data[l["name"]]) {
       return l["colour"];
@@ -60,6 +60,9 @@ const LBTableDataHead = styled.th`
 
   ${props => props.clickable && css`
     cursor: pointer;
+    &:after {
+      content: "⇵";
+    }
   `}
 `;
 

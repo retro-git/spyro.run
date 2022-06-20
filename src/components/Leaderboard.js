@@ -6,7 +6,7 @@ import legend from '../assets/json/legend.json5';
 import filter_uniqs_list from '../assets/json/filter_uniqs.json5';
 import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
-import sortables from '../sortables'
+import sortables from '../sortables.js'
 
 const LegendContainer = styled.div`
     display: flex;
@@ -101,8 +101,6 @@ export class Leaderboard extends React.Component {
     }
 
     handleChangeSort(e) {
-        console.log(this.state.sort)
-
         let column = e.target.dataset["column"];
         
         this.setState({
