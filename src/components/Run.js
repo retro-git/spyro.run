@@ -53,7 +53,6 @@ export class Run extends React.Component {
                     case "hash":
                     case "id":
                     case "game":
-                    case "category":
                     case "subcategory":
                     case "region":
                     case "reason":

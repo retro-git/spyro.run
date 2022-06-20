@@ -13,7 +13,7 @@ const LegendLabel = styled.label`
 
 export class Legend extends React.Component {
     render() {
-        let txt = !this.props.l ? (this.props.name ? this.props.name : _.startCase(this.props.type + " unknown")) : "text" in this.props.l ? this.props.l.text : this.props.name;
+        let txt = !this.props.l ? (this.props.name ? this.props.name : _.startCase("No " + this.props.type)) : "text" in this.props.l ? this.props.l.text : this.props.name;
         return (
             <LegendSpan style={{ backgroundColor: this.props.l ? this.props.l["colour"] : "grey" }}>
                 <LegendLabel htmlFor={txt+this.props.type}>{txt}</LegendLabel>

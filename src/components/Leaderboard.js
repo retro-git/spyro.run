@@ -8,6 +8,18 @@ import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import sortables from '../sortables.js'
 
+let keys = {
+    "KeyA": 0, "KeyS": 0,
+};
+
+document.addEventListener('keydown', (event) => {
+    if (event.code in keys) keys[event.code] = 1;
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    if (event.code in keys) keys[event.code] = 0;
+}, false);
+
 const LegendContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -41,7 +53,7 @@ export class Leaderboard extends React.Component {
         return filter_uniqs_list.reduce((prevObj, curFilter) => {
             prevObj[curFilter] = this.getUniques(curFilter)
                 .reduce((prev, cur) => {
-                    prev[cur] = 1;
+                    prev[cur] = !(_.isEmpty(prev)) && curFilter == "category" ? 0 : 1;
                     return prev;
                 }, {});
             return prevObj;
@@ -112,15 +124,29 @@ export class Leaderboard extends React.Component {
 
     handleChangeFilter(e) {
         let type = e.target.dataset["type"];
+        let name = e.target.dataset["name"];
 
         if (filter_uniqs_list.includes(type)) {
             let fus = _.clone(this.state.filter_uniqs_status);
-            fus[type][e.target.dataset["name"]] = !fus[type][e.target.dataset["name"]];
+
+            if (keys["KeyA"]) {
+                Object.keys(fus[type]).forEach(e => {
+                    fus[type][e] = 1;
+                });
+            }
+
+            if (keys["KeyS"]) {
+                Object.keys(fus[type]).forEach(e => {
+                    fus[type][e] = 0;
+                });
+                fus[type][name] = !fus[type][name];;
+            }
+
             this.setState({ filter_uniqs_status: fus });
-            return
+            return;
         }
 
-        switch (e.target.dataset["type"]) {
+        switch (type) {
             case "other":
                 this.setState({
                     other_status: !this.state.other_status,
@@ -277,7 +303,6 @@ export class Leaderboard extends React.Component {
                                     case "hash":
                                     case "id":
                                     case "game":
-                                    case "category":
                                     case "region":
                                     case "reason":
                                     case "subcategory":
