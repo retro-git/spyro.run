@@ -6,6 +6,7 @@ import legend from '../assets/json/legend.json5';
 import filter_uniqs_list from '../assets/json/filter_uniqs.json5';
 import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
+import sortables from '../sortables'
 
 const LegendContainer = styled.div`
     display: flex;
@@ -34,6 +35,8 @@ export class Leaderboard extends React.Component {
             other_status: 1,
             obsolete_status: 0,
             invert_status: 0,
+            sort: this.props.sort,
+            sort_order: this.props.sort_order,
         }
     }
 
@@ -95,6 +98,19 @@ export class Leaderboard extends React.Component {
         this.setState({
             subcategory_selections: subcategory_selections,
         })
+    }
+
+    handleChangeSort(e) {
+        console.log(this.state.sort)
+
+        let column = e.target.dataset["column"];
+
+        if (this.props.mode == "records" && column == "time") column = "date";
+        
+        this.setState({
+            sort: column,
+            sort_order: !this.state.sort_order
+        });
     }
 
     handleChangeShowAll(e) {
@@ -196,6 +212,8 @@ export class Leaderboard extends React.Component {
             runs_filtered = runs_filtered.filter(_.overEvery(filters));
         }
 
+        runs_filtered.sort(sortables[this.props.sort]["func"]);
+
         if (!this.state.obsolete_status && this.props.mode === "normal") {
             runs_filtered = runs_filtered.filter(e => {
                 const duplicate = seen.has(e.player);
@@ -211,8 +229,11 @@ export class Leaderboard extends React.Component {
                     prev.push(cur);
                 }
                 return prev;
-            }, []).reverse();
+            }, []);
         }
+
+        runs_filtered.sort(sortables[this.state.sort]["func"]);
+        if (this.state.sort_order) runs_filtered.reverse();
 
         return (
             <div>
@@ -250,6 +271,11 @@ export class Leaderboard extends React.Component {
                         <LBTableRowHead>
                             {this.props.columns.map((h, i) => {
                                 if (legend.map(l => "drawcol" in l && l["drawcol"] ? "" : l["name"]).includes(h)) return;
+
+                                if (Object.keys(sortables).includes(h)) {
+                                    return <LBTableDataHead clickable data-column={h} onClick={this.handleChangeSort.bind(this)} key={i}>{h}</LBTableDataHead>
+                                }
+
                                 switch (h) {
                                     case "hash":
                                     case "id":

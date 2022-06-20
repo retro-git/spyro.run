@@ -57,6 +57,10 @@ const LBTableDataHead = styled.th`
   border-bottom: 0px solid;
   white-space: ${getColWhitespace};
   padding: 0.5em;
+
+  ${props => props.clickable && css`
+    cursor: pointer;
+  `}
 `;
 
 const LBTableBody = styled.tbody`

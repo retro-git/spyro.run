@@ -70,7 +70,6 @@ export class Boards extends React.Component {
                 const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
                 return _.assign(_.assign(_.clone(r), overrides[hash]), { "hash": hash });
             })
-            .sort(this.props.sort)
 
         const minDate = new Date(_.clone(runs).sort((a, b) => new Date(a["date"]) - new Date(b["date"])).filter(r => r["date"])[0].date);
         if (minDate > date) date = minDate;
@@ -134,6 +133,8 @@ export class Boards extends React.Component {
                         })
                     }
                     mode={this.props.mode}
+                    sort={this.props.sort}
+                    sort_order={this.props.sort_order}
                 />
             </div>
         )
