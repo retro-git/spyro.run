@@ -11,6 +11,9 @@ let sortables = {
     "examiner": {
         func: (a, b) => b["examiner"] && a["examiner"] ? b["examiner"].localeCompare(a["examiner"]) : a["examiner"].localeCompare(b["examiner"]),
     },
+    "category": {
+        func: (a, b) => b["player"].localeCompare(a["player"]),
+    },
 }
 
 export default sortables;
