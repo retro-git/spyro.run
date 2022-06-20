@@ -1,0 +1,24 @@
+@import 'palette';
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0em;
+    padding: 0em;
+    padding-left: 2em;
+}
+
+.navlink {
+    font-size:larger;
+    padding: 0em 2em;
+    border: 2px solid $col_curr_line;
+}
+
+.navlink:link {
+    color: #d4d4d4;
+}
+
+.navlink:visited {
+    color: #d4d4d4;
+}

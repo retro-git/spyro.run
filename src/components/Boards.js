@@ -8,6 +8,7 @@ import overrides from '../assets/json/overrides.json5';
 import _ from 'lodash';
 import platform_abbr from '../assets/json/platform_abbr.json5';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import { NavBar } from '../components/NavBar.js'
 import "../assets/css/DatePicker.scss"
 import "../assets/css/Calendar.scss"
 
@@ -114,6 +115,7 @@ export class Boards extends React.Component {
     render() {
         return (
             <div>
+                <NavBar/>
                 <DatePicker minDate={this.state.minDate} maxDate={new Date()} value={this.state.date} onChange={this.handleChangeDate.bind(this)}/>
                 <h2>Select game:</h2>
                 <select onChange={this.handleChangeGame.bind(this)}>
