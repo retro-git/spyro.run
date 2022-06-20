@@ -61,7 +61,7 @@ Object.keys(wb.Sheets).forEach(sheet => {
     const game = sheet.split("#")[0];
     const category = sheet.split("#")[1];
 
-    const create_statement = `Create TABLE if not exists ${game} (category text, player text, time real, platform text, region text, emulated integer, date text, comment text, link text, [editor\'s note] text, cheated integer, removed integer, disputed integer, anonymised integer, unsubmitted integer, [no video] integer, subcategory text)`;
+    const create_statement = `Create TABLE if not exists ${game} (category text, player text, time real, platform text, region text, emulated integer, date text, comment text, link text, rejected integer, reason text, examiner text, new integer, [editor\'s note] text, cheated integer, removed integer, disputed integer, anonymised integer, unsubmitted integer, [no video] integer, subcategory text, id text, hash text)`;
     db.run(create_statement, () => {
         runs.forEach(run => {
             const data = Object.keys(run).map(k => {
@@ -71,7 +71,7 @@ Object.keys(wb.Sheets).forEach(sheet => {
                 else return run[k];
             });
             data.unshift(category);
-            db.run(`INSERT INTO ${game} values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, data);
+            db.run(`INSERT INTO ${game} values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, data);
         })
     });
 })
