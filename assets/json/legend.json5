@@ -2,7 +2,13 @@
     {
         "name": "rejected",
         "_comment":"col_pink_dim",
-        "colour": "#ff5555",
+        "colour": "#d65353",
+        "filter": 0,
+    },
+    {
+        "name": "new",
+        "text": "unverified",
+        "colour": "#eb7be9",
         "filter": 0,
     },
     {
@@ -45,7 +51,7 @@
     },
     {
         "name": "emulated",
-        "colour": "#994fff",
+        "colour": "#8356c1",
         "filter": 1,
     },
 ]
