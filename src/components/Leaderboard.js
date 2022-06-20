@@ -23,8 +23,6 @@ export class Leaderboard extends React.Component {
         const category = this.props.categories[0];
 
         const subcategories = this.getSubcategories(category);
-        const platforms = this.getUniques("platform", category);
-        const regions = this.getUniques("region", category);
 
         this.state = {
             category: category,
@@ -34,6 +32,7 @@ export class Leaderboard extends React.Component {
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
             filter_uniqs_status: this.generateFilterUniqsStatus(category),
             other_status: 1,
+            obsolete_status: 0,
             invert_status: 0,
         }
     }
@@ -125,6 +124,11 @@ export class Leaderboard extends React.Component {
                     invert_status: !this.state.invert_status,
                 });
                 break;
+            case "obsolete":
+                this.setState({
+                    obsolete_status: !this.state.obsolete_status,
+                });
+                break;
             default:
                 let ls = _.clone(this.state.legend_status);
                 ls[e.target.dataset["name"]]["filter"] = !ls[e.target.dataset["name"]]["filter"];
@@ -192,7 +196,7 @@ export class Leaderboard extends React.Component {
             runs_filtered = runs_filtered.filter(_.overEvery(filters));
         }
 
-        if (this.props.mode === "normal") {
+        if (!this.state.obsolete_status && this.props.mode === "normal") {
             runs_filtered = runs_filtered.filter(e => {
                 const duplicate = seen.has(e.player);
                 seen.add(e.player);
@@ -225,11 +229,14 @@ export class Leaderboard extends React.Component {
                     handleChangeShowAll={this.handleChangeShowAll.bind(this)}
                     value={this.state.show_all} />
                 <LegendContainer>
+                    <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                    {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
+                </LegendContainer>
+                <LegendContainer>
                     {Object.keys(this.state.legend_status).map((k, i) => {
                         return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                     })}
                     <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
-                    <Legend type="invert" name={"invert"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
                 </LegendContainer>
                 <LegendContainer>
                     {Object.keys(this.state.filter_uniqs_status).map((type, i) => {

@@ -2,8 +2,8 @@ var React = require('react');
 import styled, { css, createGlobalStyle } from 'styled-components'
 
 const LegendSpan = styled.div`
-    margin: 0.1em 0.2em;
-    padding: 0.3em;
+    margin: 0.1em 0.15em;
+    padding: 0.2em;
     border-radius: 0.5em;
 `;
 
