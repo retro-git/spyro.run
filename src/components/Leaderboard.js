@@ -104,8 +104,6 @@ export class Leaderboard extends React.Component {
         console.log(this.state.sort)
 
         let column = e.target.dataset["column"];
-
-        if (this.props.mode == "records" && column == "time") column = "date";
         
         this.setState({
             sort: column,
