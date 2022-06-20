@@ -128,6 +128,7 @@ export class Leaderboard extends React.Component {
 
         if (filter_uniqs_list.includes(type)) {
             let fus = _.clone(this.state.filter_uniqs_status);
+            fus[type][name] = !fus[type][name];
 
             if (keys["KeyA"]) {
                 Object.keys(fus[type]).forEach(e => {
@@ -139,7 +140,7 @@ export class Leaderboard extends React.Component {
                 Object.keys(fus[type]).forEach(e => {
                     fus[type][e] = 0;
                 });
-                fus[type][name] = !fus[type][name];;
+                fus[type][name] = !fus[type][name];
             }
 
             this.setState({ filter_uniqs_status: fus });
