@@ -84,7 +84,7 @@ export class Run extends React.Component {
                     case "comment":
                         const newlines = data ? "\n\n" : "";
                         return <LBTableData key={index} col={key}>{data}
-                            {r["rejected"] ? newlines + "REJECTION REASON:\n" + r["reason"] : ""}
+                            {r["reason"] ? newlines + "-----\n" + r["reason"] : ""}
                             </LBTableData>
                     default:
                         return <LBTableData key={index} col={key}>{data}</LBTableData>
