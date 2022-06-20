@@ -1,3 +1,30 @@
+/*!*********************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/assets/css/navbar.scss ***!
+  \*********************************************************************************************************************/
+/* Dracula Palette */
+/* Addendum colors */
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0em;
+  padding: 0em;
+  padding-left: 2em;
+}
+
+.navlink {
+  font-size: larger;
+  padding: 0em 2em;
+  border: 2px solid #44475a;
+}
+
+.navlink:link {
+  color: #d4d4d4;
+}
+
+.navlink:visited {
+  color: #d4d4d4;
+}
 /*!*************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/assets/css/DatePicker.scss ***!
   \*************************************************************************************************************************/
