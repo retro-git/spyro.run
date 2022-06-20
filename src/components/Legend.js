@@ -16,8 +16,8 @@ export class Legend extends React.Component {
         let txt = !this.props.l ? (this.props.name ? this.props.name : _.startCase(this.props.type + " unknown")) : "text" in this.props.l ? this.props.l.text : this.props.name;
         return (
             <LegendSpan style={{ backgroundColor: this.props.l ? this.props.l["colour"] : "grey" }}>
-                <LegendLabel for={txt}>{txt}</LegendLabel>
-                <input id={txt} type="checkbox" data-name={this.props.name} data-type={this.props.type} onChange={this.props.handleChangeFilter} checked={this.props.checked} />
+                <LegendLabel htmlFor={txt+this.props.type}>{txt}</LegendLabel>
+                <input id={txt+this.props.type} type="checkbox" data-name={this.props.name} data-type={this.props.type} onChange={this.props.handleChangeFilter} checked={this.props.checked} />
             </LegendSpan>
         );
     }

@@ -3,6 +3,7 @@ var _ = require('lodash');
 import { Run } from './Run'
 import { LBTable, LBTableHead, LBTableRowHead, LBTableDataHead, LBTableBody } from './LeaderboardTable'
 import legend from '../assets/json/legend.json5';
+import filter_uniqs_list from '../assets/json/filter_uniqs.json5';
 import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
 
@@ -22,8 +23,8 @@ export class Leaderboard extends React.Component {
         const category = this.props.categories[0];
 
         const subcategories = this.getSubcategories(category);
-        const platforms = this.getPlatforms(category);
-        const regions = this.getRegions(category);
+        const platforms = this.getUniques("platform", category);
+        const regions = this.getUniques("region", category);
 
         this.state = {
             category: category,
@@ -31,25 +32,25 @@ export class Leaderboard extends React.Component {
             subcategory_selections: subcategories.map(e => e[0]),
             show_all: true,
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
-            platform_status: platforms.reduce((prev, cur) => {
-                prev[cur] = 1;
-                return prev;
-            }, {}),
-            region_status: regions.reduce((prev, cur) => {
-                prev[cur] = 1;
-                return prev;
-            }, {}),
+            filter_uniqs_status: this.generateFilterUniqsStatus(category),
             other_status: 1,
             invert_status: 0,
         }
     }
 
-    getPlatforms(selected_category) {
-        return [...new Set(this.props.runs.filter(r => r["category"] == selected_category).map(r => r["platform"]))]
+    generateFilterUniqsStatus(category) {
+        return filter_uniqs_list.reduce((prevObj, curFilter) => {
+            prevObj[curFilter] = this.getUniques(curFilter, category)
+                .reduce((prev, cur) => {
+                    prev[cur] = 1;
+                    return prev;
+                }, {});
+            return prevObj;
+        }, {})
     }
 
-    getRegions(selected_category) {
-        return [...new Set(this.props.runs.filter(r => r["category"] == selected_category).map(r => r["region"]))]
+    getUniques(column, selected_category) {
+        return [...new Set(this.props.runs.filter(r => r["category"] == selected_category).map(r => r[column]))]
     }
 
     getSubcategories(selected_category) {
@@ -76,14 +77,7 @@ export class Leaderboard extends React.Component {
             category: category,
             subcategories: subcategories,
             subcategory_selections: subcategories.map(e => e[0]),
-            platform_status: platforms.reduce((prev, cur) => {
-                prev[cur] = 1;
-                return prev;
-            }, {}),
-            region_status: regions.reduce((prev, cur) => {
-                prev[cur] = 1;
-                return prev;
-            }, {}),
+            filter_uniqs_status: this.generateFilterUniqsStatus(category),
         });
     }
 
@@ -112,41 +106,30 @@ export class Leaderboard extends React.Component {
     }
 
     handleChangeFilter(e) {
-        switch(e.target.dataset["type"]) {
+        let type = e.target.dataset["type"];
+
+        if (filter_uniqs_list.includes(type)) {
+            let fus = _.clone(this.state.filter_uniqs_status);
+            fus[type][e.target.dataset["name"]] = !fus[type][e.target.dataset["name"]];
+            this.setState({ filter_uniqs_status: fus });
+            return
+        }
+
+        switch (e.target.dataset["type"]) {
             case "other":
                 this.setState({
                     other_status: !this.state.other_status,
                 });
                 break;
             case "invert":
-                /*let plat = _.clone(this.state.platform_status);
-                let reg = _.clone(this.state.region_status);
-                let leg = _.clone(this.state.legend_status);
-                Object.keys(plat).forEach(p => plat[p] = !plat[p]);
-                Object.keys(reg).forEach(r => reg[r] = !reg[r]);
-                Object.keys(leg).forEach(l => leg[l]["filter"] = !leg[l]["filter"])*/
                 this.setState({
                     invert_status: !this.state.invert_status,
-                    //other_status: !this.state.other_status,
-                    //platform_status: plat,
-                    //region_status: reg,
-                    //legend_status: leg
                 });
-                break;
-            case "platform":
-                let ps = _.clone(this.state.platform_status);
-                ps[e.target.dataset["name"]] = !ps[e.target.dataset["name"]];
-                this.setState({platform_status: ps});
-                break;
-            case "region":
-                let rs = _.clone(this.state.region_status);
-                rs[e.target.dataset["name"]] = !rs[e.target.dataset["name"]];
-                this.setState({region_status: rs});
                 break;
             default:
                 let ls = _.clone(this.state.legend_status);
                 ls[e.target.dataset["name"]]["filter"] = !ls[e.target.dataset["name"]]["filter"];
-                this.setState({legend_status: ls});
+                this.setState({ legend_status: ls });
         }
     }
 
@@ -179,31 +162,27 @@ export class Leaderboard extends React.Component {
                 if (this.state.show_all) return true;
                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
             })
-            
+
         let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
             if (!this.state.legend_status[k]["filter"]) {
                 return this.state.legend_status[k]["invert"] ? r => r[k] : r => !r[k]
             }
         }));
 
-        let platform_filter = _.overEvery(Object.keys(this.state.platform_status).map(k => {
-            if (!this.state.platform_status[k]) {
-                return r => !(r["platform"] == k);
-            }
-        }));
-
-        let region_filter = _.overEvery(Object.keys(this.state.region_status).map(k => {
-            if (!this.state.region_status[k]) {
-                return r => !(r["region"] == k);
-            }
-        }));
+        let uniqs_filters = Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+            return _.overEvery(Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                if (!this.state.filter_uniqs_status[type][k]) {
+                    return r => !(r[type] == k);
+                }
+            }))
+        })
 
         let other_filter = _.negate(_.overEvery(Object.keys(_.omit(_.clone(this.state.legend_status), ["other"])).map(k => {
             if (k == "date") return r => r["date"] !== "";
             return r => !r[k];
         })));
 
-        let filters = [legend_filter, platform_filter, region_filter];
+        let filters = [legend_filter, uniqs_filters].flat();
 
         if (!this.state.other_status) filters.push(other_filter);
 
@@ -213,7 +192,7 @@ export class Leaderboard extends React.Component {
         else {
             runs_filtered = runs_filtered.filter(_.overEvery(filters));
         }
-            
+
         if (this.props.mode === "normal") {
             runs_filtered = runs_filtered.filter(e => {
                 const duplicate = seen.has(e.player);
@@ -250,22 +229,21 @@ export class Leaderboard extends React.Component {
                     {Object.keys(this.state.legend_status).map((k, i) => {
                         return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                     })}
-                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)}/>
-                    <Legend type="invert" name={"invert"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)}/>
+                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                    <Legend type="invert" name={"invert"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
                 </LegendContainer>
                 <LegendContainer>
-                    {Object.keys(this.state.platform_status).map((k, i) => {
-                        return <Legend type="platform" name={k} checked={this.state.platform_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                    })}
-                    {Object.keys(this.state.region_status).map((k, i) => {
-                        return <Legend type="region" name={k} checked={this.state.region_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                    {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                        return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                            return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                        })
                     })}
                 </LegendContainer>
                 <LBTable>
                     <LBTableHead>
                         <LBTableRowHead>
                             {this.props.columns.map((h, i) => {
-                                if (legend.map(l => "drawcol" in l  && l["drawcol"] ? "" : l["name"]).includes(h)) return;
+                                if (legend.map(l => "drawcol" in l && l["drawcol"] ? "" : l["name"]).includes(h)) return;
                                 switch (h) {
                                     case "hash":
                                     case "id":
