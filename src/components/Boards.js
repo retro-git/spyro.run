@@ -66,7 +66,7 @@ export class Boards extends React.Component {
                 }));
             })
             .map(r => {
-                const picked_hash = _.assign({ "game": game }, (_.pick(_.clone(r), ['category', 'player', 'time', 'date'])));
+                const picked_hash = _.assign({ "game": game }, (_.pick(_.clone(r), ['category', 'player', 'time', 'date', 'id'])));
                 const hash = Base64.stringify(sha256(JSON.stringify(picked_hash)));
                 return _.assign(_.assign(_.clone(r), overrides[hash]), { "hash": hash });
             })
