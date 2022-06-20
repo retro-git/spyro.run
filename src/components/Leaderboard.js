@@ -21,17 +21,14 @@ export class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
 
-        const category = this.props.categories[0];
-
-        const subcategories = this.getSubcategories(category);
+        const subcategories = this.getSubcategories();
 
         this.state = {
-            category: category,
             subcategories: subcategories,
             subcategory_selections: subcategories.map(e => e[0]),
             show_all: true,
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
-            filter_uniqs_status: this.generateFilterUniqsStatus(category),
+            filter_uniqs_status: this.generateFilterUniqsStatus(),
             other_status: 1,
             obsolete_status: 0,
             invert_status: 0,
@@ -40,9 +37,9 @@ export class Leaderboard extends React.Component {
         }
     }
 
-    generateFilterUniqsStatus(category) {
+    generateFilterUniqsStatus() {
         return filter_uniqs_list.reduce((prevObj, curFilter) => {
-            prevObj[curFilter] = this.getUniques(curFilter, category)
+            prevObj[curFilter] = this.getUniques(curFilter)
                 .reduce((prev, cur) => {
                     prev[cur] = 1;
                     return prev;
@@ -51,13 +48,12 @@ export class Leaderboard extends React.Component {
         }, {})
     }
 
-    getUniques(column, selected_category) {
-        return [...new Set(this.props.runs.filter(r => r["category"] == selected_category).map(r => r[column]))]
+    getUniques(column) {
+        return [...new Set(this.props.runs.map(r => r[column]))]
     }
 
-    getSubcategories(selected_category) {
+    getSubcategories() {
         const subcategories_unfiltered = this.props.runs
-            .filter(r => r["category"] == selected_category)
             .map(r => r["subcategory"])
             .map(r => r.split(", "));
 
@@ -71,14 +67,13 @@ export class Leaderboard extends React.Component {
         return subcategories;
     }
 
-    updateData(category) {
-        const subcategories = this.getSubcategories(category);
+    updateData() {
+        const subcategories = this.getSubcategories();
 
         this.setState({
-            category: category,
             subcategories: subcategories,
             subcategory_selections: subcategories.map(e => e[0]),
-            filter_uniqs_status: this.generateFilterUniqsStatus(category),
+            filter_uniqs_status: this.generateFilterUniqsStatus(),
         });
     }
 
@@ -102,7 +97,7 @@ export class Leaderboard extends React.Component {
 
     handleChangeSort(e) {
         let column = e.target.dataset["column"];
-        
+
         this.setState({
             sort: column,
             sort_order: !this.state.sort_order
@@ -172,7 +167,7 @@ export class Leaderboard extends React.Component {
 
     render() {
         const seen = new Set();
-        let runs_filtered = this.props.runs.filter((r) => r["category"] == this.state.category)
+        let runs_filtered = this.props.runs
             .filter((r) => {
                 if (this.state.show_all) return true;
                 return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
@@ -233,12 +228,12 @@ export class Leaderboard extends React.Component {
 
         return (
             <div>
-                <h2>Select category:</h2>
+                {/*<h2>Select category:</h2>
                 <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
                     {this.props.categories.map((c, i) => (
                         <option key={i} value={c}>{c}</option>
                     ))}
-                </select>
+                    </select>*/}
                 <this.Subcategories
                     subcategories={this.state.subcategories}
                     handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
@@ -250,17 +245,23 @@ export class Leaderboard extends React.Component {
                     {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
                 </LegendContainer>
                 <LegendContainer>
-                    {Object.keys(this.state.legend_status).map((k, i) => {
-                        return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                    {Object.keys(this.state.filter_uniqs_status["category"]).map((k, i) => {
+                        return <Legend type="category" name={k} checked={this.state.filter_uniqs_status["category"][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                     })}
-                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
                 </LegendContainer>
                 <LegendContainer>
                     {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                        if (type == "category") return;
                         return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
                             return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                         })
                     })}
+                </LegendContainer>
+                <LegendContainer>
+                    {Object.keys(this.state.legend_status).map((k, i) => {
+                        return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                    })}
+                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
                 </LegendContainer>
                 <LBTable>
                     <LBTableHead>
