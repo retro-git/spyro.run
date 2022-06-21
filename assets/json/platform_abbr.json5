@@ -7,5 +7,11 @@
     "Playstation TV": "PSTV",
     "Nintendo 64": "N64",
     "Wii Virtual Console": "Wii VC",
-    "Wii U Virtual Console": "WiiU VC"
+    "Wii U Virtual Console": "WiiU VC",
+    "GameCube": "GC",
+    "iQue Player": "iQue",
+    "Super Nintendo": "SNES",
+    "SNES Classic Mini": "SNES Mini",
+    "Analogue Super Nt": "Super Nt",
+    "New Nintendo 3DS Virtual Console": "New 3DS VC",
 }
