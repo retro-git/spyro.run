@@ -36,17 +36,15 @@ export class Leaderboard extends React.Component {
 
         const subcategories = this.getSubcategories();
 
-        console.log(this.generateFilterUniqsStatus());
 
-        console.log(subcategories)
-        let subcategory_filter_status = subcategories;
+        console.log(this.generateFilterUniqsStatus(subcategories))
 
         this.state = {
             subcategories: subcategories,
             subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
             show_all: true,
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
-            filter_uniqs_status: this.generateFilterUniqsStatus(),
+            filter_uniqs_status: this.generateFilterUniqsStatus(subcategories),
             other_status: 1,
             obsolete_status: 0,
             invert_status: 0,
@@ -55,15 +53,37 @@ export class Leaderboard extends React.Component {
         }
     }
 
-    generateFilterUniqsStatus() {
-        return filter_uniqs_list.reduce((prevObj, curFilter) => {
+    generateSubcatFilterStatus(subcategories) {
+        return Object.keys(subcategories).reduce((prev, cur) => {
+            prev[cur] = subcategories[cur].reduce((p, c) => {
+                p[c] = 1;
+                return p;
+            }, {})
+            return prev;
+        }, {});
+    }
+
+    generateFilterUniqsStatus(subcategories) {
+        let fus = filter_uniqs_list.reduce((prevObj, curFilter) => {
             prevObj[curFilter] = this.getUniques(curFilter)
                 .reduce((prev, cur) => {
                     prev[cur] = !(_.isEmpty(prev)) && curFilter == "category" ? 0 : 1;
                     return prev;
                 }, {});
             return prevObj;
-        }, {})
+        }, {});
+        let sfs = Object.keys(subcategories).reduce((prev, cur) => {
+            prev[cur] = subcategories[cur].reduce((p, c) => {
+                p[c] = 1;
+                return p;
+            }, {})
+            return prev;
+        }, {});
+
+
+        fus = _.assign(_.clone(fus), sfs);
+
+        return fus;
     }
 
     getUniques(column) {
@@ -101,8 +121,6 @@ export class Leaderboard extends React.Component {
             // }
         }
 
-        console.log(subcategories)
-
         return subcategories;
     }
 
@@ -112,7 +130,7 @@ export class Leaderboard extends React.Component {
         this.setState({
             subcategories: subcategories,
             subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
-            filter_uniqs_status: this.generateFilterUniqsStatus(),
+            filter_uniqs_status: this.generateFilterUniqsStatus(subcategories),
         });
     }
 
@@ -153,7 +171,7 @@ export class Leaderboard extends React.Component {
         let type = e.target.dataset["type"];
         let name = e.target.dataset["name"];
 
-        if (filter_uniqs_list.includes(type)) {
+        if (Object.keys(this.state.filter_uniqs_status).includes(type)) {
             let fus = _.clone(this.state.filter_uniqs_status);
             fus[type][name] = !fus[type][name];
 
@@ -197,29 +215,6 @@ export class Leaderboard extends React.Component {
         }
     }
 
-    Subcategories(props) {
-        console.log("len" + Object.keys(props.subcategories).length)
-        if (Object.keys(props.subcategories).length == 0) return;
-        return (
-            <div className="subcategories">
-                <h2>Select subcategory(s):</h2>
-                {Object.keys(props.subcategories).map((cs, i) => {
-                    return (
-                        <select key={i} style={{ float: 'left' }} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
-                            {props.subcategories[cs].map((c, i) => (
-                                <option key={i} value={c}>{c}</option>
-                            ))}
-                        </select>
-                    )
-                })}
-                <label>
-                    <input style={{ float: 'left' }} type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value} />
-                    Show all
-                </label>
-            </div>
-        )
-    }
-
     render() {
         const seen = new Set();
         let runs_filtered = this.props.runs
@@ -237,7 +232,15 @@ export class Leaderboard extends React.Component {
         let uniqs_filters = Object.keys(this.state.filter_uniqs_status).map((type, i) => {
             return _.overEvery(Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
                 if (!this.state.filter_uniqs_status[type][k]) {
-                    return r => !(r[type] == k);
+                    if (filter_uniqs_list.includes(type)) {
+                        return r => !(r[type] == k);
+                    }
+                    else {
+                        return r => {
+                            let json = JSON.parse(r["subcategory"]);
+                            return !(json.find(e => e.name == type).value == k);
+                        }
+                    }
                 }
             }))
         })
@@ -283,18 +286,6 @@ export class Leaderboard extends React.Component {
 
         return (
             <div>
-                {/*<h2>Select category:</h2>
-                <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
-                    {this.props.categories.map((c, i) => (
-                        <option key={i} value={c}>{c}</option>
-                    ))}
-                    </select>*/}
-                <this.Subcategories
-                    subcategories={this.state.subcategories}
-                    handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
-                    subcategory_selections={this.state.subcategory_selections}
-                    handleChangeShowAll={this.handleChangeShowAll.bind(this)}
-                    value={this.state.show_all} />
                 <div id="test" style={{ display: "grid", justifyContent: "center", alignItems: "center", alignContent: "center" }}>
                     <div style={{ border: "1px dotted grey", borderRadius: "10px", padding: "0.1em", margin: "0.5em" }}>
                         <LegendContainer>

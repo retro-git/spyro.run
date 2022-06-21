@@ -7,5 +7,7 @@
     "Playstation TV": "PSTV",
     "Nintendo 64": "N64",
     "Wii Virtual Console": "Wii VC",
-    "Wii U Virtual Console": "WiiU VC"
+    "Wii U Virtual Console": "WiiU VC",
+    "GameCube": "GC",
+    "iQue Player": "iQue",
 }
