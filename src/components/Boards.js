@@ -9,11 +9,24 @@ import _ from 'lodash';
 import platform_abbr from '../assets/json/platform_abbr.json5';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import { NavBar } from '../components/NavBar.js'
+import Autocomplete from "@mui/material/Autocomplete";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import TextField from "@mui/material/TextField";
 import "../assets/css/DatePicker.scss"
 import "../assets/css/Calendar.scss"
 
 // I assure you, dear reader, ignoring the benefits of styled and simply using an external file is necessary
 import '../assets/css/boards.scss'
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+    typography: {
+        textAlign: 'center',
+    }
+});
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
 const games_extras = db.extras.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
@@ -76,8 +89,8 @@ export class Boards extends React.Component {
         if (minDate > date) date = minDate;
 
         runs = runs.filter(r => {
-                return new Date(r["date"]) <= date;
-            })
+            return new Date(r["date"]) <= date;
+        })
 
         return {
             game: game,
@@ -88,14 +101,14 @@ export class Boards extends React.Component {
         }
     }
 
-    handleChangeGame(e) {
-        const data = this.getData(this.state.date, e.target.value);
+    handleChangeGame(e, value) {
+        const data = this.getData(this.state.date, value);
 
         this.setState({
             game: data.game,
             columns: data.columns,
             runs: data.runs,
-            game: e.target.value,
+            game: value,
             minDate: data.minDate,
             date: data.date,
         })
@@ -113,16 +126,25 @@ export class Boards extends React.Component {
     }
 
     render() {
+        console.log(this.state.game)
+        console.log(games_srcom[0][0])
         return (
             <div>
-                <NavBar/>
-                <DatePicker minDate={this.state.minDate} maxDate={new Date()} value={this.state.date} onChange={this.handleChangeDate.bind(this)}/>
-                <h2>Select game:</h2>
-                <select onChange={this.handleChangeGame.bind(this)}>
-                    {games_srcom.map((g, i) => (
-                        <option key={i} value={g}>{g}</option>
-                    ))}
-                </select>
+                <NavBar />
+                <DatePicker minDate={this.state.minDate} maxDate={new Date()} value={this.state.date} onChange={this.handleChangeDate.bind(this)} />
+                <ThemeProvider theme={darkTheme}>
+                    <Autocomplete
+                        fullWidth
+                        sx={{ width: "20vw", margin: "auto" }}
+                        onChange={this.handleChangeGame.bind(this)}
+                        options={games_srcom}
+                        getOptionLabel={(o) => o[0]}
+                        defaultValue={[this.state.game]}
+                        renderInput={(params) => (
+                            <TextField {...params} label="Select game" />
+                        )}
+                    />
+                </ThemeProvider>
                 <Leaderboard game={this.state.game}
                     columns={Object.keys(this.state.runs[0])}
                     runs={this.state.runs}
