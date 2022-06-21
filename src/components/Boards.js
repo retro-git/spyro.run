@@ -13,6 +13,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import games from "../assets/json/games.json5"
 import TextField from "@mui/material/TextField";
+import { createFilterOptions } from '@mui/material/Autocomplete';
 import "../assets/css/DatePicker.scss"
 import "../assets/css/Calendar.scss"
 
@@ -26,6 +27,10 @@ const darkTheme = createTheme({
     typography: {
         textAlign: 'center',
     }
+});
+
+const filterOptions = createFilterOptions({
+    limit: 15,
 });
 
 const games_srcom = db.srcom.exec("SELECT tbl_name from sqlite_master WHERE type = 'table'")[0]["values"];
@@ -133,7 +138,9 @@ export class Boards extends React.Component {
                 <DatePicker minDate={this.state.minDate} maxDate={new Date()} value={this.state.date} onChange={this.handleChangeDate.bind(this)} />
                 <ThemeProvider theme={darkTheme}>
                     <Autocomplete
+                        filterOptions={filterOptions}
                         fullWidth
+                        disableClearable
                         sx={{ width: "20vw", margin: "auto" }}
                         onChange={this.handleChangeGame.bind(this)}
                         options={games}
