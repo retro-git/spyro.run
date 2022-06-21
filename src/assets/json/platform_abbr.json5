@@ -5,4 +5,7 @@
     "PlayStation Portable": "PSP",
     "PlayStation Vita": "PSVita",
     "Playstation TV": "PSTV",
+    "Nintendo 64": "N64",
+    "Wii Virtual Console": "Wii VC",
+    "Wii U Virtual Console": "WiiU VC"
 }

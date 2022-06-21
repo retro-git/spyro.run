@@ -25,3 +25,9 @@ crash3 "Any% (No Item Glitch)"
 crash3 105%
 sprash "Sprash Trilogies"
 yugiohfm Any%
+sm64 "0 Star"
+oot "Glitchless"
+sm64 "16 Star"
+sm64 "120 Star"
+sm64 "70 Star"
+sm64 "1 Star"
