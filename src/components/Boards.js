@@ -42,7 +42,6 @@ export class Boards extends React.Component {
         super(props);
 
         //const game = games_srcom[0][0];
-        console.log(games[0].id)
         const game = games[0].id;
         const date = new Date();
 
@@ -104,7 +103,6 @@ export class Boards extends React.Component {
     }
 
     handleChangeGame(e, value) {
-        console.log(value)
         const data = this.getData(this.state.date, value.id);
 
         this.setState({
@@ -129,8 +127,6 @@ export class Boards extends React.Component {
     }
 
     render() {
-        console.log(this.state.game)
-        console.log(games_srcom[0][0])
         return (
             <div>
                 <NavBar />

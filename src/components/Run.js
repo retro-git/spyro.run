@@ -55,6 +55,8 @@ export class Run extends React.Component {
                     case "game":
                     case "subcategory":
                     case "region":
+                    case "realtime":
+                    case "gametime":
                     case "reason":
                         return
                     case "player":

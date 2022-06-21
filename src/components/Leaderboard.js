@@ -36,9 +36,14 @@ export class Leaderboard extends React.Component {
 
         const subcategories = this.getSubcategories();
 
+        console.log(this.generateFilterUniqsStatus());
+
+        console.log(subcategories)
+        let subcategory_filter_status = subcategories;
+
         this.state = {
             subcategories: subcategories,
-            subcategory_selections: subcategories.map(e => e[0]),
+            subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
             show_all: true,
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
             filter_uniqs_status: this.generateFilterUniqsStatus(),
@@ -66,17 +71,38 @@ export class Leaderboard extends React.Component {
     }
 
     getSubcategories() {
+        // const subcategories_unfiltered = this.props.runs
+        //     .map(r => {
+        //         let json = JSON.parse(r["subcategory"]);
+        //         return json.map(s => s.value);
+        //     })
+
         const subcategories_unfiltered = this.props.runs
-            .map(r => r["subcategory"])
-            .map(r => r.split(", "));
+            .map(r => {
+                let json = JSON.parse(r["subcategory"]);
+                return json.reduce((prev, cur) => {
+                    prev[cur.name] = cur.value;
+                    return prev;
+                }, {});
+            })
 
-        let subcategories = [];
 
-        if (subcategories_unfiltered[0] !== undefined) {
-            for (var i = 0; i < subcategories_unfiltered[0].length; i++) {
-                subcategories.push([...new Set(subcategories_unfiltered.map(s => s[i]))]);
-            }
+        let subcategories = {};
+        //console.log(subcategories_unfiltered)
+        //console.log(Object.keys(subcategories_unfiltered[0]) !== undefined)
+
+        if (Object.keys(subcategories_unfiltered[0]) !== undefined) {
+            subcategories = Object.keys(subcategories_unfiltered[0]).reduce((prev, cur) => {
+                prev[cur] = [...new Set(subcategories_unfiltered.map(s => s[cur]))].filter(s => s != undefined)
+                return prev;
+            }, {})
+            // for (var i = 0; i < Object.keys(subcategories_unfiltered[0]).length; i++) {
+            //     subcategories.push([...new Set(subcategories_unfiltered.map(s => s[i].value))].filter(s => s != undefined));
+            // }
         }
+
+        console.log(subcategories)
+
         return subcategories;
     }
 
@@ -85,7 +111,7 @@ export class Leaderboard extends React.Component {
 
         this.setState({
             subcategories: subcategories,
-            subcategory_selections: subcategories.map(e => e[0]),
+            subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
             filter_uniqs_status: this.generateFilterUniqsStatus(),
         });
     }
@@ -172,14 +198,15 @@ export class Leaderboard extends React.Component {
     }
 
     Subcategories(props) {
-        if (props.subcategories[0] == '') return;
+        console.log("len" + Object.keys(props.subcategories).length)
+        if (Object.keys(props.subcategories).length == 0) return;
         return (
             <div className="subcategories">
                 <h2>Select subcategory(s):</h2>
-                {props.subcategories.map((cs, i) => {
+                {Object.keys(props.subcategories).map((cs, i) => {
                     return (
                         <select key={i} style={{ float: 'left' }} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
-                            {cs.map((c, i) => (
+                            {props.subcategories[cs].map((c, i) => (
                                 <option key={i} value={c}>{c}</option>
                             ))}
                         </select>
@@ -198,7 +225,7 @@ export class Leaderboard extends React.Component {
         let runs_filtered = this.props.runs
             .filter((r) => {
                 if (this.state.show_all) return true;
-                return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
+                return _.isEqual(JSON.parse(r["subcategory"]).map(s => s.value), this.state.subcategory_selections)
             })
 
         let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
@@ -269,7 +296,7 @@ export class Leaderboard extends React.Component {
                     handleChangeShowAll={this.handleChangeShowAll.bind(this)}
                     value={this.state.show_all} />
                 <div id="test" style={{ display: "grid", justifyContent: "center", alignItems: "center", alignContent: "center" }}>
-                    <div style={{border: "1px dotted grey", borderRadius: "10px", padding: "0.1em", margin: "0.5em"}}>
+                    <div style={{ border: "1px dotted grey", borderRadius: "10px", padding: "0.1em", margin: "0.5em" }}>
                         <LegendContainer>
                             <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
                             {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
@@ -310,6 +337,8 @@ export class Leaderboard extends React.Component {
                                     case "id":
                                     case "game":
                                     case "region":
+                                    case "realtime":
+                                    case "gametime":
                                     case "reason":
                                     case "subcategory":
                                         return

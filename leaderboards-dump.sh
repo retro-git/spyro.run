@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cp -R src/assets/db/srcom.sqlite src-dump/out/
+
 
 cd src-dump
 
