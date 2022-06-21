@@ -11,7 +11,7 @@ import DatePicker from 'react-date-picker/dist/entry.nostyle';
 import { NavBar } from '../components/NavBar.js'
 import Autocomplete from "@mui/material/Autocomplete";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import games from "../assets/json/games.json5"
 import TextField from "@mui/material/TextField";
 import "../assets/css/DatePicker.scss"
 import "../assets/css/Calendar.scss"
@@ -41,7 +41,9 @@ export class Boards extends React.Component {
     constructor(props) {
         super(props);
 
-        const game = games_srcom[0][0];
+        //const game = games_srcom[0][0];
+        console.log(games[0].id)
+        const game = games[0].id;
         const date = new Date();
 
         const data = this.getData(date, game);
@@ -102,13 +104,14 @@ export class Boards extends React.Component {
     }
 
     handleChangeGame(e, value) {
-        const data = this.getData(this.state.date, value);
+        console.log(value)
+        const data = this.getData(this.state.date, value.id);
 
         this.setState({
             game: data.game,
             columns: data.columns,
             runs: data.runs,
-            game: value,
+            game: value.id,
             minDate: data.minDate,
             date: data.date,
         })
@@ -137,9 +140,9 @@ export class Boards extends React.Component {
                         fullWidth
                         sx={{ width: "20vw", margin: "auto" }}
                         onChange={this.handleChangeGame.bind(this)}
-                        options={games_srcom}
-                        getOptionLabel={(o) => o[0]}
-                        defaultValue={[this.state.game]}
+                        options={games}
+                        getOptionLabel={(o) => o.name}
+                        defaultValue={games[0]}
                         renderInput={(params) => (
                             <TextField {...params} label="Select game" />
                         )}

@@ -1,0 +1,10 @@
+[
+    {id: "sm64", name: "Super Mario 64"},
+    {id: "spyro1", name: "Spyro the Dragon"},
+    {id: "spyro2", name: "Spyro 2: Ripto's Rage!"},
+    {id: "spyro3", name: "Spyro: Year of the Dragon"},
+    {id: "oot", name: "Ocarina of Time"},
+    {id: "spyroetd", name: "Spyro: Enter the Dragonfly"},
+    {id: "yugiohfm", name: "Yu-Gi-Oh! Forbidden Memories (1999)"},
+    {id: "sprash", name: "Multiple Spyro & Crash Games"},
+]
