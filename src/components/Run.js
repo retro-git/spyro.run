@@ -57,6 +57,7 @@ export class Run extends React.Component {
                     case "region":
                     case "realtime":
                     case "gametime":
+                    case "examiner":
                     case "reason":
                         return
                     case "player":
@@ -86,6 +87,7 @@ export class Run extends React.Component {
                         const newlines = data ? "\n\n" : "";
                         return <LBTableData key={index} col={key}>{data}
                             {r["reason"] ? newlines + "-----\n" + r["reason"] : ""}
+                            {newlines + "examiner: " + r["examiner"]}
                             </LBTableData>
                     default:
                         return <LBTableData key={index} col={key}>{data}</LBTableData>

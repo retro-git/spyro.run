@@ -330,6 +330,7 @@ export class Leaderboard extends React.Component {
                                     case "region":
                                     case "realtime":
                                     case "gametime":
+                                    case "examiner":
                                     case "reason":
                                     case "subcategory":
                                         return
