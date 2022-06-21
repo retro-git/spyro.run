@@ -5,6 +5,7 @@ const LegendSpan = styled.div`
     margin: 0.1em 0.15em;
     padding: 0.2em;
     border-radius: 0.5em;
+    align-items: flex-start;
 `;
 
 const LegendLabel = styled.label`

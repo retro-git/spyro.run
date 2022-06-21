@@ -25,8 +25,9 @@ const LegendContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0.5em;
+    padding: 0.1em;
     flex-wrap: wrap;
+    align-self: flex-start;
 `;
 
 export class Leaderboard extends React.Component {
@@ -177,7 +178,7 @@ export class Leaderboard extends React.Component {
                 <h2>Select subcategory(s):</h2>
                 {props.subcategories.map((cs, i) => {
                     return (
-                        <select key={i} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
+                        <select key={i} style={{ float: 'left' }} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
                             {cs.map((c, i) => (
                                 <option key={i} value={c}>{c}</option>
                             ))}
@@ -185,7 +186,7 @@ export class Leaderboard extends React.Component {
                     )
                 })}
                 <label>
-                    <input type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value} />
+                    <input style={{ float: 'left' }} type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value} />
                     Show all
                 </label>
             </div>
@@ -267,29 +268,33 @@ export class Leaderboard extends React.Component {
                     subcategory_selections={this.state.subcategory_selections}
                     handleChangeShowAll={this.handleChangeShowAll.bind(this)}
                     value={this.state.show_all} />
-                <LegendContainer>
-                    <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
-                    {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
-                </LegendContainer>
-                <LegendContainer>
-                    {Object.keys(this.state.filter_uniqs_status["category"]).map((k, i) => {
-                        return <Legend type="category" name={k} checked={this.state.filter_uniqs_status["category"][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                    })}
-                </LegendContainer>
-                <LegendContainer>
-                    {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
-                        if (type == "category") return;
-                        return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
-                            return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                        })
-                    })}
-                </LegendContainer>
-                <LegendContainer>
-                    {Object.keys(this.state.legend_status).map((k, i) => {
-                        return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                    })}
-                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
-                </LegendContainer>
+                <div id="test" style={{ display: "grid", justifyContent: "center", alignItems: "center", alignContent: "center" }}>
+                    <div style={{border: "1px dotted grey", borderRadius: "10px", padding: "0.1em", margin: "0.5em"}}>
+                        <LegendContainer>
+                            <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                            {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status["category"]).map((k, i) => {
+                                return <Legend type="category" name={k} checked={this.state.filter_uniqs_status["category"][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                                if (type == "category") return;
+                                return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                                    return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                                })
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.legend_status).map((k, i) => {
+                                return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                            })}
+                            <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                        </LegendContainer>
+                    </div>
+                </div >
                 <LBTable>
                     <LBTableHead>
                         <LBTableRowHead>
