@@ -7,7 +7,8 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0em;
+  margin-bottom: 1em;
+  border: 1em;
   padding: 0em;
   padding-left: 2.5vw;
 }
@@ -33,7 +34,7 @@
 .react-date-picker {
   display: inline-flex;
   position: absolute !important;
-  padding: 2.5vh 12.5vw;
+  padding: 0 12.5vw;
   color: white;
 }
 
