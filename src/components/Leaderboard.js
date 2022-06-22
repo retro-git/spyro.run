@@ -42,7 +42,6 @@ export class Leaderboard extends React.Component {
         this.state = {
             subcategories: subcategories,
             subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
-            show_all: true,
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
             filter_uniqs_status: this.generateFilterUniqsStatus(subcategories),
             other_status: 1,
@@ -113,7 +112,7 @@ export class Leaderboard extends React.Component {
 
         if (Object.keys(subcategories_unfiltered[0]) !== undefined) {
             subcategories = Object.keys(subcategories_unfiltered[0]).reduce((prev, cur) => {
-                prev[cur] = [...new Set(subcategories_unfiltered.map(s => s[cur]))].filter(s => s != undefined)
+                prev[cur] = [...new Set(subcategories_unfiltered.map(s => s[cur] ? s[cur] : ""))]
                 return prev;
             }, {})
             // for (var i = 0; i < Object.keys(subcategories_unfiltered[0]).length; i++) {
@@ -160,13 +159,7 @@ export class Leaderboard extends React.Component {
             sort_order: !this.state.sort_order
         });
     }
-
-    handleChangeShowAll(e) {
-        this.setState({
-            show_all: !this.state.show_all,
-        })
-    }
-
+    
     handleChangeFilter(e) {
         let type = e.target.dataset["type"];
         let name = e.target.dataset["name"];
@@ -217,11 +210,7 @@ export class Leaderboard extends React.Component {
 
     render() {
         const seen = new Set();
-        let runs_filtered = this.props.runs
-            .filter((r) => {
-                if (this.state.show_all) return true;
-                return _.isEqual(JSON.parse(r["subcategory"]).map(s => s.value), this.state.subcategory_selections)
-            })
+        let runs_filtered = this.props.runs;
 
         let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
             if (!this.state.legend_status[k]["filter"]) {
@@ -238,7 +227,14 @@ export class Leaderboard extends React.Component {
                     else {
                         return r => {
                             let json = JSON.parse(r["subcategory"]);
-                            return !(json.find(e => e.name == type).value == k);
+                            console.log(r)
+                            console.log(json);
+                            let e = json.find(e => e.name == type);
+                            console.log(e);
+                            console.log(k)
+                            return e ? !(e.value == k) : k !== "";
+                            //return json.find(e => e.name == type) ? 
+                            //return !(json.find(e => e.name == type).value == k);
                         }
                     }
                 }
