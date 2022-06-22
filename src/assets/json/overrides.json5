@@ -1,28 +1,20 @@
 {
-    /*"aKyWDuI3M+kuLUEcjUUY4oOi6++oUyg00JU1g6ApXZQ=": {
-        "player": "test override playersadf",
-        "editor's note": "test",
-        "link": "test link",
-        "cheated": 1,
-        "no video": 0,
-    },
-    "OkubUtf/PflD5rCnippSzEyKsDQscSzJNFWDGC9Z4/I=": {
-        "removed": 1,
-    },
-    "7Ub/m8n2Ic/XiTP7zs/FmydsDaL8ORco3t/4sZZzhWI=": {
-        "disputed": 1,
-    },
-    "1ssAgSY7Y51MN6IEE6HWnyWqZpptUGQp063Ym8GOCEI=": {
-        "anonymised": 1,
-    },
-    "D13gN206VGEzm13/yLvUtjsc5JE/c5UzZV1dd+0G7rs=": {
-        "unsubmitted": 1,
-    },
-    "i4a5aAsJtZLgVt/jp9NnWxzBQ9c+7efBs2sZ2NIP7Rg=": {
-        "no video": 1,
-    },*/
+    //PeteThePlayer spliced Spyro 2 Any% run
     "C1kvdM8PrWIvlxqCr15Wjk8u0to6OAqZM/XCRYoWhOo=": {
-        rejected: 0,
-        cheated: 1,
+        "rejected": 0,
+        "cheated": 1
+    },
+    //Super Metroid run, had incorrect time (was set to the ingame time instead of real time)
+    "POFIMfsmHnceoAMMyVaPBbgpLlBX1HY5V68De9aUKRs=": {
+        "time": 2955
+    },
+    //Adding video to Super Metroid WR by zoast
+    "pWDrPqDKnaDdrTrdpG3qWxx0iWl+Ww7+vmsXwyZ38l8=": {
+        "link": "https://www.youtube.com/watch?v=shNyq0TfHBs",
+        "no video": 0
+    },
+    //Random SM64 run
+    "LV3v4nAIm0Vp7VHm826mIYjH7HAtHlEICF+ELfAsd9Y=": {
+        "subcategory": "[{\"name\":\"Platform\", \"value\": \"EMU\"}, {\"name\":\"Verified\", \"value\": \"No\"}]"
     }
 }

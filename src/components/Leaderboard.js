@@ -8,30 +8,39 @@ import { Legend } from './Legend'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import sortables from '../sortables.js'
 
+let keys = {
+    "KeyA": 0, "KeyS": 0,
+};
+
+document.addEventListener('keydown', (event) => {
+    if (event.code in keys) keys[event.code] = 1;
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    if (event.code in keys) keys[event.code] = 0;
+}, false);
+
 const LegendContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0.5em;
+    padding: 0.1em;
     flex-wrap: wrap;
+    align-self: flex-start;
 `;
 
 export class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
 
-        const category = this.props.categories[0];
-
-        const subcategories = this.getSubcategories(category);
+        const subcategories = this.getSubcategories();
 
         this.state = {
-            category: category,
             subcategories: subcategories,
-            subcategory_selections: subcategories.map(e => e[0]),
-            show_all: true,
+            subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
             legend_status: legend.reduce((o, l) => Object.assign(o, { [l["name"]]: _.omit(_.clone(l), ["name"]) }), {}),
-            filter_uniqs_status: this.generateFilterUniqsStatus(category),
+            filter_uniqs_status: this.generateFilterUniqsStatus(subcategories),
             other_status: 1,
             obsolete_status: 0,
             invert_status: 0,
@@ -40,45 +49,84 @@ export class Leaderboard extends React.Component {
         }
     }
 
-    generateFilterUniqsStatus(category) {
-        return filter_uniqs_list.reduce((prevObj, curFilter) => {
-            prevObj[curFilter] = this.getUniques(curFilter, category)
+    generateSubcatFilterStatus(subcategories) {
+        return Object.keys(subcategories).reduce((prev, cur) => {
+            prev[cur] = subcategories[cur].reduce((p, c) => {
+                p[c] = 1;
+                return p;
+            }, {})
+            return prev;
+        }, {});
+    }
+
+    generateFilterUniqsStatus(subcategories) {
+        let fus = filter_uniqs_list.reduce((prevObj, curFilter) => {
+            prevObj[curFilter] = this.getUniques(curFilter)
                 .reduce((prev, cur) => {
-                    prev[cur] = 1;
+                    prev[cur] = !(_.isEmpty(prev)) && curFilter == "category" ? 0 : 1;
                     return prev;
                 }, {});
             return prevObj;
-        }, {})
+        }, {});
+        let sfs = Object.keys(subcategories).reduce((prev, cur) => {
+            prev[cur] = subcategories[cur].reduce((p, c) => {
+                p[c] = 1;
+                return p;
+            }, {})
+            return prev;
+        }, {});
+
+
+        fus = _.assign(_.clone(fus), sfs);
+
+        return fus;
     }
 
-    getUniques(column, selected_category) {
-        return [...new Set(this.props.runs.filter(r => r["category"] == selected_category).map(r => r[column]))]
+    getUniques(column) {
+        return [...new Set(this.props.runs.map(r => r[column]))]
     }
 
-    getSubcategories(selected_category) {
+    getSubcategories() {
+        // const subcategories_unfiltered = this.props.runs
+        //     .map(r => {
+        //         let json = JSON.parse(r["subcategory"]);
+        //         return json.map(s => s.value);
+        //     })
+
         const subcategories_unfiltered = this.props.runs
-            .filter(r => r["category"] == selected_category)
-            .map(r => r["subcategory"])
-            .map(r => r.split(", "));
+            .map(r => {
+                let json = JSON.parse(r["subcategory"]);
+                return json.reduce((prev, cur) => {
+                    prev[cur.name] = cur.value;
+                    return prev;
+                }, {});
+            })
 
-        let subcategories = [];
 
-        if (subcategories_unfiltered[0] !== undefined) {
-            for (var i = 0; i < subcategories_unfiltered[0].length; i++) {
-                subcategories.push([...new Set(subcategories_unfiltered.map(s => s[i]))]);
-            }
+        let subcategories = {};
+        //console.log(subcategories_unfiltered)
+        //console.log(Object.keys(subcategories_unfiltered[0]) !== undefined)
+
+        if (Object.keys(subcategories_unfiltered[0]) !== undefined) {
+            subcategories = Object.keys(subcategories_unfiltered[0]).reduce((prev, cur) => {
+                prev[cur] = [...new Set(subcategories_unfiltered.map(s => s[cur] ? s[cur] : ""))]
+                return prev;
+            }, {})
+            // for (var i = 0; i < Object.keys(subcategories_unfiltered[0]).length; i++) {
+            //     subcategories.push([...new Set(subcategories_unfiltered.map(s => s[i].value))].filter(s => s != undefined));
+            // }
         }
+
         return subcategories;
     }
 
-    updateData(category) {
-        const subcategories = this.getSubcategories(category);
+    updateData() {
+        const subcategories = this.getSubcategories();
 
         this.setState({
-            category: category,
             subcategories: subcategories,
-            subcategory_selections: subcategories.map(e => e[0]),
-            filter_uniqs_status: this.generateFilterUniqsStatus(category),
+            subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
+            filter_uniqs_status: this.generateFilterUniqsStatus(subcategories),
         });
     }
 
@@ -102,30 +150,39 @@ export class Leaderboard extends React.Component {
 
     handleChangeSort(e) {
         let column = e.target.dataset["column"];
-        
+
         this.setState({
             sort: column,
             sort_order: !this.state.sort_order
         });
     }
 
-    handleChangeShowAll(e) {
-        this.setState({
-            show_all: !this.state.show_all,
-        })
-    }
-
     handleChangeFilter(e) {
         let type = e.target.dataset["type"];
+        let name = e.target.dataset["name"];
 
-        if (filter_uniqs_list.includes(type)) {
+        if (Object.keys(this.state.filter_uniqs_status).includes(type)) {
             let fus = _.clone(this.state.filter_uniqs_status);
-            fus[type][e.target.dataset["name"]] = !fus[type][e.target.dataset["name"]];
+            fus[type][name] = !fus[type][name];
+
+            if (keys["KeyA"]) {
+                Object.keys(fus[type]).forEach(e => {
+                    fus[type][e] = 1;
+                });
+            }
+
+            if (keys["KeyS"]) {
+                Object.keys(fus[type]).forEach(e => {
+                    fus[type][e] = 0;
+                });
+                fus[type][name] = !fus[type][name];
+            }
+
             this.setState({ filter_uniqs_status: fus });
-            return
+            return;
         }
 
-        switch (e.target.dataset["type"]) {
+        switch (type) {
             case "other":
                 this.setState({
                     other_status: !this.state.other_status,
@@ -148,35 +205,9 @@ export class Leaderboard extends React.Component {
         }
     }
 
-    Subcategories(props) {
-        if (props.subcategories[0] == '') return;
-        return (
-            <div className="subcategories">
-                <h2>Select subcategory(s):</h2>
-                {props.subcategories.map((cs, i) => {
-                    return (
-                        <select key={i} disabled={props.value} data-id={i} onChange={props.handleChangeSubcategory} value={props.subcategory_selections[i]}>
-                            {cs.map((c, i) => (
-                                <option key={i} value={c}>{c}</option>
-                            ))}
-                        </select>
-                    )
-                })}
-                <label>
-                    <input type="checkbox" onChange={props.handleChangeShowAll} defaultChecked={props.value} />
-                    Show all
-                </label>
-            </div>
-        )
-    }
-
     render() {
         const seen = new Set();
-        let runs_filtered = this.props.runs.filter((r) => r["category"] == this.state.category)
-            .filter((r) => {
-                if (this.state.show_all) return true;
-                return _.isEqual(r["subcategory"].split(", "), this.state.subcategory_selections)
-            })
+        let runs_filtered = this.props.runs;
 
         let legend_filter = _.overEvery(Object.keys(this.state.legend_status).map(k => {
             if (!this.state.legend_status[k]["filter"]) {
@@ -187,7 +218,18 @@ export class Leaderboard extends React.Component {
         let uniqs_filters = Object.keys(this.state.filter_uniqs_status).map((type, i) => {
             return _.overEvery(Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
                 if (!this.state.filter_uniqs_status[type][k]) {
-                    return r => !(r[type] == k);
+                    if (filter_uniqs_list.includes(type)) {
+                        return r => !(r[type] == k);
+                    }
+                    else {
+                        return r => {
+                            let json = JSON.parse(r["subcategory"]);
+                            let e = json.find(e => e.name == type);
+                            return e ? !(e.value == k) : k !== "";
+                            //return json.find(e => e.name == type) ? 
+                            //return !(json.find(e => e.name == type).value == k);
+                        }
+                    }
                 }
             }))
         })
@@ -233,35 +275,41 @@ export class Leaderboard extends React.Component {
 
         return (
             <div>
-                <h2>Select category:</h2>
-                <select onChange={this.handleChangeCategory.bind(this)} value={this.state.category}>
-                    {this.props.categories.map((c, i) => (
-                        <option key={i} value={c}>{c}</option>
-                    ))}
-                </select>
-                <this.Subcategories
-                    subcategories={this.state.subcategories}
-                    handleChangeSubcategory={this.handleChangeSubcategory.bind(this)}
-                    subcategory_selections={this.state.subcategory_selections}
-                    handleChangeShowAll={this.handleChangeShowAll.bind(this)}
-                    value={this.state.show_all} />
-                <LegendContainer>
-                    <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
-                    {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
-                </LegendContainer>
-                <LegendContainer>
-                    {Object.keys(this.state.legend_status).map((k, i) => {
-                        return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                    })}
-                    <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
-                </LegendContainer>
-                <LegendContainer>
-                    {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
-                        return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
-                            return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
-                        })
-                    })}
-                </LegendContainer>
+                <div id="test" style={{ display: "grid", justifyContent: "center", alignItems: "center", alignContent: "center" }}>
+                    <div style={{ border: "1px dotted grey", borderRadius: "10px", padding: "0.1em", margin: "0.5em" }}>
+                        <LegendContainer>
+                            <Legend type="invert" name={"invert filters"} checked={this.state.invert_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                            {this.props.mode === "normal" && <Legend type="obsolete" name={"obsolete runs"} checked={this.state.obsolete_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status["category"]).map((k, i) => {
+                                return <Legend type="category" name={k} checked={this.state.filter_uniqs_status["category"][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                                if (type == "category") return;
+                                if (Object.keys(this.state.subcategories).includes(type)) return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                                    return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                                })
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                                if (type == "category") return;
+                                if (filter_uniqs_list.includes(type)) return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                                    return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                                })
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.legend_status).map((k, i) => {
+                                return <Legend name={k} checked={this.state.legend_status[k]["filter"]} l={this.state.legend_status[k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                            })}
+                            <Legend type="other" name={"other"} checked={this.state.other_status} handleChangeFilter={this.handleChangeFilter.bind(this)} />
+                        </LegendContainer>
+                    </div>
+                </div >
                 <LBTable>
                     <LBTableHead>
                         <LBTableRowHead>
@@ -276,8 +324,10 @@ export class Leaderboard extends React.Component {
                                     case "hash":
                                     case "id":
                                     case "game":
-                                    case "category":
                                     case "region":
+                                    case "realtime":
+                                    case "gametime":
+                                    case "examiner":
                                     case "reason":
                                     case "subcategory":
                                         return
