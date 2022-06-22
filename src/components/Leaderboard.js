@@ -159,7 +159,7 @@ export class Leaderboard extends React.Component {
             sort_order: !this.state.sort_order
         });
     }
-    
+
     handleChangeFilter(e) {
         let type = e.target.dataset["type"];
         let name = e.target.dataset["name"];
@@ -296,7 +296,15 @@ export class Leaderboard extends React.Component {
                         <LegendContainer>
                             {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
                                 if (type == "category") return;
-                                return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                                if (Object.keys(this.state.subcategories).includes(type)) return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
+                                    return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
+                                })
+                            })}
+                        </LegendContainer>
+                        <LegendContainer>
+                            {Object.keys(this.state.filter_uniqs_status).map((type, i) => {
+                                if (type == "category") return;
+                                if (filter_uniqs_list.includes(type)) return Object.keys(this.state.filter_uniqs_status[type]).map((k, i) => {
                                     return <Legend type={type} name={k} checked={this.state.filter_uniqs_status[type][k]} handleChangeFilter={this.handleChangeFilter.bind(this)} key={i} />
                                 })
                             })}
