@@ -1,10 +1,10 @@
 [
-    {id: "sm64", name: "Super Mario 64"},
-    {id: "supermetroid", name: "Super Metroid"},
-    {id: "oot", name: "Ocarina of Time"},
     {id: "spyro1", name: "Spyro the Dragon"},
     {id: "spyro2", name: "Spyro 2: Ripto's Rage!"},
     {id: "spyro3", name: "Spyro: Year of the Dragon"},
+    {id: "sm64", name: "Super Mario 64"},
+    {id: "supermetroid", name: "Super Metroid"},
+    {id: "oot", name: "Ocarina of Time"},
     {id: "crash1", name: "Crash Bandicoot"},
     {id: "crash2", name: "Crash Bandicoot 2: Cortex Strikes Back"},
     {id: "crash3", name: "Crash Bandicoot 3: Warped"},
