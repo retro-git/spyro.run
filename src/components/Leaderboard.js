@@ -36,9 +36,6 @@ export class Leaderboard extends React.Component {
 
         const subcategories = this.getSubcategories();
 
-
-        console.log(this.generateFilterUniqsStatus(subcategories))
-
         this.state = {
             subcategories: subcategories,
             subcategory_selections: Object.keys(subcategories).map(e => subcategories[e][0]),
@@ -227,11 +224,7 @@ export class Leaderboard extends React.Component {
                     else {
                         return r => {
                             let json = JSON.parse(r["subcategory"]);
-                            console.log(r)
-                            console.log(json);
                             let e = json.find(e => e.name == type);
-                            console.log(e);
-                            console.log(k)
                             return e ? !(e.value == k) : k !== "";
                             //return json.find(e => e.name == type) ? 
                             //return !(json.find(e => e.name == type).value == k);

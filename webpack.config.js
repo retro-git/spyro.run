@@ -47,7 +47,7 @@ module.exports = {
     performance: {
         hints: false,
     },
-    mode: "development",
+    mode: "production",
     entry: pages.reduce((config, page) => {
         config[page] = `./src/${page}.js`;
         return config;
