@@ -1,4 +1,8 @@
-# sr-archive-lb
+# banned.run
+
+View deployment at: https://www.banned.run
+
+## Build
 
 Clone repo recursively:
 ```bash
