@@ -3,8 +3,7 @@ import { NavBar } from './NavBar.js'
 import '../assets/css/prachack.scss'
 import '../assets/css/navbar.scss'
 import { echo_string } from "../../pkg/patcher";
-import md5 from 'crypto-js/md5';
-import Base64 from 'crypto-js/enc-base64';
+import { saveAs } from 'file-saver';
 import checksums from "../assets/json/checksums.json"
 import crc32 from 'crc/crc32';
 import { Grid, Button, RadioGroup, FormControl, FormLabel, FormControlLabel, Radio } from "@mui/material"
@@ -99,6 +98,7 @@ export class PracHack extends React.Component {
 
     handlePatch(e) {
         console.log("patch");
+        //saveAs(new Blob([view]), "testblob.bin");
     }
 
     render() {
