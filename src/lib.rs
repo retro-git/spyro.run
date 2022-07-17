@@ -1,4 +1,5 @@
 mod utils;
+mod patcher;
 
 extern crate web_sys;
 

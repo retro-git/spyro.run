@@ -1,4 +1,5 @@
 var React = require('react');
+const vcdiffPlugin = require('@ably/vcdiff-decoder');
 import { NavBar } from './NavBar.js'
 import '../assets/css/prachack.scss'
 import '../assets/css/navbar.scss'
@@ -45,6 +46,7 @@ export class PracHack extends React.Component {
 
     state = {
         selectedFile: null,
+        selectedFileBuffer: null,
         fileSelectState: FileSelectStates.Initial,
         selectedGame: null,
         selectedPatchFile: null,
@@ -76,7 +78,8 @@ export class PracHack extends React.Component {
                     this.setState({
                         fileSelectState: FileSelectStates.Valid,
                         selectedGame: checksums[checksum]["game_name"],
-                        selectedPatchFile: (checksums[checksum]["patch_prefix"] + "_" + this.state.selectedPlatform + ".xdelta").toLowerCase(),
+                        selectedPatchFile: (checksums[checksum]["patch_prefix"] + "_" + this.state.selectedPlatform + ".vcdiff").toLowerCase(),
+                        selectedFileBuffer: reader.result,
                     });
                 }
                 else {
@@ -96,9 +99,13 @@ export class PracHack extends React.Component {
         });
     }
 
-    handlePatch(e) {
-        console.log("patch");
-        //saveAs(new Blob([view]), "testblob.bin");
+    async handlePatch(e) {
+        let patch = await fetch("assets/patches/" + this.state.selectedPatchFile);
+        patch = await patch.arrayBuffer();
+
+        const out = vcdiffPlugin.decode(new Uint8Array(patch), new Uint8Array(this.state.selectedFileBuffer));
+
+        saveAs(new Blob([out]), "testblob.bin");
     }
 
     render() {
