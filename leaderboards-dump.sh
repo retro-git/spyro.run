@@ -12,4 +12,4 @@ done < ../leaderboards.txt
 
 cd ..
 
-cp -R src-dump/out/srcom.sqlite src/assets/db
+cp -R src-dump/out/srcom.sqlite www/assets/db

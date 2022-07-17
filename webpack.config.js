@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require("path");
 const dist = path.resolve(__dirname, "dist");
 
-const pages = ["index", "boards", "submit", "records"]
+const pages = ["index", "boards", "submit", "records", "prachack"]
 
 module.exports = {
     module: {
@@ -49,7 +49,7 @@ module.exports = {
     },
     mode: "production",
     entry: pages.reduce((config, page) => {
-        config[page] = `./src/${page}.js`;
+        config[page] = `./www/${page}.js`;
         return config;
     }, {}),
     output: {
@@ -77,7 +77,7 @@ module.exports = {
             (page) =>
                 new HtmlWebpackPlugin({
                     inject: true,
-                    template: `./src/${page}.html`,
+                    template: `./www/${page}.html`,
                     filename: `${page}.html`,
                     chunks: [page],
                 })
@@ -88,7 +88,7 @@ module.exports = {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        from: 'src/assets',
+                        from: 'www/assets',
                         to: 'assets/[path][name][ext]',
                     },
                     {

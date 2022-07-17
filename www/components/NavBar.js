@@ -10,6 +10,7 @@ export class NavBar extends React.Component {
         return (
             <div className="nav">
                 <a className="navlink" href="/">Home</a>
+                <a className="navlink" href="/prachack.html">Practice Hacks</a>
                 <a className="navlink" href="/boards.html">Leaderboards</a>
                 <a className="navlink" href="/records.html">WR History</a>
             </div>

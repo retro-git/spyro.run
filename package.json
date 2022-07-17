@@ -9,7 +9,7 @@
     "pages": "gh-pages -d dist",
     "clean-pages": "gh-pages-clean",
     "dump": "./leaderboards-dump.sh",
-    "extras": "node extras-to-sqlite.js extras.ods ./src/assets/db/extras.sqlite",
+    "extras": "node extras-to-sqlite.js extras.ods ./www/assets/db/extras.sqlite",
     "deploy": "npm run build && npm run pages"
   },
   "keywords": [],
