@@ -49,6 +49,7 @@ export class PracHack extends React.Component {
         fileSelectState: FileSelectStates.Initial,
         selectedGame: null,
         selectedPatchFile: null,
+        selectedPlatform: "PS1",
     }
 
     handleFile(e) {
@@ -72,12 +73,11 @@ export class PracHack extends React.Component {
             reader.onload = (e) => {
                 const view = new Int8Array(reader.result);
                 const checksum = crc32(view).toString(16);
-                console.log(checksum);
                 if (checksum in checksums) {
                     this.setState({
                         fileSelectState: FileSelectStates.Valid,
                         selectedGame: checksums[checksum]["game_name"],
-                        selectedPatchFile: checksums[checksum]["patch_prefix"],
+                        selectedPatchFile: (checksums[checksum]["patch_prefix"] + "_" + this.state.selectedPlatform + ".xdelta").toLowerCase(),
                     });
                 }
                 else {
@@ -91,15 +91,18 @@ export class PracHack extends React.Component {
         }
     }
 
+    handlePlatform(e) {
+        this.setState({
+            selectedPlatform: e.target.value,
+        });
+    }
+
     handlePatch(e) {
         console.log("patch");
     }
 
     render() {
         echo_string("Hello, World!");
-        if (this.state.selectedFile) {
-
-        }
         return (
             <div>
                 <NavBar />
@@ -118,6 +121,7 @@ export class PracHack extends React.Component {
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue="PS1"
                                 name="radio-buttons-group"
+                                onChange={this.handlePlatform.bind(this)}
                             >
                                 <FormControlLabel value="PS1" control={<Radio />} label="PS1" />
                                 <FormControlLabel value="PS2" control={<Radio />} label="PS2" />
