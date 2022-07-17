@@ -32,6 +32,13 @@
 /*!***********************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./www/assets/css/prachack.scss ***!
   \***********************************************************************************************************************/
+/* Dracula Palette */
+/* Addendum colors */
+html {
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
 .file-input {
   background-color: rgb(60, 60, 60);
   border-radius: 0.5em;
