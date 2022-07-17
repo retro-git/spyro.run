@@ -109,10 +109,7 @@ export class Home extends React.Component {
         return (
             <Content>
                 <Message title={true}>
-                    banned.run
-                </Message>
-                <Message>
-                    The runs they don't want you to see.
+                    spyro.run
                 </Message>
                 <BackgroundImage />
             </Content>

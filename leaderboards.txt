@@ -1,5 +1,3 @@
-crashtwoc Any%
-crashtwoc 106%
 spyro1 Any%
 spyro1 120%
 spyro1 Vortex
@@ -13,17 +11,3 @@ spyro3 Any%
 spyro3 "100 Egg"
 spyro3 "117%"
 spyro3 "149 Egg"
-spyroetd Any%
-spyroetd "Any% No Early Ripto"
-spyroetd 100%
-crash1 Any%
-crash1 100%
-crash2 Any%
-crash2 "Any% (Game Over Abuse)"
-crash2 "Any% (No Game Over Abuse)"
-crash2 100%
-crash3 Any%
-crash3 "Any% (No Item Glitch)"
-crash3 105%
-sprash "Sprash Trilogies"
-yugiohfm Any%

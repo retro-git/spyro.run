@@ -1,6 +1,6 @@
 # banned.run
 
-View deployment at: https://www.banned.run
+View deployment at: https://www.spyro.run
 
 ## Build
 
