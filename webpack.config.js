@@ -15,10 +15,6 @@ module.exports = {
                 use: ["style-loader", "css-loader"],
             },
             {
-                test: /\.wasm$/,
-                type: 'javascript/auto',
-            },
-            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
