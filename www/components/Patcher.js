@@ -18,7 +18,7 @@ const StatusMessage = props => {
         case FileSelectStates.Initial:
             return <p className="status-message">Select a platform and game .bin file to patch:</p>
         case FileSelectStates.Valid:
-            return <p className="status-message">{props.selectedGame} - valid game detected - ready to patch.</p>
+            return <p className="status-message">{checksums[props.checksum]["game_name"]} - valid game detected - ready to patch.</p>
         case FileSelectStates.Invalid:
             return <p className="status-message">File is invalid</p>
         case FileSelectStates.Calculating:
@@ -38,14 +38,12 @@ export class Patcher extends React.Component {
         selectedFileName: null,
         selectedFileBuffer: null,
         fileSelectState: FileSelectStates.Initial,
-        selectedGame: null,
-        selectedPatchFile: null,
         selectedPlatform: "PS1",
+        checksum: null,
     }
 
     handleFile(e) {
         if (e.target.files.length > 0) {
-            console.log(e.target.files[0]);
             this.setState({
                 selectedFile: e.target.files[0],
                 selectedFileName: e.target.files[0].name,
@@ -68,13 +66,11 @@ export class Patcher extends React.Component {
                 crc_worker.onmessage = (e) => {
                     if (e.data.type === "checksum_complete") {
                         const checksum = e.data.checksum;
-                        console.log(checksum);
                         if (checksum in checksums) {
                             this.setState({
                                 fileSelectState: FileSelectStates.Valid,
-                                selectedGame: checksums[checksum]["game_name"],
-                                selectedPatchFile: (checksums[checksum]["patch_prefix"] + "_" + this.state.selectedPlatform + ".vcdiff").toLowerCase(),
                                 selectedFileBuffer: reader.result,
+                                checksum: checksum,
                             });
                         }
                         else {
@@ -92,7 +88,8 @@ export class Patcher extends React.Component {
             reader.readAsArrayBuffer(this.state.selectedFile);
         }
         else if (this.state.fileSelectState === FileSelectStates.Patching) {
-            let patch = await fetch("assets/patches/" + this.state.selectedPatchFile);
+            const selectedPatchFile = (checksums[this.state.checksum]["patch_prefix"] + "_" + this.state.selectedPlatform + ".vcdiff").toLowerCase();
+            let patch = await fetch("assets/patches/" + selectedPatchFile);
             patch = await patch.arrayBuffer();
 
             const patch_worker = new Worker(new URL('../workers/patch_worker.js', import.meta.url));
