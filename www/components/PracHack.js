@@ -16,6 +16,7 @@ const darkTheme = createTheme({
 export class PracHack extends React.Component {
     constructor(props) {
         super(props);
+        console.log("1.0");
     }
 
     state = {
