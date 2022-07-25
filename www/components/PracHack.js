@@ -3,6 +3,7 @@ import { NavBar } from './NavBar.js'
 import { Patcher } from './Patcher.js';
 import { Grid, Button, RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, CircularProgress } from "@mui/material"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import "react-discord-invite/dist/style.css";
 
 const darkTheme = createTheme({
     palette: {
@@ -34,8 +35,20 @@ export class PracHack extends React.Component {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        <Patcher/>
+                        <Patcher />
                     </Grid>
+                    <center>
+                    <iframe
+                        src="https://www.youtube.com/embed/njPkQnrKqTM"
+                        width="960"
+                        height="480"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen
+                        title="video"
+                    />{" "}
+                    <iframe src="https://discord.com/widget?id=995276566437318667&theme=dark" width="350" height="480" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    </center>
                 </ThemeProvider>
             </div>
         )
