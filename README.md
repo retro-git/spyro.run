@@ -1,4 +1,4 @@
-# banned.run
+# spyro.run
 
 View deployment at: https://www.spyro.run
 
