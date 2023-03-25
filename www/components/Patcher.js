@@ -16,7 +16,7 @@ const FileSelectStates = {
 const StatusMessage = props => {
     switch (props.fileSelectState) {
         case FileSelectStates.Initial:
-            return <p className="status-message">Select a platform and game .bin file to patch:</p>
+            return <p className="status-message">Select a platform and game .bin file to patch <br></br>(NOTE: PS2 option currently broken. For now, just use the PS1 version and launch with popstarter):</p>
         case FileSelectStates.Valid:
             return <p className="status-message">{checksums[props.checksum]["game_name"]} - valid game detected - ready to patch.</p>
         case FileSelectStates.Invalid:
