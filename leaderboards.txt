@@ -1,13 +1,2 @@
 spyro1 Any%
-spyro1 120%
-spyro1 Vortex
-spyro1 "80 Dragons"
-spyro1 Cheat%
-spyro2 Any%
-spyro2 "14 Talisman"
-spyro2 "40 Orb"
-spyro2 100%
-spyro3 Any%
-spyro3 "100 Egg"
-spyro3 "117%"
-spyro3 "149 Egg"
+shar "All Story Missions"

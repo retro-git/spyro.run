@@ -2,4 +2,5 @@
     {id: "spyro1", name: "Spyro the Dragon"},
     {id: "spyro2", name: "Spyro 2: Ripto's Rage!"},
     {id: "spyro3", name: "Spyro: Year of the Dragon"},
+    {id: "shar", name: "shar"},
 ]
